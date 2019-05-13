@@ -1,0 +1,24 @@
+
+div.cards {
+
+}
+
+p.card {
+  font-size: 400px;
+  padding: 0;
+  margin: 0;
+  margin-left: -80px;
+  padding: -50px;
+  background: #ffffff;
+  display: inline-block;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+p.redcard {
+  color: red;
+}
+
+p.blackcard {
+  color: black;
+}
