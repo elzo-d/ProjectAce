@@ -1,6 +1,6 @@
 /* 
  * Based on the tutorial from:
- * https://jasonwatmore.com/post/2018/05/16/angular-6-user-registration-and-login-example-tutorial
+ * https://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
  */
 
 import { Component, OnInit } from '@angular/core';
@@ -16,13 +16,13 @@ export class LoginComponent implements OnInit {
   loading = false
   submitted = false
 
-  // constructor(private formBuilder:FormBuilder) {}
+  //constructor(private formBuilder:FormBuilder) {}
 
   ngOnInit() {
     // this.loginForm = this.formBuilder.group({
-    //     username: ['', Validators.required],
-    //     password: ['', Validators.required]
-    // })
+    //   username: ['', Validators.required],
+    //   password: ['', Validators.required]
+    // });
   }
 
   onSubmit() {
