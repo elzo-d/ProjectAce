@@ -1,0 +1,13 @@
+<h2>Highscores</h2>
+<table>
+  <tr>
+    <th>rank</th>
+    <th>name</th>
+    <th>score</th>
+  </tr>
+  <tr *ngFor="let entry of entries">
+    <td>{{entry.rank}}</td>
+    <td><a routerLink="/user/{{entry.name}}">{{entry.name}}</a></td>
+    <td>{{entry.score}}</td>
+  </tr>
+</table>

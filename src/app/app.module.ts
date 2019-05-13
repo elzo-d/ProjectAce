@@ -3,22 +3,24 @@ https://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-e
 Author: Jason Watmore
 */
 
-import { NgModule }      from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule }    from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
 
-import { AppComponent }  from './app.component';
-import { routing }        from './app.routing';
+import { AppComponent } from './app.component';
+import { routing } from './app.routing';
 
 import { AlertComponent } from './_components';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
+import { HighscoresComponent } from './highscores/highscores.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
     imports: [
@@ -32,7 +34,9 @@ import { RegisterComponent } from './register';
         AlertComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        HighscoresComponent,
+        UserComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

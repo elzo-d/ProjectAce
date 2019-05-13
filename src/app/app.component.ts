@@ -12,6 +12,7 @@ import { User } from './_models';
 @Component({ selector: 'app', templateUrl: 'app.component.html' })
 export class AppComponent {
     currentUser: User;
+    DEBUG: boolean = true;
 
     constructor(
         private router: Router,

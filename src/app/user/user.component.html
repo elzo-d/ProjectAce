@@ -1,0 +1,15 @@
+<div *ngIf="user; else notFound">
+  <h2>{{user.username}}'s Profile</h2>
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td>{{user.firstName}} {{user.lastName}}</td>
+    </tr>
+  </table>
+</div>
+
+<ng-template #notFound>
+  <p>Account {{username}} not found.</p>
+</ng-template>
+
+<button (click)="goBack()">go back</button>
