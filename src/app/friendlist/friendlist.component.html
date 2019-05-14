@@ -1,0 +1,13 @@
+<h2>Friendlist</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Friend</th>
+    <th>Status</th>
+  </tr>
+  <tr *ngFor="let friend of friends">
+    <td>{{friend.id}}</td>
+    <td>{{friend.name}}</td>
+    <td>{{friend.status}}</td>
+  </tr>
+</table>

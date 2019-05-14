@@ -21,6 +21,7 @@ import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { HighscoresComponent } from './highscores/highscores.component';
 import { UserComponent } from './user/user.component';
+import { FriendlistComponent } from './friendlist/friendlist.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { UserComponent } from './user/user.component';
         LoginComponent,
         RegisterComponent,
         HighscoresComponent,
-        UserComponent
+        UserComponent,
+        FriendlistComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

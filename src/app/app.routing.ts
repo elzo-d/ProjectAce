@@ -11,6 +11,7 @@ import { RegisterComponent } from './register';
 import { AuthGuard } from './_guards';
 import { HighscoresComponent } from './highscores/highscores.component';
 import { UserComponent } from './user/user.component';
+import { FriendlistComponent } from './friendlist/friendlist.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'highscores', component: HighscoresComponent },
     { path: 'user/:username', component: UserComponent },
+    { path: 'friendlist', component: FriendlistComponent },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
