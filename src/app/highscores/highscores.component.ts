@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+
+import Entry from './Entry';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'app-highscores',
@@ -8,6 +12,8 @@ import { Component, OnInit } from '@angular/core';
 export class HighscoresComponent implements OnInit {
 
   entries: Entry[];
+  username = new FormControl('');
+  score = new FormControl('');
 
   constructor() { }
 
@@ -15,7 +21,7 @@ export class HighscoresComponent implements OnInit {
     this.fillEntries();
   }
 
-  fillEntries() {
+  fillEntries(): void {
     // TODO: get from database
     this.entries = [
       { rank: 1, name: 'coolkid94', score: 9001 },
@@ -26,11 +32,25 @@ export class HighscoresComponent implements OnInit {
       { rank: 6, name: 'Gerard', score: 6296 },
       { rank: 7, name: 'Piet', score: 5190 },
     ]
+    this.sortEntries();
   }
-}
 
-interface Entry {
-  rank: number;
-  name: string;
-  score: number;
+  addScore(): void {
+    this.entries.push({
+      rank: this.entries.length + 1,
+      name: this.username.value,
+      score: this.score.value
+    })
+
+    this.sortEntries();
+  }
+
+  sortEntries(): void {
+    this.entries.sort((a, b) => (a.score < b.score) ? 1 : -1);
+
+    let index: number = 1;
+    for (let entry of this.entries) {
+      entry.rank = index++;
+    }
+  }
 }
