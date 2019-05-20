@@ -34,6 +34,9 @@ export class GameComponent implements OnInit {
       this.userCards.push(userCard);
       this.opponentCards.push(this.stack.pop());
     }
+    let startCard = this.stack.pop();
+    startCard.visible = true;
+    this.pile.push(startCard);
   }
 
   shuffle(arr) {
@@ -48,7 +51,8 @@ export class GameComponent implements OnInit {
 
   clickCard(card) {
     this.pile.push(card);
-    for(let i = 0; i < this.userCards.length; i++) {
+    let i;
+    for(i = 0; i < this.userCards.length; i++) {
       if(this.userCards[i] === card) {
         break;
       }

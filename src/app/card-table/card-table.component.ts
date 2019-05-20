@@ -10,7 +10,7 @@ export class CardTableComponent implements OnInit {
 
   @Input() stack:Card[];
   @Input() pile:Card[];
-  @Output() click = new EventEmitter<boolean>();
+  @Output() stackClicked = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -18,7 +18,7 @@ export class CardTableComponent implements OnInit {
   }
 
   onClick(type) {
-    this.click.emit(type);
+    this.stackClicked.emit(type);
   }
 
 }
