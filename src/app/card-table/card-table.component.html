@@ -1,3 +1,16 @@
-<p>
-  card-table works!
-</p>
+<div class="cards">
+  <div *ngIf="pile.length > 0" class="card" (click)="click(false)">
+    <p
+      class="card"
+      [class.redcard] = "pile[pile.length-1].getColor() === 'red'"
+      [class.blackcard] = "pile[pile.length-1].getColor() === 'black'"
+    >{{pile[pile.length-1].getUnicode()}}</p>
+  </div>
+  <div *ngIf="stack.length > 0" class="card" (click)="click(true)">
+    <p
+      class="card"
+      [class.redcard] = "stack[stack.length-1].getColor() === 'red'"
+      [class.blackcard] = "stack[stack.length-1].getColor() === 'black'"
+    >{{stack[stack.length-1].getUnicode()}}</p>
+  </div>
+</div>

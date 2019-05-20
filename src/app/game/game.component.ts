@@ -47,7 +47,21 @@ export class GameComponent implements OnInit {
   }
 
   clickCard(card) {
-    card.visible = !card.visible;
+    this.pile.push(card);
+    for(let i = 0; i < this.userCards.length; i++) {
+      if(this.userCards[i] === card) {
+        break;
+      }
+    }
+    this.userCards.splice(i, 1);
+  }
+
+  clickTable(stack) {
+    if(stack) {
+      let card = this.stack.pop();
+      card.visible = true;
+      this.userCards.push(card);
+    }
   }
 
 }

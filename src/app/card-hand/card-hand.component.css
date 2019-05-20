@@ -1,19 +1,19 @@
 
 div.cards {
-  margin: 5px 120px 5px 120px;
+  margin: 5px 60px 5px 60px;
 }
 
 div.card {
   border: 1px solid grey;
   border-radius: 10px;
   display: inline-block;
-  margin-left: -120px;
+  margin-left: -60px;
   background: #ffffff;
   transform: scale(1);
 }
 
 p.card {
-  font-size: 350px;
+  font-size: 200px;
   padding: 0;
   margin: 0;
   display: inline-block;

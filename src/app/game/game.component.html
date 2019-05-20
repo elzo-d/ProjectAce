@@ -1,6 +1,6 @@
 
 <div class="game">
   <app-card-hand [cards]="opponentCards"></app-card-hand>
-
+  <app-card-table [stack]="stack" [pile]="pile" (click)="clickTable($event)"></app-card-table>
   <app-card-hand [cards]="userCards" (cardClicked)="clickCard($event)"></app-card-hand>
 </div>
