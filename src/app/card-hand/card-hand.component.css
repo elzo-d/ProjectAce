@@ -1,18 +1,24 @@
 
 div.cards {
+  margin: 5px 120px 5px 120px;
+}
 
+div.card {
+  border: 1px solid grey;
+  border-radius: 10px;
+  display: inline-block;
+  margin-left: -120px;
+  background: #ffffff;
+  transform: scale(1);
 }
 
 p.card {
-  font-size: 400px;
+  font-size: 350px;
   padding: 0;
   margin: 0;
-  margin-left: -80px;
-  padding: -50px;
-  background: #ffffff;
   display: inline-block;
-  border: 1px solid grey;
-  border-radius: 10px;
+  line-height: 0.9;
+  transform: translateY(-0.065em) scale(1.1);
 }
 
 p.redcard {

@@ -1,0 +1,6 @@
+
+<div class="game">
+  <app-card-hand [cards]="opponentCards"></app-card-hand>
+
+  <app-card-hand [cards]="userCards" (cardClicked)="clickCard($event)"></app-card-hand>
+</div>

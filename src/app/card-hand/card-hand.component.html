@@ -1,8 +1,9 @@
 <div class="cards">
-  <p
-    class="card"
-    *ngFor="let card of cards"
-    [class.redcard] = "card.getColor() === 'red'"
-    [class.blackcard] = "card.getColor() === 'black'"
-  >{{card.getUnicode()}}</p>
+  <div class="card" *ngFor="let card of cards" (click)="clickCard(card)">
+    <p
+      class="card"
+      [class.redcard] = "card.getColor() === 'red'"
+      [class.blackcard] = "card.getColor() === 'black'"
+    >{{card.getUnicode()}}</p>
+  </div>
 </div>

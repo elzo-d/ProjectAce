@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Card, SUITS } from '../card';
 
 @Component({
@@ -8,26 +8,16 @@ import { Card, SUITS } from '../card';
 })
 export class CardHandComponent implements OnInit {
 
-  cards:Card[] = [
-    new Card(1, SUITS.HEARTS),
-    new Card(11, SUITS.DIAMONDS),
-    new Card(12, SUITS.SPADES),
-    new Card(13, SUITS.CLUBS),
-  ];
-
-  selectedCard:Card;
+  @Input() cards:Card[];
+  @Output() cardClicked = new EventEmitter<Card>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  addCard(card):void {
-    this.cards.push(card);
-  }
-
   clickCard(card):void {
-    this.selectedCard = card;
+    this.cardClicked.emit(card);
   }
 
 }

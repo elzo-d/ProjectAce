@@ -8,6 +8,9 @@ export const SUITS = {
 }
 
 export class Card {
+
+  visible:boolean = false;
+
   constructor(public number:number, public suit:number) { }
 
   getSuit():string {
@@ -16,6 +19,9 @@ export class Card {
   }
 
   getUnicode():string {
+    if(!this.visible) {
+      return String.fromCodePoint(0x1f0a0);
+    }
     let base = 0x1f0a0;
     if(this.suit === SUITS.JOKER) {
       return String.fromCodePoint(0x1f0df);
@@ -29,6 +35,9 @@ export class Card {
   }
 
   getColor():string {
+    if(!this.visible) {
+      return "black";
+    }
     if(this.suit === SUITS.JOKER && this.number === 2) {
       return "red";
     }
