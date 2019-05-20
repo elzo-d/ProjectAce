@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { OrderModule } from 'ngx-order-pipe'; // <- import OrderModule
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
@@ -28,7 +29,8 @@ import { FriendlistComponent } from './friendlist/friendlist.component';
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        routing
+        routing,
+        OrderModule
     ],
     declarations: [
         AppComponent,

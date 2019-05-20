@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-friendlist',
@@ -8,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class FriendlistComponent implements OnInit {
 
   friends: Friend[];
+  sortedFriends: Friend[];
+  visible = true;
+  order: string = 'id';
+  reverse: boolean = false;
 
-  constructor() { }
+  constructor(private orderPipe: OrderPipe) { 
+    this.sortedFriends = orderPipe.transform(this.friends, 'id');
+    console.log(this.sortedFriends);
+   }
 
   ngOnInit() {
     this.mockData();
@@ -27,6 +35,19 @@ export class FriendlistComponent implements OnInit {
       { id:8, name: 'friend8', status: Status.ONLINE },
     ]
   }
+
+  toggleList() {
+    this.visible = !this.visible;
+  }
+
+  setOrder(value: string){
+    if(this.order === value) {
+      this.reverse = !this.reverse;
+    }
+
+    this.order = value;
+  }
+
 }
 
 interface Friend {

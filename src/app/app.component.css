@@ -1,0 +1,20 @@
+#friendlist {
+    width: 200px;
+    float: right;
+    /* border-left: 2px solid black; */
+}
+
+#body {
+    width: calc(100% - 200px);
+    float: left;
+    margin-bottom: 2rem;
+    border-radius: .3rem;
+    padding: 4rem 2rem;
+
+}
+
+#main {
+    min-height: calc(100vh - 56px);
+    background-color: #e9ecef;
+
+}

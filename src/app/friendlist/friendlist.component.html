@@ -1,11 +1,11 @@
-<h2>Friendlist</h2>
-<table>
+<h2 (click)="toggleList()">Friends</h2>
+<table *ngIf="visible">
   <tr>
-    <th>ID</th>
-    <th>Friend</th>
-    <th>Status</th>
+    <th (click)="setOrder('id')">ID</th>
+    <th (click)="setOrder('name')">Friend</th>
+    <th (click)="setOrder('status')">Status</th>
   </tr>
-  <tr *ngFor="let friend of friends">
+  <tr *ngFor="let friend of friends | orderBy: order:reverse:'case-insensitive'">
     <td>{{friend.id}}</td>
     <td>{{friend.name}}</td>
     <td>{{friend.status}}</td>
