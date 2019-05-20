@@ -1,13 +1,35 @@
 <h2>Highscores</h2>
-<table>
-  <tr>
-    <th>rank</th>
-    <th>name</th>
-    <th>score</th>
-  </tr>
-  <tr *ngFor="let entry of entries">
-    <td>{{entry.rank}}</td>
-    <td><a routerLink="/user/{{entry.name}}">{{entry.name}}</a></td>
-    <td>{{entry.score}}</td>
-  </tr>
-</table>
+
+<div class="container bg-light">
+  <h3>Add scores</h3>
+  <div class="form-group">
+    <label>
+      Name:<br />
+    </label>
+    <input type="text" [formControl]="username" />
+  </div>
+  <div class="form-group">
+    <label>
+      Score:<br />
+    </label>
+    <input type="number" [formControl]="score" />
+  </div>
+  <div class="form-group">
+    <button (click)="addScore()" class="btn btn-dark">Submit</button>
+  </div>
+</div>
+
+<div class="container">
+  <table class="table">
+    <tr>
+      <th class="thead-dark">rank</th>
+      <th class="thead-light">name</th>
+      <th class="thead">score</th>
+    </tr>
+    <tr *ngFor="let entry of entries">
+      <td>{{entry.rank}}</td>
+      <td><a routerLink="/user/{{entry.name}}">{{entry.name}}</a></td>
+      <td>{{entry.score}}</td>
+    </tr>
+  </table>
+</div>
