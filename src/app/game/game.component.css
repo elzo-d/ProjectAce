@@ -1,4 +1,26 @@
 
 div.game {
   background-color: #008800;
+  min-height: calc(100vh - 16px);
+}
+
+.top {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.middle {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }

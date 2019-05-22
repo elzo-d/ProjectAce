@@ -1,6 +1,7 @@
 
 div.cards {
-  margin: 5px 60px 5px 60px;
+  margin: 8px 60px 8px 60px;
+  white-space: nowrap;
 }
 
 div.card {
@@ -18,6 +19,7 @@ p.card {
   margin: 0;
   display: inline-block;
   line-height: 0.9;
+  transition: 1s;
   transform: translateY(-0.065em) scale(1.1);
 }
 
