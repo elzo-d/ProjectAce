@@ -4,3 +4,19 @@ table {
 .active {
     color: #000;
 }
+
+.Online {
+    color: green;
+}
+
+.Offline { 
+    color: grey;
+}
+
+.Busy {
+    color: red;
+}
+
+.Away {
+    color: blue;
+}
