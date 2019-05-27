@@ -1,0 +1,6 @@
+
+<div class="game">
+  <app-card-hand class="top" [cards]="opponentCards"></app-card-hand>
+  <app-card-table class="middle" [stack]="stack" [pile]="pile" (stackClicked)="clickTable($event)"></app-card-table>
+  <app-card-hand class="bottom" [cards]="userCards" (cardClicked)="clickCard($event)"></app-card-hand>
+</div>

@@ -1,0 +1,32 @@
+
+div.cards {
+  margin: 8px 60px 8px 60px;
+  white-space: nowrap;
+}
+
+div.card {
+  border: 1px solid grey;
+  border-radius: 10px;
+  display: inline-block;
+  margin-left: -60px;
+  background: #ffffff;
+  transform: scale(1);
+}
+
+p.card {
+  font-size: 200px;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  line-height: 0.9;
+  transition: 1s;
+  transform: translateY(-0.065em) scale(1.1);
+}
+
+p.redcard {
+  color: red;
+}
+
+p.blackcard {
+  color: black;
+}

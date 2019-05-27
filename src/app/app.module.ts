@@ -13,6 +13,7 @@ import { OrderModule } from 'ngx-order-pipe'; // <- import OrderModule
 import { fakeBackendProvider } from './_helpers';
 
 import { AppComponent } from './app.component';
+
 import { routing } from './app.routing';
 
 import { AlertComponent } from './_components';
@@ -23,6 +24,9 @@ import { RegisterComponent } from './register';
 import { HighscoresComponent } from './highscores/highscores.component';
 import { UserComponent } from './user/user.component';
 import { FriendlistComponent } from './friendlist/friendlist.component';
+import { CardHandComponent } from './card-hand/card-hand.component';
+import { GameComponent } from './game/game.component';
+import { CardTableComponent } from './card-table/card-table.component';
 
 @NgModule({
     imports: [
@@ -40,7 +44,10 @@ import { FriendlistComponent } from './friendlist/friendlist.component';
         RegisterComponent,
         HighscoresComponent,
         UserComponent,
-        FriendlistComponent
+        FriendlistComponent,
+        CardHandComponent,
+        GameComponent,
+        CardTableComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
