@@ -1,17 +1,7 @@
-/*
-https://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
-Author: Jason Watmore
-*/
-
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { OrderModule } from 'ngx-order-pipe'; // <- import OrderModule
+import { NgModule } from '@angular/core';
 
-// used to create fake backend
-import { fakeBackendProvider } from './_helpers';
-
+import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 
 import { routing } from './app.routing';
@@ -60,5 +50,4 @@ import { ChatboxComponent } from './friendlist/chatbox/chatbox.component';
     ],
     bootstrap: [AppComponent]
 })
-
 export class AppModule { }
