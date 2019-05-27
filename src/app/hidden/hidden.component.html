@@ -4,23 +4,29 @@
 
       <nav class="navbar">
         <div class="container-fluid">
-          <div class="navbar-header">
+          <!-- <div class="navbar-header">
             <h1 class="navbar-brand">Game Lobby</h1>
-          </div>
+          </div> -->
           <!-- HIERONDER DE CHILD-ROUTES DIE GEBRUIKT WORDEN IN DE SECRET COMPONENT -->
           <ul class="nav navbar-nav nav-pills">
             <li routerLinkActive="active">
-              <a routerLink="highscores">Highscores</a></li>
+              <a routerLink="lobby">Lobby</a></li>
             <li routerLinkActive="active">
-              <a routerLink="profile">Profile</a></li>
+              <a routerLink="highscores">Highscores</a></li>
             <li>
               <a href="#" (click)="logout()">Logout</a></li>
           </ul>
         </div>
       </nav>
 
+      <!-- the router will place the routed components just after the router-outlet -->
       <router-outlet></router-outlet>
 
     </div><!-- col-sm-6 -->
   </div><!-- row -->
+
+  <div id="friendlist" style="float: right; vertical-align: top">
+    <app-friendlist></app-friendlist>
+  </div>
+
 </div><!-- container -->

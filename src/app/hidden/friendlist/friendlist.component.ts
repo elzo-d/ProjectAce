@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderPipe } from 'ngx-order-pipe';
+import {OrderPipe} from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-friendlist',

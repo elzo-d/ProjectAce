@@ -9,9 +9,6 @@ import {LoginComponent} from './login/login.component';
 import {GameComponent} from './game/game.component';
 import {CardHandComponent} from './card-hand/card-hand.component';
 import {CardTableComponent} from './card-table/card-table.component';
-import {FriendlistComponent} from './friendlist/friendlist.component';
-import {OrderModule} from 'ngx-order-pipe';
-import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
 import {PcardComponent} from './pcard/pcard.component';
 
 @NgModule({
@@ -21,8 +18,6 @@ import {PcardComponent} from './pcard/pcard.component';
     GameComponent,
     CardHandComponent,
     CardTableComponent,
-    FriendlistComponent,
-    ChatboxComponent,
     PcardComponent
   ],
   imports: [
@@ -30,8 +25,7 @@ import {PcardComponent} from './pcard/pcard.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    OrderModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

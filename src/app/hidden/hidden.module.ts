@@ -4,9 +4,9 @@ import {CommonModule} from '@angular/common';
 import {HiddenComponent} from './hidden.component'
 import {Routes, RouterModule} from '@angular/router';
 import {HighscoresComponent} from './highscores/highscores.component';
-import {TestComponent} from './test/test.component';
-// import {DataComponent} from './data/data.component';
-// import {FotosComponent} from './fotos/fotos.component';
+import {FriendlistComponent} from './friendlist/friendlist.component';
+import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
+import {OrderModule} from 'ngx-order-pipe';
 
 const hiddenRoutes: Routes = [
   {path:'', component: HiddenComponent,
@@ -16,10 +16,8 @@ const hiddenRoutes: Routes = [
         pathMatch: 'full',
         redirectTo: 'data'
       },
-      // { path:'data', component: DataComponent},
-      // { path:'fotos', component: FotosComponent}
-      {path:'highscores', component: HighscoresComponent},
-      {path:'profile', component: TestComponent}
+      {path:'lobby', redirectTo: ''},
+      {path:'highscores', component: HighscoresComponent}
     ] 
   }
 ]
@@ -28,16 +26,15 @@ const hiddenRoutes: Routes = [
   declarations: [
     HiddenComponent,
     HighscoresComponent,
-    TestComponent
-    // DataComponent,
-    // FotosComponent,
+    FriendlistComponent,
+    ChatboxComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(hiddenRoutes),
+    OrderModule
   ],
   exports: [
-    HighscoresComponent
   ]
 })
 
