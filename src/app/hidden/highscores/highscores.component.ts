@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 import Entry from './Entry';
 
@@ -14,7 +14,7 @@ export class HighscoresComponent implements OnInit {
   username = new FormControl('');
   score = new FormControl('');
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.fillEntries();
@@ -23,13 +23,13 @@ export class HighscoresComponent implements OnInit {
   fillEntries(): void {
     // TODO: get from database
     this.entries = [
-      { rank: 1, name: 'coolkid94', score: 9001 },
-      { rank: 2, name: 'parkieteigenaar', score: 8999 },
-      { rank: 3, name: 'elzUser', score: 8500 },
-      { rank: 4, name: 'knoalboy', score: 7400 },
-      { rank: 5, name: 'Henk', score: 7345 },
-      { rank: 6, name: 'Gerard', score: 6296 },
-      { rank: 7, name: 'Piet', score: 5190 },
+      {rank: 1, name: 'coolkid94', score: 9001},
+      {rank: 2, name: 'parkieteigenaar', score: 8999},
+      {rank: 3, name: 'elzUser', score: 8500},
+      {rank: 4, name: 'knoalboy', score: 7400},
+      {rank: 5, name: 'Henk', score: 7345},
+      {rank: 6, name: 'Gerard', score: 6296},
+      {rank: 7, name: 'Piet', score: 5190},
     ]
     this.sortEntries();
   }

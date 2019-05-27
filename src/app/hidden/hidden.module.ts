@@ -9,7 +9,7 @@ import {TestComponent} from './test/test.component';
 // import {FotosComponent} from './fotos/fotos.component';
 
 const hiddenRoutes: Routes = [
-  { path:'', component: HiddenComponent,
+  {path:'', component: HiddenComponent,
     children: [
       {
         path: '',
@@ -18,21 +18,26 @@ const hiddenRoutes: Routes = [
       },
       // { path:'data', component: DataComponent},
       // { path:'fotos', component: FotosComponent}
-      // { path:'highscores', component: HighscoresComponent}
-    ] },
+      {path:'highscores', component: HighscoresComponent},
+      {path:'profile', component: TestComponent}
+    ] 
+  }
 ]
 
 @NgModule({
   declarations: [
     HiddenComponent,
-    // HighscoresComponent
+    HighscoresComponent,
+    TestComponent
     // DataComponent,
     // FotosComponent,
   ],
-  exports: [],
   imports: [
     CommonModule,
     RouterModule.forChild(hiddenRoutes),
+  ],
+  exports: [
+    HighscoresComponent
   ]
 })
 

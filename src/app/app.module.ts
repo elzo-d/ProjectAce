@@ -1,15 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app.routing';
-import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { HttpClientModule } from '@angular/common/http'
+import {AppRoutingModule} from './app.routing';
+import {AppComponent} from './app.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {HttpClientModule} from '@angular/common/http'
 import {LoginComponent} from './login/login.component';
 import {GameComponent} from './game/game.component';
 import {CardHandComponent} from './card-hand/card-hand.component';
 import {CardTableComponent} from './card-table/card-table.component';
-import {HighscoresComponent} from './hidden/highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
 import {OrderModule} from 'ngx-order-pipe';
 import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
@@ -22,7 +21,6 @@ import {PcardComponent} from './pcard/pcard.component';
     GameComponent,
     CardHandComponent,
     CardTableComponent,
-    HighscoresComponent,
     FriendlistComponent,
     ChatboxComponent,
     PcardComponent
@@ -35,7 +33,7 @@ import {PcardComponent} from './pcard/pcard.component';
     HttpClientModule,
     OrderModule
   ],
-  providers: [  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
