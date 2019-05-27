@@ -1,9 +1,32 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div>
-  <!--
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <app-login></app-login> -->
-  <app-game></app-game>
+
+<!-- 
+https://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
+Author: Jason Watmore
+-->
+
+<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser || DEBUG">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="/">Home</a>
+        <a class="nav-item nav-link" routerLink="/highscores">Highscores</a>
+        <!-- <a class="nav-item nav-link" routerLink="/friendlist">Friendlist</a> -->
+        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
+</nav>
+<div id="main">
+    <!-- main app container -->
+<!-- <div class="jumbotron" float="left" width="calc(100% - 200px)"> -->
+<div id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3">
+                <alert></alert>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="friendlist">
+    <app-friendlist></app-friendlist>
 </div>
