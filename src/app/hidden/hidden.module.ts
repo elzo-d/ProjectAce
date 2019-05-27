@@ -7,6 +7,10 @@ import {HighscoresComponent} from './highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
 import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
 import {OrderModule} from 'ngx-order-pipe';
+import { GamelistComponent } from './gamelist/gamelist.component';
+import { GametypesComponent } from './gametypes/gametypes.component';
+import {GametypesModule} from './gametypes/gametypes.module';
+import {PestenComponent} from './gametypes/pesten/pesten.component';
 
 const hiddenRoutes: Routes = [
   {path:'', component: HiddenComponent,
@@ -16,8 +20,10 @@ const hiddenRoutes: Routes = [
         pathMatch: 'full',
         redirectTo: 'data'
       },
-      {path:'lobby', redirectTo: ''},
-      {path:'highscores', component: HighscoresComponent}
+      // {path:'lobby', redirectTo: ''},
+      {path:'lobby', component: GamelistComponent},
+      {path:'highscores', component: HighscoresComponent},
+      {path:'pesten', component: PestenComponent}
     ] 
   }
 ]
@@ -27,12 +33,15 @@ const hiddenRoutes: Routes = [
     HiddenComponent,
     HighscoresComponent,
     FriendlistComponent,
-    ChatboxComponent
+    ChatboxComponent,
+    GamelistComponent,
+    GametypesComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(hiddenRoutes),
-    OrderModule
+    OrderModule,
+    GametypesModule
   ],
   exports: [
   ]

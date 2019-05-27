@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Card, SUITS } from '../card';
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  selector: 'app-pesten',
+  templateUrl: './pesten.component.html',
+  styleUrls: ['./pesten.component.css']
 })
-export class GameComponent implements OnInit {
+export class PestenComponent implements OnInit {
 
   stack:Card[] = [];
 

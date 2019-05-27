@@ -30,7 +30,7 @@ export class LoginComponent {
         .subscribe(
           () => {
             console.log("User is logged in");
-            this.router.navigate(['hidden'])
+            this.router.navigate(['hidden/lobby'])
           },
           () => {
             console.error('FOUT: ongeldige gegevens')
