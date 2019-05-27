@@ -10,7 +10,7 @@ import {HighscoresComponent} from './highscores/highscores.component';
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'secret', loadChildren: './secret/secret.module#SecretModule',  canActivate: [guard]},
+  {path: 'hidden', loadChildren: './hidden/hidden.module#HiddenModule', canActivate: [guard]},
   {path: 'game', component: GameComponent},
   {path: 'highscores', component: HighscoresComponent},
 ];
