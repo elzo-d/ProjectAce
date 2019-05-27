@@ -13,6 +13,9 @@ export class FriendlistComponent implements OnInit {
   visible = true;
   order: string = 'id';
   reverse: boolean = false;
+  itemARank: number = 4;
+  itemBRank: number = 4;
+
 
   constructor(private orderPipe: OrderPipe) { 
     this.sortedFriends = orderPipe.transform(this.friends, 'id');
@@ -46,6 +49,38 @@ export class FriendlistComponent implements OnInit {
     }
 
     this.order = value;
+  }
+
+  customComparator(itemA, itemB) {
+    let itemARank = 4;
+    let itemBRank = 4;
+    console.log("item a = " + itemA) ;
+    console.log("item b = " + itemB) ;
+    if(itemA == Status.ONLINE){
+      itemARank = 1;
+    }
+    if(itemB == Status.ONLINE){
+      itemBRank = 1;
+    }
+     if(itemA == Status.AWAY){
+      itemARank = 2;
+    }
+    if(itemB == Status.AWAY){
+      itemBRank = 2;
+    }
+    if(itemA == Status.BUSY){
+      itemARank = 3;
+    }
+    if(itemB == Status.BUSY){
+      itemBRank = 3;
+    }
+    if(itemA == Status.OFFLINE){
+      itemARank = 4;
+    }
+    if(itemB == Status.OFFLINE){
+      itemBRank = 4;
+    }
+    return itemARank > itemBRank ? 1 : -1;
   }
 
 }

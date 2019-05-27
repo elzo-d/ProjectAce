@@ -1,61 +1,44 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {first} from 'rxjs/operators';
+import {Component} from '@angular/core';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms'
+import {Router} from '@angular/router'
+import {AuthService} from '../auth/auth.service';
 
-import {AlertService, AuthenticationService} from '../_services';
+@Component({
+  selector: 'login',
+  providers: [AuthService],
+  templateUrl: 'login.component.html'
+})
+export class LoginComponent {
+  form: FormGroup;
+  errorColor: String = ""
 
-@Component({templateUrl: 'login.component.html'})
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  loading = false;
-  submitted = false;
-  returnUrl: string;
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private alertService: AlertService
-  ) {
-    // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
-  }
-
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+    this.form = this.fb.group({
+      name: ['', Validators.required],
       password: ['', Validators.required]
     });
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
-  get f() {return this.loginForm.controls;}
+  login() {
+    const val = this.form.value;
 
-  onSubmit() {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
+    if (val.name && val.password) {
+      this.authService.login(val.name, val.password)
+        .subscribe(
+          () => {
+            console.log("User is logged in");
+            this.router.navigate(['hidden'])
+          },
+          () => {
+            console.error('FOUT: ongeldige gegevens')
+            this.errorColor = "#ffccff"
+          }
+        );
     }
-
-    this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.alertService.error(error);
-          this.loading = false;
-        });
   }
+
 }
+

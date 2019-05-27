@@ -1,0 +1,13 @@
+.title {
+    height: 40px;
+}
+.chat {
+    height: 200px;
+    overflow-y: scroll;
+}
+.input {
+    bottom: 0;
+    position: absolute;
+    height: 60px;
+    width: 250px;
+}

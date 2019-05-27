@@ -1,62 +1,39 @@
-/*
-https://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
-Author: Jason Watmore
-*/
-
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { OrderModule } from 'ngx-order-pipe'; // <- import OrderModule
+import { NgModule } from '@angular/core';
 
-// used to create fake backend
-import { fakeBackendProvider } from './_helpers';
-
+import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
-
-import { routing } from './app.routing';
-
-import { AlertComponent } from './_components';
-import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { HomeComponent } from './home';
-import { LoginComponent } from './login';
-import { RegisterComponent } from './register';
-import { HighscoresComponent } from './highscores/highscores.component';
-import { UserComponent } from './user/user.component';
-import { FriendlistComponent } from './friendlist/friendlist.component';
-import { CardHandComponent } from './card-hand/card-hand.component';
-import { GameComponent } from './game/game.component';
-import { CardTableComponent } from './card-table/card-table.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http'
+import {LoginComponent} from './login/login.component';
+import {GameComponent} from './game/game.component';
+import {CardHandComponent} from './card-hand/card-hand.component';
+import {CardTableComponent} from './card-table/card-table.component';
+import {HighscoresComponent} from './highscores/highscores.component';
+import {FriendlistComponent} from './friendlist/friendlist.component';
+import {OrderModule} from 'ngx-order-pipe';
+import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        routing,
-        OrderModule
-    ],
-    declarations: [
-        AppComponent,
-        AlertComponent,
-        HomeComponent,
-        LoginComponent,
-        RegisterComponent,
-        HighscoresComponent,
-        UserComponent,
-        FriendlistComponent,
-        CardHandComponent,
-        GameComponent,
-        CardTableComponent
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
-        // provider used to create fake backend
-        fakeBackendProvider
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    GameComponent,
+    CardHandComponent,
+    CardTableComponent,
+    HighscoresComponent,
+    FriendlistComponent,
+    ChatboxComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    OrderModule
+  ],
+  providers: [  ],
+  bootstrap: [AppComponent]
 })
-
 export class AppModule { }

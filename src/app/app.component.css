@@ -1,11 +1,13 @@
 #friendlist {
-    width: 200px;
+    width: 250px;
     float: right;
+    min-height: calc(100vh - 56px);
+
     /* border-left: 2px solid black; */
 }
 
 #body {
-    width: calc(100% - 200px);
+    width: calc(100% - 250px);
     float: left;
     margin-bottom: 2rem;
     border-radius: .3rem;
