@@ -5,7 +5,7 @@ import {AuthService} from './auth/auth.service'
 
 import {LoginComponent} from './login/login.component';
 import {GameComponent} from './game/game.component';
-import {HighscoresComponent} from './highscores/highscores.component';
+import {HighscoresComponent} from './hidden/highscores/highscores.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},

@@ -19,7 +19,6 @@ export class FriendlistComponent implements OnInit {
 
   constructor(private orderPipe: OrderPipe) { 
     this.sortedFriends = orderPipe.transform(this.friends, 'id');
-    console.log(this.sortedFriends);
    }
 
   ngOnInit() {
@@ -54,8 +53,7 @@ export class FriendlistComponent implements OnInit {
   customComparator(itemA, itemB) {
     let itemARank = 4;
     let itemBRank = 4;
-    console.log("item a = " + itemA) ;
-    console.log("item b = " + itemB) ;
+
     if(itemA == Status.ONLINE){
       itemARank = 1;
     }

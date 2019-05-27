@@ -7,22 +7,19 @@
           <div class="navbar-header">
             <h1 class="navbar-brand">Geheime pagina</h1>
           </div>
-          <!-- HIERONDER DE  CHILD-ROUTES DIE GEBRUIKT WORDEN IN DE SECRET COMPONENT -->
+          <!-- HIERONDER DE CHILD-ROUTES DIE GEBRUIKT WORDEN IN DE SECRET COMPONENT -->
           <ul class="nav navbar-nav nav-pills">
             <li routerLinkActive="active">
-              <a routerLink="data">Data</a></li>
+              <a routerLink="highscores">Highscores</a></li>
             <li routerLinkActive="active">
-              <a routerLink="fotos">Foto's</a></li>
+              <a routerLink="profile">Profile</a></li>
             <li>
-              <a href="#" (click)="logout()">Uitloggen</a></li>
+              <a href="#" (click)="logout()">Logout</a></li>
           </ul>
         </div>
       </nav>
 
-
       <router-outlet></router-outlet>
-
-
 
     </div><!-- col-sm-6 -->
   </div><!-- row -->

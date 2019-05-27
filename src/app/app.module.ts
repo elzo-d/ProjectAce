@@ -9,7 +9,7 @@ import {LoginComponent} from './login/login.component';
 import {GameComponent} from './game/game.component';
 import {CardHandComponent} from './card-hand/card-hand.component';
 import {CardTableComponent} from './card-table/card-table.component';
-import {HighscoresComponent} from './highscores/highscores.component';
+import {HighscoresComponent} from './hidden/highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
 import {OrderModule} from 'ngx-order-pipe';
 import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
