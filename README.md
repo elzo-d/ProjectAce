@@ -20,9 +20,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Start the node server
 
-Start the node server in /server with the command 
-
-  node index.js
+Start the node server in /server with the command `node index.js`
 
 ## Further help
 
