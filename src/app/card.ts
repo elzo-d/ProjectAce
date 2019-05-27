@@ -15,7 +15,21 @@ export class Card {
 
   getSuit():string {
     const names = ["Joker", "Spades", "Hearts", "Diamonds", "Clubs"];
-    return names[this.suit - 1];
+    return names[this.suit];
+  }
+
+  getCoords():number[] {
+    if(!this.visible) {
+      return [124 * 0, 164 * 4];
+    }
+    if(this.suit === SUITS.JOKER) {
+      if(this.number === 1) {
+        return [124 * 1, 164 * 4];
+      } else {
+        return [124 * 2, 164 * 4];
+      }
+    }
+    return [124 * (this.number - 1), 164 * (this.suit - 1)];
   }
 
   getUnicode():string {

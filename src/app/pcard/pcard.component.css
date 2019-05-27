@@ -1,0 +1,7 @@
+
+div.pcard {
+  background-image: url("/assets/cards.png");
+  display: inline-block;
+  width: 124px;
+  height: 164px;
+}

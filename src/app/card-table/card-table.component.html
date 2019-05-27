@@ -1,16 +1,7 @@
 <div class="pcards">
-  <div *ngIf="pile.length > 0" class="pcard" (click)="onClick(false)">
-    <p
-      class="pcard"
-      [class.redcard] = "pile[pile.length-1].getColor() === 'red'"
-      [class.blackcard] = "pile[pile.length-1].getColor() === 'black'"
-    >{{pile[pile.length-1].getUnicode()}}</p>
-  </div>
-  <div *ngIf="stack.length > 0" class="pcard" (click)="onClick(true)">
-    <p
-      class="pcard"
-      [class.redcard] = "stack[stack.length-1].getColor() === 'red'"
-      [class.blackcard] = "stack[stack.length-1].getColor() === 'black'"
-    >{{stack[stack.length-1].getUnicode()}}</p>
-  </div>
+  <app-pcard [card]="pile[pile.length-1]" *ngIf="pile.length > 0" class="pcard" (click)="onClick(false)">
+  </app-pcard>
+
+  <app-pcard [card]="stack[stack.length-1]" *ngIf="stack.length > 0" class="pcard" (click)="onClick(true)">
+  </app-pcard>
 </div>
