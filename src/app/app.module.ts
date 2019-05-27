@@ -13,6 +13,7 @@ import {HighscoresComponent} from './highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
 import {OrderModule} from 'ngx-order-pipe';
 import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
+import {PcardComponent} from './pcard/pcard.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
     CardTableComponent,
     HighscoresComponent,
     FriendlistComponent,
-    ChatboxComponent
+    ChatboxComponent,
+    PcardComponent
   ],
   imports: [
     BrowserModule,
