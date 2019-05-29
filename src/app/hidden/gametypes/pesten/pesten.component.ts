@@ -16,6 +16,8 @@ export class PestenComponent implements OnInit {
 
   pile:Card[] = [];
 
+  offset:number;
+
   constructor() { }
 
   ngOnInit() {
@@ -65,6 +67,16 @@ export class PestenComponent implements OnInit {
       let card = this.stack.pop();
       card.visible = true;
       this.userCards.push(card);
+    }
+  }
+
+  onMouseMove(e, el) {
+    let cardWidth = this.userCards.length * (124 - 60) - (60 - 124);
+    if(cardWidth > el.offsetWidth) {
+      let middle = el.offsetWidth / 2;
+      this.offset = middle - (e.clientX - el.getBoundingClientRect().left);
+    } else {
+      this.offset = 0;
     }
   }
 

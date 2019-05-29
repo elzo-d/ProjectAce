@@ -10,7 +10,9 @@ export class CardHandComponent implements OnInit {
 
   @Input() cards:Card[];
   @Input() playersCards:boolean;
+  @Input() marOff:number;
   @Output() cardClicked = new EventEmitter<Card>();
+  yOfffset = 0;
 
   constructor() { }
 
