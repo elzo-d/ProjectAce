@@ -10,6 +10,8 @@ export class PcardComponent implements OnInit {
 
   @Input() card:Card;
 
+  @Input() hoverType:number;
+
   constructor() { }
 
   ngOnInit() {

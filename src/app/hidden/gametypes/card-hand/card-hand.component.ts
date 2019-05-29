@@ -9,6 +9,7 @@ import { Card, SUITS } from '../card';
 export class CardHandComponent implements OnInit {
 
   @Input() cards:Card[];
+  @Input() playersCards:boolean;
   @Output() cardClicked = new EventEmitter<Card>();
 
   constructor() { }

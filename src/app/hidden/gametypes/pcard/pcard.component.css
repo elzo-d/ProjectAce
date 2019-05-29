@@ -4,4 +4,25 @@ div.pcard {
   display: inline-block;
   width: 124px;
   height: 164px;
+  transform: scale(1);
+}
+
+div.tp {
+  transform: scale(1);
+  transition: 0.5s;
+}
+
+div.tp:hover {
+  transform: scale(1.2);
+  transition: 0.5s;
+}
+
+div.pp {
+  transform: scale(1);
+  transition: 0.5s;
+}
+
+div.pp:hover {
+  transform: scale(1.1) translateY(-20px);
+  transition: 0.5s;
 }

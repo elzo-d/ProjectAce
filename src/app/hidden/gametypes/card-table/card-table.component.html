@@ -1,7 +1,7 @@
 <div class="pcards">
-  <app-pcard [card]="pile[pile.length-1]" *ngIf="pile.length > 0" class="pcard" (click)="onClick(false)">
+  <app-pcard [card]="pile[pile.length-1]" [hoverType]="0" *ngIf="pile.length > 0" class="pcard" (click)="onClick(false)">
   </app-pcard>
 
-  <app-pcard [card]="stack[stack.length-1]" *ngIf="stack.length > 0" class="pcard" (click)="onClick(true)">
+  <app-pcard [card]="stack[stack.length-1]" [hoverType]="1" *ngIf="stack.length > 0" class="pcard" (click)="onClick(true)">
   </app-pcard>
 </div>

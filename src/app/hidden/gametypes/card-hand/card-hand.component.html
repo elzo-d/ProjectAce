@@ -1,3 +1,3 @@
 <div class="pcards">
-  <app-pcard class="pcard" *ngFor="let card of cards" [card]="card" (click)="clickCard(card)"></app-pcard>
+  <app-pcard class="pcard" [hoverType]="playersCards ? 2 : 0"*ngFor="let card of cards" [card]="card" (click)="clickCard(card)"></app-pcard>
 </div>
