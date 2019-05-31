@@ -19,4 +19,9 @@
     min-height: calc(100vh);
     background-color: #e9ecef;
 
-}
+} 
+
+.container-full {
+    margin: 0 auto;
+    width: 80%;
+  }
