@@ -1,6 +1,8 @@
 
 <div #greendiv class="game" (mousemove)="onMouseMove($event, greendiv)">
-  <app-card-hand class="top" [cards]="opponentCards" [playersCards]="false" [marOff]="0"></app-card-hand>
-  <app-card-table class="middle" [stack]="stack" [pile]="pile" (stackClicked)="clickTable($event)"></app-card-table>
-  <app-card-hand class="bottom" [cards]="userCards" [marOff]="offset" [playersCards]="true" (cardClicked)="clickCard($event)"></app-card-hand>
+  Our turn: {{yourTurn}}<br>
+  Grab Cards: {{grabCards}}
+  <app-card-hand class="top" [cards]="opponentCards" [playersCards]="false" [marOff]="0" (cardClicked)="doOpponentTurn()"></app-card-hand>
+  <app-card-table class="middle" [stack]="stack" [pile]="pile" (stackClicked)="clickTable($event, true)"></app-card-table>
+  <app-card-hand class="bottom" [cards]="userCards" [marOff]="offset" [playersCards]="true" (cardClicked)="clickCard($event, true)"></app-card-hand>
 </div>

@@ -18,6 +18,9 @@ export class PestenComponent implements OnInit {
 
   offset:number;
 
+  yourTurn:boolean = true;
+  grabCards:number = 1;
+
   constructor() { }
 
   ngOnInit() {
@@ -51,22 +54,110 @@ export class PestenComponent implements OnInit {
     return arr;
   }
 
-  clickCard(card) {
-    this.pile.push(card);
-    let i;
-    for(i = 0; i < this.userCards.length; i++) {
-      if(this.userCards[i] === card) {
+  clickCard(card, user) {
+
+    if(this.yourTurn === user) {
+      // it's our turn
+      if(this.grabCards > 1) {
+        // a grab-card was thrown, we need to grab or throw a grab-card of our own
+        if(card.getSuit() === "Joker" || card.number === 2) {
+          this.pile.push(card);
+          this.removeCardFromUser(card, user);
+          if(card.getSuit() === "Joker") {
+            this.grabCards += 5;
+          } else {
+            this.grabCards += 2;
+          }
+          // finish turn
+          this.yourTurn = !this.yourTurn;
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        // normal turn
+        if(
+          card.getSuit() === this.getTopPileCard().getSuit() ||
+          card.number === this.getTopPileCard().number ||
+          card.number === 11 || card.getSuit() === "Joker" ||
+          this.getTopPileCard().getSuit() === "Joker"
+        ) {
+          this.pile.push(card);
+          this.removeCardFromUser(card, user);
+          if(card.getSuit() === "Joker") {
+            this.grabCards = 5;
+          } else if(card.number === 2) {
+            this.grabCards = 2;
+          }
+          if(card.number !== 7 && card.number !== 8) {
+            // finish turn
+            this.yourTurn = !this.yourTurn;
+          }
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+  }
+
+  getTopPileCard() {
+    return this.pile[this.pile.length - 1];
+  }
+
+  removeCardFromUser(card, user) {
+    if(user) {
+      let i;
+      for(i = 0; i < this.userCards.length; i++) {
+        if(this.userCards[i] === card) {
+          break;
+        }
+      }
+      this.userCards.splice(i, 1);
+    } else {
+      let i;
+      for(i = 0; i < this.opponentCards.length; i++) {
+        if(this.opponentCards[i] === card) {
+          break;
+        }
+      }
+      this.opponentCards.splice(i, 1);
+    }
+  }
+
+  clickTable(stack, turn) {
+    if(this.yourTurn === turn && stack) {
+      // it's our turn
+
+      for(let i = 0; i < this.grabCards; i++) {
+        if(stack) {
+          let card = this.stack.pop();
+          if(turn) {
+            card.visible = true;
+            this.userCards.push(card);
+          } else {
+            this.opponentCards.push(card);
+          }
+        }
+      }
+      this.grabCards = 1;
+      // finish turn
+      this.yourTurn = !this.yourTurn
+    }
+  }
+
+  doOpponentTurn() {
+    let found = false;
+    for(let i = 0; i < this.opponentCards.length; i++) {
+      let card = this.opponentCards[i];
+      if(this.clickCard(card, false)) {
+        found = true;
+        card.visible = true;
         break;
       }
     }
-    this.userCards.splice(i, 1);
-  }
-
-  clickTable(stack) {
-    if(stack) {
-      let card = this.stack.pop();
-      card.visible = true;
-      this.userCards.push(card);
+    if(!found) {
+      this.clickTable(true, false);
     }
   }
 
