@@ -5,6 +5,7 @@
 .chat {
   height: 200px;
   overflow-y: scroll;
+  position: relative;
 }
 
 .input {
@@ -12,4 +13,33 @@
   position: absolute;
   height: 60px;
   width: 250px;
+}
+
+.chat div {
+  /* position: absolute;  */
+  bottom: 0; 
+  width: 100%; 
+  overflow: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 8px;
+}
+
+#me {
+  text-align: right;
+  background-color:  #e6e6e6;
+}
+
+#other {
+  text-align: left;
+  background-color: #cccccc
+  ;
+}
+
+#chatInput {
+  width: 250px;
+  font: inherit;
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .1);
+	border: 0;
+	outline: 0;
 }

@@ -4,23 +4,12 @@
         Chat with: insertplayername
     </p>
 </div>
-<div class="chat">
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-    chat here <br>
-
+<div class="chat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+    <div *ngFor="let message of messages" id="{{getStyle(message.fromUser)}}">
+        {{message.text}}
+    </div>
 </div>
 <div class="input">
-    <input type="text" name="message" placeholder="Enter message here">
-    <!-- <textarea></textarea> -->
-    <button>Send</button>
+    <input id="chatInput" placeholder="Enter message here" #box (keyup.enter)="sendMessage(box.value) ; box.value=''" >
 </div>
+
