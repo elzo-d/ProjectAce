@@ -6,12 +6,12 @@
     <th></th>
   </tr>
   <tr *ngFor="let friend of friends | orderBy: order:reverse:'case-insensitive':customComparator">
-    <!-- <td>{{friend.id}}</td> -->
     <td>{{friend.name}}</td>
     <td class ="{{friend.status}}">{{friend.status}}</td>
-    <td><button>Message</button></td>
+    <td><button (click)="messageFriend(friend)"  class="btn btn-dark">Message</button></td>
   </tr>
 </table>
-<div class="chatbox" *ngIf="visible">
-  <app-chatbox></app-chatbox>
+
+<div class="chatbox" *ngIf="visible && chatFriend !== undefined">
+  <app-chatbox (messageEvent)="closeChat()" [friend] ="chatFriend" ></app-chatbox>
 </div>

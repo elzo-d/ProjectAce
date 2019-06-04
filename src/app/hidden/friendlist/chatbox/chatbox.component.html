@@ -1,9 +1,9 @@
 
 <div class="title">
-    <p>
-        Chat with: insertplayername
-    </p>
+        Chat with: {{vriend.name}}
+        <button (click)="closingChat()" class="btn btn-dark" id="closebutton">x</button>
 </div>
+
 <div class="chat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     <div *ngFor="let message of messages" id="{{getStyle(message.fromUser)}}">
         {{message.text}}

@@ -1,16 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Friend } from '.././Friend';
+import { FriendlistComponent } from '../friendlist.component';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
+
+  
 export class ChatboxComponent implements OnInit {
+  @Output() messageEvent = new EventEmitter();
+  @Input('friend') vriend: Friend;
   messages: Message[];
+  close: boolean = true;
   constructor() { }
 
   ngOnInit() {
     this.mockMessages();
+  }
+
+  closingChat() {
+    console.log("emit")
+    this.messageEvent.emit();
+    console.log(this.messageEvent)
+
   }
 
   mockMessages() {

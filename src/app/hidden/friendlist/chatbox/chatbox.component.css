@@ -25,6 +25,10 @@
   border-radius: 8px;
 }
 
+#closebutton {
+  float: right;
+}
+
 #me {
   text-align: right;
   background-color:  #e6e6e6;
@@ -43,3 +47,4 @@
 	border: 0;
 	outline: 0;
 }
+

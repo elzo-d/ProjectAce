@@ -28,7 +28,11 @@
     </tr>
     <tr *ngFor="let entry of entries">
       <td>{{entry.rank}}</td>
-      <td><a routerLink="/user/{{entry.name}}">{{entry.name}}</a></td>
+      <td>
+        <!-- <a routerLink="/user/{{entry.name}}"> -->
+          {{entry.name}}
+        <!-- </a> -->
+      </td>
       <td>{{entry.score}}</td>
     </tr>
   </table>
