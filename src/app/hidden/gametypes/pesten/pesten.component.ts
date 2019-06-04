@@ -132,6 +132,9 @@ export class PestenComponent implements OnInit {
       for(let i = 0; i < this.grabCards; i++) {
         if(stack) {
           let card = this.stack.pop();
+          if(this.stack.length === 0) {
+            this.newStack();
+          }
           if(turn) {
             card.visible = true;
             this.userCards.push(card);
@@ -144,6 +147,18 @@ export class PestenComponent implements OnInit {
       // finish turn
       this.yourTurn = !this.yourTurn
     }
+  }
+
+  newStack() {
+    this.stack = this.pile.splice(0, this.pile.length - 1);
+    for(let card of this.stack) {
+      card.visible = false;
+    }
+    this.shuffle(this.stack);
+    console.log(
+      "New stack generated: Stack length: " + this.stack.length +
+      ", Pile length: " + this.pile.length
+    );
   }
 
   doOpponentTurn() {
