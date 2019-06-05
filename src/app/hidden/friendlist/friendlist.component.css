@@ -57,12 +57,11 @@ thead th:last-child {
   width: 250px;
   border-top: 2px solid black;
 }
-.tab:focus {
+.false:focus {
   outline:0;
-  background: #bfbfbf;
 }
-.tab {
-  border-radius: 5px 5px 0px 0px;
+.true:focus {
+  outline:0;
 }
 #tab1 {
   width: 40%;
@@ -76,4 +75,16 @@ thead th:last-child {
 	box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .1);
 	border: 0;
 	outline: 0;
+}
+
+.false {
+  border-radius: 5px 5px 0px 0px;
+  background: #bfbfbf;
+}
+
+.true {
+  border-radius: 5px 5px 0px 0px;
+  background:  #d9d9d9
+  ;
+
 }

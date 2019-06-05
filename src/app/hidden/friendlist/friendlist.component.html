@@ -1,7 +1,7 @@
 <h2 (click)="toggleList()">Friends</h2>
 <div *ngIf="visible">
-    <button (click)="toggleSearch(true)" id="tab1" class="tab">Friendlist</button>
-    <button (click)="toggleSearch(false)" id="tab2" class="tab">Search new Friends</button>
+    <button (click)="toggleSearch(true)" id="tab1" class="{{!friendlist}}">Friendlist</button>
+    <button (click)="toggleSearch(false)" id="tab2" class="{{friendlist}}">Search new Friends</button>
 
     <div *ngIf="friendlist" >
         <table>
