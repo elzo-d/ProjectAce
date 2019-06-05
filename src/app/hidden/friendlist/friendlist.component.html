@@ -1,17 +1,54 @@
 <h2 (click)="toggleList()">Friends</h2>
-<table *ngIf="visible">
-  <tr>
-    <th (click)="setOrder('name')">Friend</th>
-    <th (click)="setOrder('status')" >Status</th>
-    <th></th>
-  </tr>
-  <tr *ngFor="let friend of friends | orderBy: order:reverse:'case-insensitive':customComparator">
-    <td>{{friend.name}}</td>
-    <td class ="{{friend.status}}">{{friend.status}}</td>
-    <td><button (click)="messageFriend(friend)"  class="btn btn-dark">Message</button></td>
-  </tr>
-</table>
+<div *ngIf="visible">
+    <button (click)="toggleSearch(true)" id="tab1" class="tab">Friendlist</button>
+    <button (click)="toggleSearch(false)" id="tab2" class="tab">Search new Friends</button>
 
-<div class="chatbox" *ngIf="visible && chatFriend !== undefined">
-  <app-chatbox (messageEvent)="closeChat()" [friend] ="chatFriend" ></app-chatbox>
+    <div *ngIf="friendlist" >
+        <table>
+          <thead>
+            <tr>
+              <th (click)="setOrder('name')">Friend</th>
+              <th (click)="setOrder('status')" >Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let friend of friends | orderBy: order:reverse:'case-insensitive':customComparator">
+              <td>{{friend.name}}</td>
+              <td class ="{{friend.status}}">{{friend.status}}</td>
+              <td><button (click)="messageFriend(friend)"  class="btn btn-dark">Message</button></td>
+              </tr>
+          </tbody>
+      
+        </table>
+      </div>
+      <div *ngIf="!friendlist" >
+          <input id="chatInput" type="text" placeholder="Search.."  class="icon-addon addon-sm">
+          <table>
+            <thead>
+              <tr>
+                  <th>Players</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let player of players">
+                <td>{{player.name}}</td>
+                <td class ="{{player.status}}">{{player.status}}</td>
+                <td><button class="btn btn-dark">Add friend</button></td>
+              </tr>
+            </tbody>
+        
+          </table>
+        </div>
+        <div class="chatbox" *ngIf="chatFriend !== undefined">
+            <app-chatbox (messageEvent)="closeChat()" [friend] ="chatFriend" ></app-chatbox>
+        </div>          
 </div>
+
+
+
+
+
+

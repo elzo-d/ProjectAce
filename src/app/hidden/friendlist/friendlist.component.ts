@@ -9,9 +9,11 @@ import { Friend } from './Friend';
 })
 export class FriendlistComponent implements OnInit {
 
+  players: Friend[];
   friends: Friend[];
   sortedFriends: Friend[];
   visible = true;
+  friendlist = true;
   order: string = 'id';
   reverse: boolean = false;
   itemARank: number = 4;
@@ -43,11 +45,57 @@ export class FriendlistComponent implements OnInit {
       { id:6, name: 'friend6', status: Status.OFFLINE },
       { id:7, name: 'friend7', status: Status.OFFLINE },
       { id:8, name: 'friend8', status: Status.ONLINE },
+    ];
+    this.players = [
+      {id:1, name: 'player1', status: Status.OFFLINE},
+      {id:2, name: 'player2', status: Status.OFFLINE},
+      {id:3, name: 'player3', status: Status.OFFLINE},
+      {id:4, name: 'player4', status: Status.ONLINE},
+      {id:5, name: 'player5', status: Status.AWAY},
+      {id:6, name: 'player6', status: Status.BUSY},
+      {id:7, name: 'player7', status: Status.ONLINE},
+      {id:8, name: 'player8', status: Status.OFFLINE},
+      {id:9, name: 'player9', status: Status.AWAY},
+      {id:10, name: 'player10', status: Status.OFFLINE},
+      {id:3, name: 'player3', status: Status.OFFLINE},
+      {id:4, name: 'player4', status: Status.ONLINE},
+      {id:5, name: 'player5', status: Status.AWAY},
+      {id:6, name: 'player6', status: Status.BUSY},
+      {id:7, name: 'player7', status: Status.ONLINE},
+      {id:8, name: 'player8', status: Status.OFFLINE},
+      {id:9, name: 'player9', status: Status.AWAY},
+      {id:10, name: 'player10', status: Status.OFFLINE},
+      {id:8, name: 'player8', status: Status.OFFLINE},
+      {id:9, name: 'player9', status: Status.AWAY},
+      {id:10, name: 'player10', status: Status.OFFLINE},
+      {id:3, name: 'player3', status: Status.OFFLINE},
+      {id:4, name: 'player4', status: Status.ONLINE},
+      {id:5, name: 'player5', status: Status.AWAY},
+      {id:6, name: 'player6', status: Status.BUSY},
+      {id:7, name: 'player7', status: Status.ONLINE},
+      {id:8, name: 'player8', status: Status.OFFLINE},
+      {id:9, name: 'player9', status: Status.AWAY},
+      {id:10, name: 'player10', status: Status.OFFLINE},
+      {id:8, name: 'player8', status: Status.OFFLINE},
+      {id:9, name: 'player9', status: Status.AWAY},
+      {id:10, name: 'player10', status: Status.OFFLINE},
+      {id:3, name: 'player3', status: Status.OFFLINE},
+      {id:4, name: 'player4', status: Status.ONLINE},
+      {id:5, name: 'player5', status: Status.AWAY},
+      {id:6, name: 'player6', status: Status.BUSY},
+      {id:7, name: 'player7', status: Status.ONLINE},
+      {id:8, name: 'player8', status: Status.OFFLINE},
+      {id:9, name: 'player9', status: Status.AWAY},
+      {id:10, name: 'player10', status: Status.OFFLINE},
     ]
   }
 
   toggleList() {
     this.visible = !this.visible;
+  }
+
+  toggleSearch(parameter: boolean) {
+    this.friendlist = parameter;
   }
 
   closeChat() {

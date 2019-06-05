@@ -1,7 +1,35 @@
 table {
   width: 250px;
+  border-collapse: collapse;
 }
 
+thead {
+  display: inline-block;
+  width: 100%;
+  height: 20px;
+}
+tbody {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 500px;
+  display: inline-block;
+  width: 250px;
+
+}
+
+tbody td, thead th {
+  width: 140px;
+}
+
+thead th:last-child {
+  width: 156px; /* 140px + 16px scrollbar width */
+}
+
+#overflow{
+  overflow-y: scroll;
+  position: relative;
+  /* height: 540px; */
+}
 .active {
   color: #000;
 }
@@ -28,4 +56,24 @@ table {
   height: 300px;
   width: 250px;
   border-top: 2px solid black;
+}
+.tab:focus {
+  outline:0;
+  background: #bfbfbf;
+}
+.tab {
+  border-radius: 5px 5px 0px 0px;
+}
+#tab1 {
+  width: 40%;
+}
+#tab2 {
+  width: 60%;
+}
+#chatInput {
+  width: 250px;
+  font: inherit;
+	box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .1);
+	border: 0;
+	outline: 0;
 }
