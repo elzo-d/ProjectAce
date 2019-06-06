@@ -1,3 +1,5 @@
+import { AuthService } from './../../auth/auth.service';
+import { AuthGuardService } from './../../auth/auth-guard.service';
 import { Component, OnInit } from '@angular/core';
 import {OrderPipe} from 'ngx-order-pipe';
 import { Friend } from './Friend';
@@ -7,6 +9,7 @@ import { Friend } from './Friend';
   templateUrl: './friendlist.component.html',
   styleUrls: ['./friendlist.component.css']
 })
+
 export class FriendlistComponent implements OnInit {
 
   players: Friend[];
@@ -19,9 +22,9 @@ export class FriendlistComponent implements OnInit {
   itemARank: number = 4;
   itemBRank: number = 4;
   chatFriend: Friend; 
+  currentUser: string = this.auth.getUser();
 
-
-  constructor(private orderPipe: OrderPipe) { 
+  constructor(private orderPipe: OrderPipe, public auth: AuthService) { 
     this.sortedFriends = orderPipe.transform(this.friends, 'id');
    }
 

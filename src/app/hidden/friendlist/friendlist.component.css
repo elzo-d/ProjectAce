@@ -25,6 +25,44 @@ thead th:last-child {
   width: 156px; /* 140px + 16px scrollbar width */
 }
 
+.left {
+  
+  width: 100%;
+  float: left;
+  
+  /* height: 65px; */
+}
+
+.left label {
+  font-size: 36px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.left select{
+  float: right;
+  margin-top: 20px;
+  margin-right: 40px;
+  font-size: 18px;
+  border:0px;
+  outline:0px;
+  background-color: #e9ecef;
+}
+
+.left select option {
+  font-size: 15px;
+}
+
+.right {
+  width: 50%;
+  float: right;
+  height: 65px;
+}
+
 #overflow{
   overflow-y: scroll;
   position: relative;

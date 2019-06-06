@@ -1,4 +1,13 @@
-<h2 (click)="toggleList()">Friends</h2>
+<div class="left">
+  <label (click)="toggleList()" >{{currentUser}}</label>
+  <select>
+    <option value="volvo">Online</option>
+    <option value="saab">Busy</option>
+    <option value="opel">Away</option>
+    <option value="audi">Offline</option>
+  </select>
+</div>
+
 <div *ngIf="visible">
     <button (click)="toggleSearch(true)" id="tab1" class="{{!friendlist}}">Friendlist</button>
     <button (click)="toggleSearch(false)" id="tab2" class="{{friendlist}}">Search new Friends</button>
