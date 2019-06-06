@@ -29,6 +29,7 @@ export class AuthService {
   private setSession(authResult) {
     localStorage.setItem('expirationTime', JSON.stringify(authResult.expiresIn + moment.now()));
     localStorage.setItem('idToken', JSON.stringify(authResult.token));
+    localStorage.setItem('name', JSON.stringify(authResult.user));
   }
 
   public logout() {
@@ -39,6 +40,12 @@ export class AuthService {
   public getExpiration() {
     console.log("Get experiation as json...")
     return JSON.parse(localStorage.getItem('expirationTime'))
+  }
+
+  public getUser() {
+    console.log("Get user...")
+    return JSON.parse(localStorage.getItem('name'))
+
   }
 
   private handleError(error) {

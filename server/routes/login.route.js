@@ -39,7 +39,8 @@ loginRoutes.route("/").post(function(req, res) {
     res.json({
       message: "ok",
       token: token,
-      expiresIn: jwt.decode(token).exp
+      expiresIn: jwt.decode(token).exp,
+      user: user.name
     });
   } else {
     console.log("no password match");
