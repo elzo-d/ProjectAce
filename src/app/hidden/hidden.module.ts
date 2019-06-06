@@ -11,6 +11,7 @@ import { GamelistComponent } from './gamelist/gamelist.component';
 import { GametypesComponent } from './gametypes/gametypes.component';
 import {GametypesModule} from './gametypes/gametypes.module';
 import {PestenComponent} from './gametypes/pesten/pesten.component';
+import { GamebarComponent } from './gamebar/gamebar.component';
 
 const hiddenRoutes: Routes = [
   {path:'', component: HiddenComponent,
@@ -35,7 +36,8 @@ const hiddenRoutes: Routes = [
     FriendlistComponent,
     ChatboxComponent,
     GamelistComponent,
-    GametypesComponent
+    GametypesComponent,
+    GamebarComponent
   ],
   imports: [
     CommonModule,

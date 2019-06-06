@@ -34,23 +34,23 @@ thead th:last-child {
 }
 
 .left label {
-  font-size: 36px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  height: 75px;
 }
 
 .left select{
   float: right;
-  margin-top: 20px;
   margin-right: 40px;
   font-size: 18px;
   border:0px;
   outline:0px;
   background-color: #e9ecef;
+  height: 75px;
 }
 
 .left select option {
