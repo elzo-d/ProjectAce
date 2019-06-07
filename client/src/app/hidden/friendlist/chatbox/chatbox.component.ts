@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Friend } from '.././Friend';
 import { FriendlistComponent } from '../friendlist.component';
+import { ChatService } from './chat.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -12,19 +13,28 @@ import { FriendlistComponent } from '../friendlist.component';
 export class ChatboxComponent implements OnInit {
   @Output() messageEvent = new EventEmitter();
   @Input('friend') vriend: Friend;
-  messages: Message[];
   close: boolean = true;
-  constructor() { }
+  //message: string;
+  messages: Message[] = [];
+
+  constructor(private chatService: ChatService) {}
 
   ngOnInit() {
-    this.mockMessages();
+    //this.mockMessages();
+    this.chatService
+      .getMessages()
+      .subscribe((message: string) => {
+        this.messages.push({
+          fromUser: true,
+          text: message,
+        });
+      });
   }
 
   closingChat() {
     console.log("emit")
     this.messageEvent.emit();
     console.log(this.messageEvent)
-
   }
 
   mockMessages() {
@@ -56,6 +66,8 @@ export class ChatboxComponent implements OnInit {
         text: typedText,
       }
     )
+
+    this.chatService.sendMessage(typedText);
   }
 }
 

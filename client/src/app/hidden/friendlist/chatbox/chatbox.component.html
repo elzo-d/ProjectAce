@@ -1,7 +1,6 @@
-
 <div class="title">
-        Chat with: {{vriend.name}}
-        <button (click)="closingChat()" class="btn btn-dark" id="closebutton">x</button>
+    Chat with: {{vriend.name}}
+    <button (click)="closingChat()" class="btn btn-dark" id="closebutton">x</button>
 </div>
 
 <div class="chat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
@@ -9,7 +8,7 @@
         {{message.text}}
     </div>
 </div>
-<div class="input">
-    <input id="chatInput" placeholder="Enter message here" #box (keyup.enter)="sendMessage(box.value) ; box.value=''" >
-</div>
 
+<div class="input">
+    <input id="chatInput" placeholder="Enter message here" #box (keyup.enter)="sendMessage(box.value) ; box.value=''">
+</div>
