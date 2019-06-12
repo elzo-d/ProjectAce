@@ -1,0 +1,14 @@
+#logo {
+    background-image: url("/assets/logo.png");
+    width: 150px;
+    height: 50px;
+    transform: scale(1);
+    /* padding-left: 20px; */
+    margin-top: 15px;
+    width: 150px;
+    float: left;
+}
+
+#navigation {
+    padding-top: 2rem;
+}
