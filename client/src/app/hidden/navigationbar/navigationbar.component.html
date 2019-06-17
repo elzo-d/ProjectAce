@@ -1,17 +1,14 @@
 <div id="logo"></div>
 <div id="navigation">
-  <nav class="navbar">
+  <nav>
     <div class="container-fluid">
-      <!-- <div class="navbar-header">
-        <h1 class="navbar-brand">Game Lobby</h1>
-      </div> -->
-      <!-- HIERONDER DE CHILD-ROUTES DIE GEBRUIKT WORDEN IN DE SECRET COMPONENT -->
-      <ul class="nav navbar-nav nav-pills">
-        <li routerLinkActive="active">
-          <a routerLink="lobby">Lobby</a></li>
-        <li routerLinkActive="active">
-          <a routerLink="highscores">Highscores</a></li>
-        <li>
+
+      <ul  id="nav">
+        <li routerLinkActive="active" class={{navbarItem1}}>
+          <a routerLink="lobby"  (click)="toggleClass(1)">Lobby</a></li>
+        <li routerLinkActive="active" class={{navbarItem2}}>
+          <a routerLink="highscores"  (click)="toggleClass(2)">Highscores</a></li>
+        <li class="unactive">
           <a href="#" (click)="logout()">Logout</a></li>
       </ul>
     </div>
