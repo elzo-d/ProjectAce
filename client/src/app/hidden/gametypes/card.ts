@@ -61,12 +61,16 @@ export class Card {
     return "black";
   }
 
-  draw(ctx, x, y, img):void {
+  draw(ctx, x, y, img, highlight):void {
     let coords = this.getCoords();
     ctx.drawImage(
       img,
       coords[0], coords[1], 124, 164,
       x, y, 124, 164
     );
+    if(highlight) {
+      ctx.fillStyle = "rgba(200, 200, 255, 0.7)";
+      ctx.fillRect(x, y, 124, 164);
+    }
   }
 }

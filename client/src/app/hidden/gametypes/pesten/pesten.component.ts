@@ -53,7 +53,7 @@ export class PestenComponent implements OnInit {
   }
 
   onImageLoad() {
-    this.updateView();
+    this.updateView(0, 0);
   }
 
   shuffle(arr) {
@@ -188,14 +188,10 @@ export class PestenComponent implements OnInit {
     }
   }
 
-  onMouseMove(e, el) {
-    let cardWidth = this.userCards.length * (124 - 60) - (60 - 124);
-    if(cardWidth > el.offsetWidth) {
-      let middle = el.offsetWidth / 2;
-      this.offset = middle - (e.clientX - el.getBoundingClientRect().left);
-    } else {
-      this.offset = 0;
-    }
+  onCanvasMove(e) {
+    let mx = e.offsetX;
+    let my = e.offsetY;
+    this.updateView(mx, my);
   }
 
   onCanvasClick(e) {
@@ -207,6 +203,9 @@ export class PestenComponent implements OnInit {
     } else if(my > this.ctx.canvas.height - 164 - 2) {
       // bottom row of cards
       let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+      if(xPos < 0) {
+        xPos += (2 * -xPos) * (1 - (2 * (mx / this.ctx.canvas.width)));
+      }
       let pickedCard = undefined;
       for(let card of this.userCards) {
         if(mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)) {
@@ -226,10 +225,10 @@ export class PestenComponent implements OnInit {
         this.clickTable(true, true);
       }
     }
-    this.updateView();
+    this.updateView(mx, my);
   }
 
-  updateView() {
+  updateView(mx, my) {
     // card: 124 * 164
     // card overlap: 62 px
     let ctx = this.ctx;
@@ -237,17 +236,28 @@ export class PestenComponent implements OnInit {
     ctx.fillStyle = "#009900";
     ctx.fillRect(0, 0, c.width, c.height);
 
-    this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img);
-    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img);
+    this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false);
+    let highlight = (
+      my > c.height / 2 - 82 && my < c.height / 2 + 82 &&
+      mx > c.width / 2 && mx < c.width / 2 + 124 + 2
+    );
+    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight);
 
     let xPos = (c.width / 2) - ((this.opponentCards.length * 62 + 62) / 2);
     for(let card of this.opponentCards) {
-      card.draw(ctx, xPos, 2, this.img);
+      card.draw(ctx, xPos, 2, this.img, false);
       xPos += 62;
     }
     xPos = (c.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+    if(xPos < 0) {
+      xPos += (2 * -xPos) * (1 - (2 * (mx / c.width)));
+    }
     for(let card of this.userCards) {
-      card.draw(ctx, xPos, c.height - 164 - 2, this.img);
+      let highlight = (
+        my > c.height - 164 - 2 &&
+        mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)
+      );
+      card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight);
       xPos += 62;
     }
   }
