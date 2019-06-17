@@ -20,6 +20,10 @@ export class LoginComponent {
     private router: Router,
     private userService: UserService
   ) {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(["/"]);
+    }
+
     this.form = this.fb.group({
       name: ["", Validators.required],
       password: ["", Validators.required]
