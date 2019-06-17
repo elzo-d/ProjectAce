@@ -1,8 +1,12 @@
 
 <div #greendiv class="game" (mousemove)="onMouseMove($event, greendiv)">
   Our turn: {{yourTurn}}<br>
-  Grab Cards: {{grabCards}}
+  Grab Cards: {{grabCards}}<br>
+  <canvas id="canvas" (click)="onCanvasClick($event)"></canvas>
+  <img src="/assets/cards.png" id="img">
+  <!--
   <app-card-hand class="top" [cards]="opponentCards" [playersCards]="false" [marOff]="0" (cardClicked)="doOpponentTurn()"></app-card-hand>
   <app-card-table class="middle" [stack]="stack" [pile]="pile" (stackClicked)="clickTable($event, true)"></app-card-table>
   <app-card-hand class="bottom" [cards]="userCards" [marOff]="offset" [playersCards]="true" (cardClicked)="clickCard($event, true)"></app-card-hand>
+  -->
 </div>

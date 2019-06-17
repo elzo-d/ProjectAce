@@ -13,6 +13,7 @@ import {GametypesModule} from './gametypes/gametypes.module';
 import {PestenComponent} from './gametypes/pesten/pesten.component';
 import {GamebarComponent} from './gamebar/gamebar.component';
 import {ChatService} from './friendlist/chatbox/chat.service';
+import { NavigationbarComponent } from './navigationbar/navigationbar.component';
 
 const hiddenRoutes: Routes = [
   {
@@ -39,7 +40,8 @@ const hiddenRoutes: Routes = [
     ChatboxComponent,
     GamelistComponent,
     GametypesComponent,
-    GamebarComponent
+    GamebarComponent,
+    NavigationbarComponent
   ],
   imports: [
     CommonModule,
