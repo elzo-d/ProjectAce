@@ -1,25 +1,19 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { Friend } from '.././Friend';
 import { ChatService } from './chat.service';
 
 @Component({
-  selector: 'app-chatbox',
-  templateUrl: './chatbox.component.html',
+  selector: 'app-generalchat',
+  templateUrl: './generalchat.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-
-  
-export class ChatboxComponent implements OnInit {
+export class GeneralchatComponent implements OnInit {
   @Output() messageEvent = new EventEmitter();
-  @Input('friend') vriend: Friend;
   close: boolean = true;
-  //message: string;
   messages: Message[] = [];
 
   constructor(private chatService: ChatService) {}
 
   ngOnInit() {
-    //this.mockMessages();
     this.chatService
       .getMessages()
       .subscribe((message: string) => {
@@ -36,19 +30,6 @@ export class ChatboxComponent implements OnInit {
     console.log(this.messageEvent)
   }
 
-  mockMessages() {
-    this.messages = [
-      { fromUser: true, text:"hi" },
-      { fromUser: false, text:"1" },
-      { fromUser: true, text:"hi" },
-      { fromUser: false, text:"2" },
-      { fromUser: true, text:"hi" },
-      { fromUser: false, text:"3" },
-      { fromUser: true, text:"hi" },
-      { fromUser: false, text:"4" },
-    ]
-  }
-
   getStyle(user: boolean){
     if(user){
       return "me"
@@ -59,13 +40,12 @@ export class ChatboxComponent implements OnInit {
   }
 
   sendMessage(typedText: string): void {
-    console.log(typedText)
-    this.messages.push(
-      {
-        fromUser: true,
-        text: typedText,
-      }
-    )
+    // this.messages.push(
+    //   {
+    //     fromUser: true,
+    //     text: typedText,
+    //   }
+    // )
 
     this.chatService.sendMessage(typedText);
   }
