@@ -21,6 +21,9 @@ export class PestenComponent implements OnInit {
   yourTurn:boolean = true;
   grabCards:number = 1;
 
+  ctx = undefined;
+  img = undefined;
+
   constructor() { }
 
   ngOnInit() {
@@ -42,6 +45,15 @@ export class PestenComponent implements OnInit {
     let startCard = this.stack.pop();
     startCard.visible = true;
     this.pile.push(startCard);
+    this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
+    this.ctx.canvas.width = 800;
+    this.ctx.canvas.height = 600;
+    this.img = document.getElementById("img");
+    this.img.onload = () => {this.onImageLoad()};
+  }
+
+  onImageLoad() {
+    this.updateView();
   }
 
   shuffle(arr) {
@@ -183,6 +195,60 @@ export class PestenComponent implements OnInit {
       this.offset = middle - (e.clientX - el.getBoundingClientRect().left);
     } else {
       this.offset = 0;
+    }
+  }
+
+  onCanvasClick(e) {
+    let mx = e.offsetX;
+    let my = e.offsetY;
+    if(my < 164 + 2) {
+      // top row of cards
+      this.doOpponentTurn();
+    } else if(my > this.ctx.canvas.height - 164 - 2) {
+      // bottom row of cards
+      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+      let pickedCard = undefined;
+      for(let card of this.userCards) {
+        if(mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)) {
+          pickedCard = card;
+        }
+        xPos += 62;
+      }
+      if(pickedCard) {
+        this.clickCard(pickedCard, true);
+      }
+    } else {
+      // middle of table
+      if(
+        my > this.ctx.canvas.height / 2 - 82 && my < this.ctx.canvas.height / 2 + 82 &&
+        mx > this.ctx.canvas.width / 2 && mx < this.ctx.canvas.width / 2 + 124 + 2
+      ) {
+        this.clickTable(true, true);
+      }
+    }
+    this.updateView();
+  }
+
+  updateView() {
+    // card: 124 * 164
+    // card overlap: 62 px
+    let ctx = this.ctx;
+    let c = ctx.canvas;
+    ctx.fillStyle = "#009900";
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img);
+    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img);
+
+    let xPos = (c.width / 2) - ((this.opponentCards.length * 62 + 62) / 2);
+    for(let card of this.opponentCards) {
+      card.draw(ctx, xPos, 2, this.img);
+      xPos += 62;
+    }
+    xPos = (c.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+    for(let card of this.userCards) {
+      card.draw(ctx, xPos, c.height - 164 - 2, this.img);
+      xPos += 62;
     }
   }
 

@@ -60,4 +60,13 @@ export class Card {
     }
     return "black";
   }
+
+  draw(ctx, x, y, img):void {
+    let coords = this.getCoords();
+    ctx.drawImage(
+      img,
+      coords[0], coords[1], 124, 164,
+      x, y, 124, 164
+    );
+  }
 }
