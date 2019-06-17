@@ -9,26 +9,24 @@ import { AuthService } from "src/app/auth/auth.service";
 export class NavigationbarComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
-  navbarItem1: string = "active"
-  navbarItem2: string = "unactive"
+  navbarItem1: string = "active";
+  navbarItem2: string = "unactive";
 
-  constructor() { }
+  ngOnInit() {}
 
   logout() {
     console.log("hier");
     this.authService.logout();
   }
 
-  toggleClass(index: number){
-    if(index == 1){
-      this.navbarItem2 = "unactive"
-      this.navbarItem1 = "active"
-    }else if(index == 2){
-      this.navbarItem2 = "active"
-      this.navbarItem1 = "unactive"
-
+  toggleClass(index: number) {
+    if (index == 1) {
+      this.navbarItem2 = "unactive";
+      this.navbarItem1 = "active";
+    } else if (index == 2) {
+      this.navbarItem2 = "active";
+      this.navbarItem1 = "unactive";
     }
     console.log("toggling!");
   }
-
 }

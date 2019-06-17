@@ -26,6 +26,22 @@ loginRoutes.route("/").post(function(req, res) {
   }
   console.log(`Login attempt with username: ${name}`);
 
+  //!Testaccount
+  if (req.body.name == "user" && req.body.password == "user") {
+    console.log("testaccount");
+    let payload = { name, id: 1111 };
+    let token = jwt.sign(payload, privateKey, signOptions);
+    console.log(`>>> ${token}`);
+    res.json({
+      message: "ok",
+      token: token,
+      expiresIn: jwt.decode(token).exp,
+      user: "user"
+    });
+    return;
+  }
+  //!End Testaccount
+
   User.findOne({ name: name }, "name password", (err, user) => {
     //Handle error
     if (err) {
