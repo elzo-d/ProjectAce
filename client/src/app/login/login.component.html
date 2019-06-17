@@ -3,22 +3,43 @@
     <div class="col-sm-6 col-md-4 col-md-offset-4">
       <h1 class="text-center login-title">Login page</h1>
       <div class="account-wall">
-        <img class="profile-img" src="https://dierenplaatjes.us/katten/katten01/004.jpg" />
-
+        <img
+          class="profile-img"
+          src="https://dierenplaatjes.us/katten/katten01/004.jpg"
+        />
 
         <form class="form-signin" [formGroup]="form">
-          <p style="text-align:center;color:red;" *ngIf="errorColor">Gegevens niet correct</p>
+          <p style="text-align:center;color:red;" *ngIf="errorColor">
+            Gegevens niet correct
+          </p>
 
-          <input type="text" class="form-control" placeholder="Gebruikersnaam" required autofocus
-            [style.backgroundColor]="errorColor" formControlName="name">
-          <input type="password" class="form-control" placeholder="Wachtwoord" required
-            [style.backgroundColor]="errorColor" formControlName="password">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Gebruikersnaam"
+            required
+            autofocus
+            [style.backgroundColor]="errorColor"
+            formControlName="name"
+          />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Wachtwoord"
+            required
+            [style.backgroundColor]="errorColor"
+            formControlName="password"
+          />
 
-          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="login()">
+          <button
+            class="btn btn-lg btn-primary btn-block"
+            type="submit"
+            (click)="login()"
+          >
             Inloggen
           </button>
+          <a [routerLink]="['/register']" class="btn btn-link">Register</a>
         </form>
-
       </div>
     </div>
   </div>
