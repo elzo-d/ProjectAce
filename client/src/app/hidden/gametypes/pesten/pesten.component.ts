@@ -230,7 +230,7 @@ export class PestenComponent implements OnInit {
       this.updateView(mx, my);
       return;
     }
-    
+
     if(my < 164 + 2) {
       // top row of cards
       this.doOpponentTurn();
