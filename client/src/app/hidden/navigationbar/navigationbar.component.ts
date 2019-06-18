@@ -7,6 +7,7 @@ import { AuthService } from "src/app/auth/auth.service";
   styleUrls: ["./navigationbar.component.css"]
 })
 export class NavigationbarComponent implements OnInit {
+  currentUser: string = this.authService.getUser();
   constructor(private authService: AuthService) {}
 
   navbarItem1: string = "active";
@@ -29,4 +30,5 @@ export class NavigationbarComponent implements OnInit {
     }
     console.log("toggling!");
   }
+  
 }
