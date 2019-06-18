@@ -16,8 +16,6 @@ export class PestenComponent implements OnInit {
 
   pile:Card[] = [];
 
-  offset:number;
-
   yourTurn:boolean = true;
   grabCards:number = 1;
   finished:boolean = false;
@@ -29,6 +27,24 @@ export class PestenComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
+    this.ctx.canvas.width = this.ctx.canvas.offsetWidth;
+    this.ctx.canvas.height = this.ctx.canvas.offsetHeight;
+    this.img = document.getElementById("img");
+    this.img.onload = () => {this.onImageLoad()};
+    window.onresize = () => {this.onResize()};
+    this.reset();
+  }
+
+  reset() {
+    this.stack = [];
+    this.userCards = [];
+    this.opponentCards = [];
+    this.pile = [];
+    this.yourTurn = true;
+    this.grabCards = 1;
+    this.finished = false;
+    this.won = false;
     for(let i = 1; i <= 13; i++) {
       this.stack.push(new Card(i, SUITS.HEARTS));
       this.stack.push(new Card(i, SUITS.DIAMONDS));
@@ -47,15 +63,16 @@ export class PestenComponent implements OnInit {
     let startCard = this.stack.pop();
     startCard.visible = true;
     this.pile.push(startCard);
-    this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
-    this.ctx.canvas.width = 800;
-    this.ctx.canvas.height = 600;
-    this.img = document.getElementById("img");
-    this.img.onload = () => {this.onImageLoad()};
   }
 
   onImageLoad() {
     this.updateView(0, 0);
+  }
+
+  onResize() {
+    this.ctx.canvas.width = this.ctx.canvas.offsetWidth;
+    this.ctx.canvas.height = this.ctx.canvas.offsetHeight;
+    window.setTimeout(() => this.updateView(0, 0), 0);
   }
 
   shuffle(arr) {
@@ -207,6 +224,13 @@ export class PestenComponent implements OnInit {
   onCanvasClick(e) {
     let mx = e.offsetX;
     let my = e.offsetY;
+
+    if(this.finished) {
+      this.reset();
+      this.updateView(mx, my);
+      return;
+    }
+    
     if(my < 164 + 2) {
       // top row of cards
       this.doOpponentTurn();
@@ -279,7 +303,9 @@ export class PestenComponent implements OnInit {
       ctx.fillStyle = "#000000";
       ctx.strokeStyle = "#000000";
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
-      ctx.fillText(this.won ? "You won!" : "You lost...", c.width / 2, c.height / 2 + 10);
+      ctx.fillText(this.won ? "You won!" : "You lost...", c.width / 2, c.height / 2);
+      ctx.font = "15px arial";
+      ctx.fillText("Click to play again", c.width / 2, c.height / 2 + 30);
     }
   }
 

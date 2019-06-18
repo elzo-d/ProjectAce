@@ -32,3 +32,9 @@ div.game {
 #img {
   display: none;
 }
+
+#canvas {
+  display: block;
+  width:100%;
+  height: calc(100vh - 10rem - 72px);
+}
