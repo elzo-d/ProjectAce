@@ -10,8 +10,8 @@
 
 <div *ngIf="visible">
   <button (click)="activateTab(ActiveTab.GENERAL_CHAT)" id="tab0" class="{{!friendlist}}">Chat</button>
-  <button (click)="activateTab(ActiveTab.SEARCH)" id="tab1" class="{{!friendlist}}">Friendlist</button>
-  <button (click)="activateTab(ActiveTab.FRIEND_LIST)" id="tab2" class="{{!friendlist}}">Search Friends</button>
+  <button (click)="activateTab(ActiveTab.FRIEND_LIST)" id="tab1" class="{{!friendlist}}">Friendlist</button>
+  <button (click)="activateTab(ActiveTab.SEARCH)" id="tab2" class="{{!friendlist}}">Search Friends</button>
 
   <div *ngIf="activeTab == ActiveTab.GENERAL_CHAT">
     <div class="generalChatbox">
