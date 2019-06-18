@@ -23,7 +23,7 @@
 }
 
 .generalChat {
-  height: calc(100vh - 175px);
+  height: calc(100vh - 185px);
   overflow-y: scroll;
   padding-right: 5px;
 }
@@ -41,7 +41,7 @@
 }
 
 .input {
-  bottom: 0;
+  bottom: 10px;
   position: absolute;
   height: 40px;
   width: 300px;
