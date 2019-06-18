@@ -3,16 +3,9 @@
 }
 
 .chat {
-  height: 200px;
+  height: 250px;
   overflow-y: scroll;
   position: relative;
-}
-
-.input {
-  bottom: 0;
-  position: absolute;
-  height: 60px;
-  width: 250px;
 }
 
 .chat div {
@@ -29,26 +22,62 @@
   border-radius: 8px;
 }
 
+.generalChat {
+  height: calc(100vh - 175px);
+  overflow-y: scroll;
+  padding-right: 5px;
+}
+
+.generalChat div {
+  /* position: absolute;  */
+  bottom: 0; 
+  width: 100%; 
+  overflow: auto;
+  margin-top: 5px;
+  padding: 7px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 8px;
+}
+
+.input {
+  bottom: 0;
+  position: absolute;
+  height: 40px;
+  width: 300px;
+}
+
 #closebutton {
   float: right;
 }
 
 #me {
   text-align: right;
-  background-color:  #e6e6e6;
+  background-color: #adadad;
 }
 
 #other {
   text-align: left;
-  background-color: #cccccc
-  ;
+  background-color: #cccccc;
 }
 
 #chatInput {
-  width: 250px;
+  width: 220px;
+  height: 30px;
+  padding: 0px;
+  padding-left: 10px;
+  margin-right: 5px;
   font: inherit;
 	box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .1);
-	border: 0;
-	outline: 0;
+  border: 0;
+  border-radius: 5px;
+}
+
+button {
+  height: 30px;
+  width: 65px;
+  border-radius: 5px;
+  padding: 0px;
+  margin: 0px;
 }
 

@@ -94,30 +94,28 @@ thead th:last-child {
 }
 
 .generalChatbox {
-  bottom: 0;
-
-  
-  width: 250px;
+  margin-top: 5px;
+  width: 290px;
 }
 
 .false:focus {
   outline:0;
 }
+
 .true:focus {
   outline:0;
 }
+
+#tab0 {
+  width: 23%;
+  margin-right: 2%;
+}
 #tab1 {
-  width: 40%;
+  width: 30%;
+  margin-right: 2%;
 }
 #tab2 {
-  width: 60%;
-}
-#chatInput {
-  width: 250px;
-  font: inherit;
-	box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .1);
-	border: 0;
-	outline: 0;
+  width: 43%;
 }
 
 .false {

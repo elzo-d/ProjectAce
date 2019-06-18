@@ -1,9 +1,10 @@
-<div class="chat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+<div class="generalChat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
   <div *ngFor="let message of messages" id="{{getStyle(message.fromUser)}}">
     {{message.text}}
   </div>
 </div>
 
 <div class="input">
-    <input id="chatInput" placeholder="Enter message here" #box (keyup.enter)="sendMessage(box.value) ; box.value=''">
+  <input id="chatInput" placeholder="Enter message here" #box (keyup.enter)="sendMessage(box.value) ; box.value=''">
+  <button (click)="sendMessage(box.value); box.value=''">Send</button>
 </div>

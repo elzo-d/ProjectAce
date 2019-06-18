@@ -10,7 +10,7 @@
 
 #friendlist {
     margin-right: 1rem;
-    width: calc(250px + 1rem);
+    width: calc(300px + 1rem);
     float: right;
     min-height: calc(100vh - 9rem);
     background-color: #EBEBEB;
@@ -18,12 +18,10 @@
     border-radius: 15px 0px 0px 15px;
     border-radius: 15px;
     padding: 1rem;
-
-
 }
 
 #body {
-    width: calc(100% - 390px - 6rem);
+    width: calc(100% - 410px - 6rem);
     float: left;
     margin-left: 1rem;
     margin-bottom: 2rem;
@@ -34,8 +32,6 @@
     color: black;
     border-radius: 15px;
     min-height: calc(100vh / 2);
-
-
 }
 
 
@@ -50,7 +46,7 @@
 
 #gamebar {
     margin-left: 1rem;
-    width: 150px;
+    width: 120px;
     float: left;
     min-height: calc(100vh - 9rem);
     bottom: 30px;
@@ -58,7 +54,6 @@
     color: black;
     border-radius: 0px 15px 15px 0px;
     border-radius: 15px;
-
     padding: 1rem;
 }
 

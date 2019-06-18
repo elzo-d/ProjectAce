@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {AuthService} from './../../../auth/auth.service';
 import { ChatService } from './chat.service';
 
 @Component({
@@ -10,18 +11,32 @@ export class GeneralchatComponent implements OnInit {
   @Output() messageEvent = new EventEmitter();
   close: boolean = true;
   messages: Message[] = [];
+  currentUser: string = this.auth.getUser();
 
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
     this.chatService
       .getMessages()
       .subscribe((message: string) => {
-        this.messages.push({
-          fromUser: true,
-          text: message,
-        });
-      });
+        this.recieveMessage(message)
+      })
+  }
+
+  recieveMessage(message: string) {
+    let words = message.split(' ')
+    let thisUser = false
+
+    console.log(words)
+    
+    if(words[0] == this.currentUser){
+      thisUser = true
+    }
+
+    this.messages.push({
+      fromUser: thisUser,
+      text: message
+    })
   }
 
   closingChat() {
@@ -40,14 +55,7 @@ export class GeneralchatComponent implements OnInit {
   }
 
   sendMessage(typedText: string): void {
-    // this.messages.push(
-    //   {
-    //     fromUser: true,
-    //     text: typedText,
-    //   }
-    // )
-
-    this.chatService.sendMessage(typedText);
+    this.chatService.sendMessage(this.currentUser + " " + typedText);
   }
 }
 

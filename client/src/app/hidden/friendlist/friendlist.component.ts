@@ -1,5 +1,4 @@
 import {AuthService} from './../../auth/auth.service';
-import {AuthGuardService} from './../../auth/auth-guard.service';
 import {Component, OnInit} from '@angular/core';
 import {OrderPipe} from 'ngx-order-pipe';
 import {Friend} from './Friend';
