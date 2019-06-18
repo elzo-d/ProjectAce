@@ -1,21 +1,35 @@
 const express = require("express");
 const userRoutes = express.Router();
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 let User = require("../models/User");
 
 userRoutes.route("/add").post((req, res) => {
   let user = new User(req.body);
-  console.log(`Adding ${user}`);
-  user
-    .save()
-    .then(user => {
-      console.log("User is added to database");
-      res.status(200).json({ user: "user is added succesfully" });
-    })
-    .catch(err => {
-      console.log("Unable to add user: \n", err);
+  bcrypt.hash(user.password, saltRounds, (err, hash) => {
+    console.log(`hash: ${hash}`);
+    if (err) {
       res.status(400).send("unable to save to database");
-    });
+      return;
+    } else {
+      user.password = hash;
+      console.log(">> password hashed to", hash);
+      console.log(`${user}`);
+
+      console.log(`Adding ${user}`);
+      user
+        .save()
+        .then(user => {
+          console.log("User is added to database");
+          res.status(200).json({ user: "user is added succesfully" });
+        })
+        .catch(err => {
+          console.log("Unable to add user: \n", err);
+          res.status(400).send("unable to save to database");
+        });
+    }
+  });
 });
 
 userRoutes.route("/").get(function(req, res) {

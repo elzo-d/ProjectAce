@@ -16,10 +16,10 @@ export class PestenComponent implements OnInit {
 
   pile:Card[] = [];
 
-  offset:number;
-
   yourTurn:boolean = true;
   grabCards:number = 1;
+  finished:boolean = false;
+  won:boolean = false;
 
   ctx = undefined;
   img = undefined;
@@ -27,6 +27,24 @@ export class PestenComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
+    this.ctx.canvas.width = this.ctx.canvas.offsetWidth;
+    this.ctx.canvas.height = this.ctx.canvas.offsetHeight;
+    this.img = document.getElementById("img");
+    this.img.onload = () => {this.onImageLoad()};
+    window.onresize = () => {this.onResize()};
+    this.reset();
+  }
+
+  reset() {
+    this.stack = [];
+    this.userCards = [];
+    this.opponentCards = [];
+    this.pile = [];
+    this.yourTurn = true;
+    this.grabCards = 1;
+    this.finished = false;
+    this.won = false;
     for(let i = 1; i <= 13; i++) {
       this.stack.push(new Card(i, SUITS.HEARTS));
       this.stack.push(new Card(i, SUITS.DIAMONDS));
@@ -45,15 +63,16 @@ export class PestenComponent implements OnInit {
     let startCard = this.stack.pop();
     startCard.visible = true;
     this.pile.push(startCard);
-    this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
-    this.ctx.canvas.width = 800;
-    this.ctx.canvas.height = 600;
-    this.img = document.getElementById("img");
-    this.img.onload = () => {this.onImageLoad()};
   }
 
   onImageLoad() {
     this.updateView(0, 0);
+  }
+
+  onResize() {
+    this.ctx.canvas.width = this.ctx.canvas.offsetWidth;
+    this.ctx.canvas.height = this.ctx.canvas.offsetHeight;
+    window.setTimeout(() => this.updateView(0, 0), 0);
   }
 
   shuffle(arr) {
@@ -68,7 +87,7 @@ export class PestenComponent implements OnInit {
 
   clickCard(card, user) {
 
-    if(this.yourTurn === user) {
+    if(this.yourTurn === user && !this.finished) {
       // it's our turn
       if(this.grabCards > 1) {
         // a grab-card was thrown, we need to grab or throw a grab-card of our own
@@ -126,6 +145,10 @@ export class PestenComponent implements OnInit {
         }
       }
       this.userCards.splice(i, 1);
+      if(this.userCards.length === 0) {
+        this.finished = true;
+        this.won = true;
+      }
     } else {
       let i;
       for(i = 0; i < this.opponentCards.length; i++) {
@@ -134,11 +157,15 @@ export class PestenComponent implements OnInit {
         }
       }
       this.opponentCards.splice(i, 1);
+      if(this.opponentCards.length === 0) {
+        this.finished = true;
+        this.won = false;
+      }
     }
   }
 
   clickTable(stack, turn) {
-    if(this.yourTurn === turn && stack) {
+    if(this.yourTurn === turn && stack && !this.finished) {
       // it's our turn
 
       for(let i = 0; i < this.grabCards; i++) {
@@ -197,6 +224,13 @@ export class PestenComponent implements OnInit {
   onCanvasClick(e) {
     let mx = e.offsetX;
     let my = e.offsetY;
+
+    if(this.finished) {
+      this.reset();
+      this.updateView(mx, my);
+      return;
+    }
+    
     if(my < 164 + 2) {
       // top row of cards
       this.doOpponentTurn();
@@ -241,7 +275,7 @@ export class PestenComponent implements OnInit {
       my > c.height / 2 - 82 && my < c.height / 2 + 82 &&
       mx > c.width / 2 && mx < c.width / 2 + 124 + 2
     );
-    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight);
+    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished);
 
     let xPos = (c.width / 2) - ((this.opponentCards.length * 62 + 62) / 2);
     for(let card of this.opponentCards) {
@@ -257,8 +291,21 @@ export class PestenComponent implements OnInit {
         my > c.height - 164 - 2 &&
         mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)
       );
-      card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight);
+      card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight && !this.finished);
       xPos += 62;
+    }
+
+    if(this.finished) {
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+      ctx.fillRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
+      ctx.font = "bold 40px arial";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#000000";
+      ctx.strokeStyle = "#000000";
+      ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
+      ctx.fillText(this.won ? "You won!" : "You lost...", c.width / 2, c.height / 2);
+      ctx.font = "15px arial";
+      ctx.fillText("Click to play again", c.width / 2, c.height / 2 + 30);
     }
   }
 

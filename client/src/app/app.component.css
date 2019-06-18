@@ -1,22 +1,7 @@
-#friendlist {
-    width: 250px;
-    float: right;
-    min-height: calc(100vh);
-
-    /* border-left: 2px solid black; */
-}
-
-#body {
-    width: calc(100% - 250px);
-    float: left;
-    margin-bottom: 2rem;
-    border-radius: .3rem;
-    padding: 4rem 2rem;
-
-}
-
-#main {
-    min-height: calc(100vh);
-    background-color: #e9ecef;
-
+#background {
+    min-height: 100%;
+    height: 100%;
+    background-color: #8B2738;
+    bottom: 0px;
+    overflow: auto;
 }

@@ -4,13 +4,22 @@
     <div class="container-fluid">
 
       <ul  id="nav">
-        <li routerLinkActive="active" class={{navbarItem1}}>
+        <li routerLinkActive="active" >
           <a routerLink="lobby"  (click)="toggleClass(1)">Lobby</a></li>
-        <li routerLinkActive="active" class={{navbarItem2}}>
+        <li routerLinkActive="active">
           <a routerLink="highscores"  (click)="toggleClass(2)">Highscores</a></li>
-        <li class="unactive">
-          <a href="#" (click)="logout()">Logout</a></li>
       </ul>
+      <div id="profile">
+        <div class="dropdown">
+          <button class="dropbtn">{{currentUser}}</button>
+          <div class="dropdown-content">
+            <a href="#">Edit profile</a>
+            <a href="#" (click)="logout()">Logout</a>
+          </div>
+        </div>
+        <!-- <h2>{{currentUser}}</h2> -->
+      </div>
     </div>
+    
   </nav>
 </div>
