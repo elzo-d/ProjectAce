@@ -1,12 +1,13 @@
 table {
   width: 250px;
   border-collapse: collapse;
+  
 }
 
 thead {
   display: inline-block;
   width: 100%;
-  height: 20px;
+  margin-top: 10px;
 }
 
 tbody {
@@ -14,15 +15,14 @@ tbody {
   overflow-x: hidden;
   height: 410px;
   display: inline-block;
-  width: 250px;
+  width: 290px;
+  height: calc(100vh - 176px);
+  overflow-y: scroll;
 }
 
-tbody td, thead th {
-  width: 140px;
-}
-
-thead th:last-child {
-  width: 156px; /* 140px + 16px scrollbar width */
+tbody td {
+  width: 50%;
+  padding-top: 5px;
 }
 
 .left {
@@ -91,11 +91,6 @@ thead th:last-child {
   height: 300px;
   width: 250px;
   border-top: 2px solid black;
-}
-
-.generalChatbox {
-  margin-top: 5px;
-  width: 290px;
 }
 
 .false:focus {
