@@ -9,11 +9,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  register(name, password) {
+  register(name, password, email) {
     console.log("Registering");
     const user = {
       name: name,
-      password: password
+      password: password,
+      email: email
     };
     return this.http.post(`${this.uri}/add`, user);
   }

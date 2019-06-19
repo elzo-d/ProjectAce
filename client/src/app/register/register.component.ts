@@ -52,10 +52,12 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
+    console.log(this.registerForm.value.username, this.registerForm.value.password, this.registerForm.value.email)
     this.userService
       .register(
         this.registerForm.value.username,
-        this.registerForm.value.password
+        this.registerForm.value.password,
+        this.registerForm.value.email
       )
       .pipe(first())
       .subscribe(

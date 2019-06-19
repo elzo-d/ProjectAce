@@ -23,12 +23,15 @@ export class AuthService {
   }
 
   private setSession(authResult) {
+    console.log(authResult)
     localStorage.setItem(
       "expirationTime",
       JSON.stringify(authResult.expiresIn + moment.now())
     );
     localStorage.setItem("idToken", JSON.stringify(authResult.token));
     localStorage.setItem("name", JSON.stringify(authResult.user));
+    console.log("email: " + authResult.email);
+    localStorage.setItem("email", JSON.stringify(authResult.email));
   }
 
   public logout() {
@@ -46,6 +49,11 @@ export class AuthService {
     return JSON.parse(localStorage.getItem("name"));
   }
 
+  public getEmail() {
+    console.log("Get email...");
+    return JSON.parse(localStorage.getItem("email"));
+  }
+
   private handleError(error) {
     console.error("ERROR...");
     console.log(error);
@@ -55,4 +63,4 @@ export class AuthService {
 interface User {
   name: String;
   password: String;
-}
+  email: String;}

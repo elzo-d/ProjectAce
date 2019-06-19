@@ -67,7 +67,8 @@ loginRoutes.route("/").post((req, res) => {
           message: "ok",
           token: token,
           expiresIn: jwt.decode(token).exp,
-          user: user.name
+          user: user.name,
+          email: user.email
         });
       } else {
         res.status(401).json({ message: "password did not match" });

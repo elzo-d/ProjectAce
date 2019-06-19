@@ -15,6 +15,7 @@ import {GamebarComponent} from './gamebar/gamebar.component';
 import {ChatService} from './friendlist/chatbox/chat.service';
 import { NavigationbarComponent } from './navigationbar/navigationbar.component';
 import { GeneralchatComponent } from './friendlist/chatbox/generalchat.component';
+import { EditComponent } from './edit/edit.component';
 
 const hiddenRoutes: Routes = [
   {
@@ -28,7 +29,8 @@ const hiddenRoutes: Routes = [
       // {path:'lobby', redirectTo: ''},
       {path: 'lobby', component: GamelistComponent},
       {path: 'highscores', component: HighscoresComponent},
-      {path: 'pesten', component: PestenComponent}
+      {path: 'pesten', component: PestenComponent},
+      {path: 'edit', component: EditComponent}
     ]
   }
 ]
@@ -43,7 +45,8 @@ const hiddenRoutes: Routes = [
     GametypesComponent,
     GamebarComponent,
     NavigationbarComponent,
-    GeneralchatComponent
+    GeneralchatComponent,
+    EditComponent
   ],
   imports: [
     CommonModule,
