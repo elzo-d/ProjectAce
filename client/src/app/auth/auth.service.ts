@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { shareReplay, tap } from "rxjs/operators";
 
 import * as moment from "moment";
+import { JsonPipe } from '@angular/common';
 
 const API_URL = "http://localhost:5000/api/";
 
@@ -30,8 +31,10 @@ export class AuthService {
     );
     localStorage.setItem("idToken", JSON.stringify(authResult.token));
     localStorage.setItem("name", JSON.stringify(authResult.user));
-    console.log("email: " + authResult.email);
+    console.log("email: " + authResult.id);
     localStorage.setItem("email", JSON.stringify(authResult.email));
+    localStorage.setItem("email", JSON.stringify(authResult.id));
+
   }
 
   public logout() {
@@ -49,6 +52,10 @@ export class AuthService {
     return JSON.parse(localStorage.getItem("name"));
   }
 
+  public getId(){
+    console.log("Get id...");
+    return JSON.parse(localStorage.getItem("id"));
+  }
   public getEmail() {
     console.log("Get email...");
     return JSON.parse(localStorage.getItem("email"));
@@ -63,4 +70,6 @@ export class AuthService {
 interface User {
   name: String;
   password: String;
-  email: String;}
+  email: String;
+  id: string;
+}

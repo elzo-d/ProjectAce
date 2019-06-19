@@ -8,7 +8,7 @@ import { AuthService } from "src/app/auth/auth.service";
 })
 export class EditComponent implements OnInit {
   currentUser: string = this.authService.getUser();
-  // email: string = this.authService.getEmail();
+  email: string = this.authService.getEmail();
   changePassword = false;
   constructor(private authService: AuthService) { }
 
