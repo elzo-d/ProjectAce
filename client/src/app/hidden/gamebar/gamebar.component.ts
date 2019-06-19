@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class GamebarComponent implements OnInit {
 
+  games:string[] = ["Pesten", "KingMarker"];
+
   constructor(
     private gameDataService:GameDataService,
     private router:Router
