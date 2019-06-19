@@ -50,7 +50,7 @@ loginRoutes.route("/").post((req, res) => {
   }
   //!End Testaccount
 
-  User.findOne({ name: name }, "name password", (err, user) => {
+  User.findOne({ name: name }, "name password id email", (err, user) => {
     //Error handling
     if (err) {
       res.status(401).json({ message: `no user found with username ${name}` });
@@ -63,12 +63,15 @@ loginRoutes.route("/").post((req, res) => {
         console.log(`User logged in: ${name}`);
         let payload = { name: user.name, id: user.id, email: user.email };
         let token = jwt.sign(payload, privateKey, signOptions);
+        console.log("Kom ik hier?")
+        console.log(payload)
         res.json({
           message: "ok",
           token: token,
           expiresIn: jwt.decode(token).exp,
           user: user.name,
-          email: user.email
+          email: user.email,
+          id: user.id
         });
       } else {
         res.status(401).json({ message: "password did not match" });

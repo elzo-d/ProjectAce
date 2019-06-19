@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GameDataService } from '../game-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gamebar',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GamebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private gameDataService:GameDataService,
+    private router:Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  selectGame(game) {
+    this.router.navigateByUrl("/hidden/lobby");
+    if(game) {
+      this.gameDataService.selectGame(game);
+    } else {
+      this.gameDataService.deselectGame();
+    }
   }
 
 }
