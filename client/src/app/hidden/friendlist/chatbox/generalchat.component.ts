@@ -37,7 +37,7 @@ export class GeneralchatComponent implements OnInit {
     if(message != " "){
       this.messages.push({
         fromUser: thisUser,
-        user: this.currentUser,
+        user: words[0],
         text: message,
         hour: (this.date.getHours() < 10 ? '0' : '') + this.date.getHours(),
         minutes: (this.date.getMinutes() < 10 ? '0' : '') + this.date.getMinutes()
