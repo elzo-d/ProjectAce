@@ -29,10 +29,13 @@ export class GeneralchatComponent implements OnInit {
     let thisUser = false
     this.date = new Date()
     
+    // Check for current user
     if(words[0] == this.currentUser){
       thisUser = true
-      message = message.replace(this.currentUser,'');
     }
+
+    // Remove name from the message
+    message = message.replace(words[0],'');
 
     if(message != " "){
       this.messages.push({

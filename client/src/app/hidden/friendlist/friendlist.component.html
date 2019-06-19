@@ -21,7 +21,7 @@
         <tr *ngFor="let friend of friends | orderBy: order:reverse:'case-insensitive':customComparator">
           <td>{{friend.name}}</td>
           <td class="{{friend.status}}" style="width: 30%">{{friend.status}}</td>
-          <td><button (click)="messageFriend(friend)" class="btn btn-dark">Message</button></td>
+          <td><button class="btn btn-dark">Message</button></td> <!--(click)="messageFriend(friend)"-->
         </tr>
       </tbody>
 
