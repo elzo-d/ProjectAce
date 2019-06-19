@@ -1,8 +1,16 @@
-<h2>Lobby</h2>
-<p>
-  The lobbies will be showed here
-</p>
-
-
-
-
+<h2>{{getTitle()}}</h2>
+<table class="table">
+  <tr>
+    <th class="thead-dark" width="200px">Game</th>
+    <th class="thead-light" width="200px">Name</th>
+    <th class="thead" width="200px">
+      <button (click)="joinRandom()">Join random</button>
+      <button *ngIf="selectedGame" (click)="singlePlayer()">Play singleplayer</button>
+    </th>
+  </tr>
+  <tr *ngFor="let game of activeGames">
+    <td>{{game.gameType}}</td>
+    <td>{{game.name}}</td>
+    <td><button (click)="joinGame(game)">Join</button></td>
+  </tr>
+</table>

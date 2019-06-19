@@ -281,7 +281,7 @@ export class PestenComponent implements OnInit {
     // card overlap: 62 px
     let ctx = this.ctx;
     let c = ctx.canvas;
-    ctx.fillStyle = "#009900";
+    ctx.fillStyle = "#5ba318";
     ctx.fillRect(0, 0, c.width, c.height);
 
     this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false);

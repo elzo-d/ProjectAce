@@ -1,0 +1,11 @@
+button {
+  height: 25px;
+  min-width: 65px;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin: 0;
+}
+
+td: {
+  vertical-align: middle;
+}

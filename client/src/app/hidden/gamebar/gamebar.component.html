@@ -1,4 +1,9 @@
 <h2>Games</h2>
 <div>
-    <b><a routerLink="pesten">Elzo's Pesten</a></b>
+    <!--
+    <b><a routerLink="pesten">Elzo's Pesten</a></b><br>
+    <br>
+    -->
+    <b><span class="link" (click)="selectGame(undefined)">All games</span></b><br>
+    <b><span class="link" (click)="selectGame('Pesten')">Pesten</span></b>
 </div>
