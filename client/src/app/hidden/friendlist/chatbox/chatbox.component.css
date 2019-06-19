@@ -90,3 +90,8 @@ button {
   width: 28px;
 }
 
+#userName {
+  padding: 0px;
+  color: gray;
+}
+

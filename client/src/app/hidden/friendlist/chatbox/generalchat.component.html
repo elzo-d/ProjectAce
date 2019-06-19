@@ -1,5 +1,6 @@
 <div class="generalChat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
   <div *ngFor="let message of messages" id="{{getStyle(message.fromUser)}}">
+    <div *ngIf="!message.fromUser" id="userName">{{message.user}}</div>
     {{message.text}} 
     <div id="timeStamp">{{message.hour + ":" + message.minutes}}</div>
   </div>
