@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 export class ChatService {
   private url = 'http://localhost:5000';
   private socket;
+  messages: Message[] = [];
 
   constructor() {
     this.socket = io(this.url);
@@ -20,4 +21,12 @@ export class ChatService {
       });
     });
   }
+}
+
+interface Message {
+  fromUser: boolean
+  user: string
+  text: string
+  hour: string
+  minutes: string
 }

@@ -10,7 +10,6 @@ import { ChatService } from './chat.service';
 export class GeneralchatComponent implements OnInit {
   @Output() messageEvent = new EventEmitter();
   close: boolean = true;
-  messages: Message[] = [];
   currentUser: string = this.auth.getUser();
   date: Date;
 
@@ -38,7 +37,7 @@ export class GeneralchatComponent implements OnInit {
     message = message.replace(words[0],'');
 
     if(message != " "){
-      this.messages.push({
+      this.chatService.messages.push({
         fromUser: thisUser,
         user: words[0],
         text: message,
@@ -66,12 +65,4 @@ export class GeneralchatComponent implements OnInit {
   sendMessage(typedText: string): void {
     this.chatService.sendMessage(this.currentUser + " " + typedText);
   }
-}
-
-interface Message {
-  fromUser: boolean
-  user: string
-  text: string
-  hour: string
-  minutes: string
 }
