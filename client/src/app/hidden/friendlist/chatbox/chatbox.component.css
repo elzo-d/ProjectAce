@@ -9,13 +9,10 @@
 }
 
 .chat div {
-  /* position: absolute;  */
   bottom: 0; 
   width: 100%; 
   overflow: auto;
   margin-top: 5px;
-  /* margin-left: 5px;
-  margin-right: 5px; */
   padding: 7px;
   padding-left: 15px;
   padding-right: 15px;
@@ -26,18 +23,18 @@
   height: calc(100vh - 185px);
   overflow-y: scroll;
   padding-right: 5px;
+  margin-top: 5px;
 }
 
 .generalChat div {
-  /* position: absolute;  */
   bottom: 0; 
-  width: 100%; 
+  width: 75%; 
   overflow: auto;
-  margin-top: 5px;
-  padding: 7px;
+  padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 8px;
+  text-align: left;
 }
 
 .input {
@@ -52,13 +49,15 @@
 }
 
 #me {
-  text-align: right;
-  background-color: #adadad;
+  float: right;
+  background-color: #5ba318;
+  margin-top: 5px;
 }
 
 #other {
-  text-align: left;
-  background-color: #cccccc;
+  float: left;
+  background-color: #ffffff;
+  margin-top: 5px;
 }
 
 #chatInput {

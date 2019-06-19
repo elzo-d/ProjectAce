@@ -28,7 +28,8 @@
     </table>
   </div>
   <div *ngIf="activeTab == ActiveTab.SEARCH">
-    <input id="chatInput" type="text" placeholder="Search.." class="icon-addon addon-sm">
+    <input id="searchInput" type="text" placeholder="Search.." class="icon-addon addon-sm">
+    <button id="searchButton" (click)="sendMessage(box.value); box.value=''">Search</button>
     <table>
       <thead>
         <tr>
@@ -37,7 +38,7 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="playerList">
         <tr *ngFor="let player of players">
           <td>{{player.name}}</td>
           <td class="{{player.status}}">{{player.status}}</td>

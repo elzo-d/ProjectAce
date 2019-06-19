@@ -26,11 +26,10 @@ export class GeneralchatComponent implements OnInit {
   recieveMessage(message: string) {
     let words = message.split(' ')
     let thisUser = false
-
-    console.log(words)
     
     if(words[0] == this.currentUser){
       thisUser = true
+      message = message.replace(this.currentUser,'');
     }
 
     this.messages.push({

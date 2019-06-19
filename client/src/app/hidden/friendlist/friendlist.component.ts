@@ -27,7 +27,7 @@ export class FriendlistComponent implements OnInit {
 
   constructor(private orderPipe: OrderPipe, public auth: AuthService) {
     this.sortedFriends = orderPipe.transform(this.friends, 'id');
-    this.activeTab = ActiveTab.SEARCH;
+    this.activeTab = ActiveTab.GENERAL_CHAT;
   }
 
   get ActiveTab() { return ActiveTab; }
