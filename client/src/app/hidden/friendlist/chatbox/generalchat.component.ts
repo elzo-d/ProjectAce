@@ -12,6 +12,7 @@ export class GeneralchatComponent implements OnInit {
   close: boolean = true;
   messages: Message[] = [];
   currentUser: string = this.auth.getUser();
+  date: Date;
 
   constructor(private chatService: ChatService, public auth: AuthService) {}
 
@@ -26,16 +27,21 @@ export class GeneralchatComponent implements OnInit {
   recieveMessage(message: string) {
     let words = message.split(' ')
     let thisUser = false
+    this.date = new Date()
     
     if(words[0] == this.currentUser){
       thisUser = true
       message = message.replace(this.currentUser,'');
     }
 
-    this.messages.push({
-      fromUser: thisUser,
-      text: message
-    })
+    if(message != " "){
+      this.messages.push({
+        fromUser: thisUser,
+        text: message,
+        hour: this.date.getHours(),
+        minutes: this.date.getMinutes()
+      })
+    }
   }
 
   closingChat() {
@@ -61,4 +67,6 @@ export class GeneralchatComponent implements OnInit {
 interface Message {
   fromUser: boolean
   text: string
+  hour: number
+  minutes: number
 }

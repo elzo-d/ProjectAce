@@ -27,14 +27,14 @@
 }
 
 .generalChat div {
-  bottom: 0; 
   width: 75%; 
   overflow: auto;
   padding: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 8px;
   text-align: left;
+  word-wrap: break-word;
 }
 
 .input {
@@ -78,5 +78,15 @@ button {
   border-radius: 5px;
   padding: 0px;
   margin: 0px;
+}
+
+#timeStamp {
+  font-size: 0.75em;
+  margin-top: 0.5em;
+  color: #494949;
+  float: right;
+  padding: 0px;
+  text-align: right;
+  width: 28px;
 }
 
