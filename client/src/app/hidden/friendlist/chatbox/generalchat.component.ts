@@ -1,26 +1,32 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import {AuthService} from './../../../auth/auth.service';
 import { ChatService } from './chat.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-generalchat',
   templateUrl: './generalchat.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class GeneralchatComponent implements OnInit {
+export class GeneralchatComponent implements OnInit, OnDestroy {
   @Output() messageEvent = new EventEmitter();
   close: boolean = true;
   currentUser: string = this.auth.getUser();
   date: Date;
+  private subscription: Subscription;
 
   constructor(private chatService: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
-    this.chatService
+    this.subscription = this.chatService
       .getMessages()
       .subscribe((message: string) => {
         this.recieveMessage(message)
       })
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   recieveMessage(message: string) {
