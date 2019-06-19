@@ -4,6 +4,8 @@
     <b><a routerLink="pesten">Elzo's Pesten</a></b><br>
     <br>
     -->
-    <b><span class="link" (click)="selectGame(undefined)">All games</span></b><br>
-    <b><span class="link" (click)="selectGame('Pesten')">Pesten</span></b>
+    <b><span class="link" (click)="selectGame(undefined)">All games</span></b>
+    <div *ngFor="let game of games">
+      <b><span class="link" (click)="selectGame(game)">{{game}}</span></b>
+    </div>
 </div>

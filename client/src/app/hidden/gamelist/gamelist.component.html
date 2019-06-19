@@ -8,7 +8,7 @@
       <button *ngIf="selectedGame" (click)="singlePlayer()">Play singleplayer</button>
     </th>
   </tr>
-  <tr *ngFor="let game of activeGames">
+  <tr *ngFor="let game of getList()">
     <td>{{game.gameType}}</td>
     <td>{{game.name}}</td>
     <td><button (click)="joinGame(game)">Join</button></td>

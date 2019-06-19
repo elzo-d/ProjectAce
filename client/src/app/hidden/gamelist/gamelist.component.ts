@@ -33,6 +33,20 @@ export class GamelistComponent implements OnInit {
     this.gameDataService.selectedGame$.subscribe(n => {this.selectedGame = n});
   }
 
+  getList() {
+    let finalList = [];
+    for(let game of this.activeGames) {
+      if(this.selectedGame) {
+        if(game.gameType === this.selectedGame) {
+          finalList.push(game);
+        }
+      } else {
+        finalList.push(game);
+      }
+    }
+    return finalList;
+  }
+
   joinGame(game) {
     // join the game
     console.log("Joining " + game.name + " (type: " + game.gameType + ")");
