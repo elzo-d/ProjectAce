@@ -3,7 +3,7 @@ const fs = require("fs");
 const _ = require("lodash");
 const loginRoutes = express.Router();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 let User = require("../models/User");
