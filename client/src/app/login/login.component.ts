@@ -47,7 +47,7 @@ export class LoginComponent {
       );
     }
 
-    console.log("Starting registering");
-    this.userService.register(val.name, val.password);
+    // console.log("Starting registering");
+    // this.userService.register(val.name, val.password, val.email);
   }
 }

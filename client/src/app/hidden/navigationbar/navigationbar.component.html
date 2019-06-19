@@ -12,12 +12,11 @@
       <div id="profile">
         <div class="dropdown">
           <button class="dropbtn">{{currentUser}}</button>
-          <div class="dropdown-content">
-            <a href="#">Edit profile</a>
+          <div class="dropdown-content" routerLinkActive="active">
+            <a routerLink="edit">Edit profile</a>
             <a href="#" (click)="logout()">Logout</a>
           </div>
         </div>
-        <!-- <h2>{{currentUser}}</h2> -->
       </div>
     </div>
     
