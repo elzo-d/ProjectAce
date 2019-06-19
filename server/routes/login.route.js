@@ -23,8 +23,6 @@ const signOptions = {
 const privateKey = fs.readFileSync("private.pem", "utf8");
 
 loginRoutes.route("/").post((req, res) => {
-  console.log("login attempt");
-
   let name, password;
 
   if (req.body.name && req.body.password) {
@@ -33,15 +31,13 @@ loginRoutes.route("/").post((req, res) => {
   } else {
     res
       .status(400)
-      .json({ message: "Username or password not entered correctly" });
+      .json({ message: "request did not contain username and password" });
     return;
   }
-  console.log(`Login attempt with username: ${name}`);
 
   //!Testaccount
   if (name == "user" && password == "user") {
-    console.log("Testaccount logging in");
-    let payload = { name, id: 1111 };
+    let payload = { name, id: 1111, email: "dingen@dingen.dingen" };
     let token = jwt.sign(payload, privateKey, signOptions);
     console.log(`>>> ${token}`);
     res.json({
@@ -57,14 +53,15 @@ loginRoutes.route("/").post((req, res) => {
   User.findOne({ name: name }, "name password", (err, user) => {
     //Error handling
     if (err) {
-      res.status(401).json({ message: "no such user found" });
+      res.status(401).json({ message: `no user found with username ${name}` });
       return;
     }
 
     //Password comparison
     bcrypt.compare(password, user.password, function(err, passCorrect) {
       if (passCorrect) {
-        let payload = { name, id: user.id };
+        console.log(`User logged in: ${name}`);
+        let payload = { name: user.name, id: user.id, email: user.email };
         let token = jwt.sign(payload, privateKey, signOptions);
         res.json({
           message: "ok",
