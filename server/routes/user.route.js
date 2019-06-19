@@ -7,27 +7,35 @@ let User = require("../models/User");
 
 userRoutes.route("/add").post((req, res) => {
   let user = new User(req.body);
-  bcrypt.hash(user.password, saltRounds, (err, hash) => {
-    console.log(`hash: ${hash}`);
-    if (err) {
-      res.status(400).send("unable to save to database");
+  User.findOne({ name: user.name }, "name password", (err, dbUser) => {
+    if (dbUser) {
+      res.status(400).send("user already exists");
+      console.log("duplicate username");
       return;
     } else {
-      user.password = hash;
-      console.log(">> password hashed to", hash);
-      console.log(`${user}`);
-
-      console.log(`Adding ${user}`);
-      user
-        .save()
-        .then(user => {
-          console.log("User is added to database");
-          res.status(200).json({ user: "user is added succesfully" });
-        })
-        .catch(err => {
-          console.log("Unable to add user: \n", err);
+      bcrypt.hash(user.password, saltRounds, (err, hash) => {
+        console.log(`hash: ${hash}`);
+        if (err) {
           res.status(400).send("unable to save to database");
-        });
+          return;
+        } else {
+          user.password = hash;
+          console.log(">> password hashed to", hash);
+          console.log(`${user}`);
+
+          console.log(`Adding ${user}`);
+          user
+            .save()
+            .then(user => {
+              console.log("User is added to database");
+              res.status(200).json({ user: "user is added succesfully" });
+            })
+            .catch(err => {
+              console.log("Unable to add user: \n", err);
+              res.status(400).send("unable to save to database");
+            });
+        }
+      });
     }
   });
 });
@@ -55,9 +63,9 @@ userRoutes.route("/update/:id").post(function(req, res) {
   User.findById(req.params.id, function(err, next, user) {
     if (!user) return next(new Error("Could not load Document"));
     else {
-      user.user_name = req.body.user_name;
-      user.email = req.body.email;
+      user.name = req.body.name;
       user.pasword = req.body.password;
+      user.email = req.body.email;
 
       user
         .save()

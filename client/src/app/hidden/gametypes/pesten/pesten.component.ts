@@ -45,14 +45,7 @@ export class PestenComponent implements OnInit {
     this.grabCards = 1;
     this.finished = false;
     this.won = false;
-    for(let i = 1; i <= 13; i++) {
-      this.stack.push(new Card(i, SUITS.HEARTS));
-      this.stack.push(new Card(i, SUITS.DIAMONDS));
-      this.stack.push(new Card(i, SUITS.SPADES));
-      this.stack.push(new Card(i, SUITS.CLUBS));
-    }
-    this.stack.push(new Card(1, SUITS.JOKER));
-    this.stack.push(new Card(2, SUITS.JOKER));
+    this.addPackToStack();
     this.shuffle(this.stack);
     for(let i = 0; i < 8; i++) {
       let userCard = this.stack.pop();
@@ -63,6 +56,17 @@ export class PestenComponent implements OnInit {
     let startCard = this.stack.pop();
     startCard.visible = true;
     this.pile.push(startCard);
+  }
+
+  addPackToStack() {
+    for(let i = 1; i <= 13; i++) {
+      this.stack.push(new Card(i, SUITS.HEARTS));
+      this.stack.push(new Card(i, SUITS.DIAMONDS));
+      this.stack.push(new Card(i, SUITS.SPADES));
+      this.stack.push(new Card(i, SUITS.CLUBS));
+    }
+    this.stack.push(new Card(1, SUITS.JOKER));
+    this.stack.push(new Card(2, SUITS.JOKER));
   }
 
   onImageLoad() {
@@ -189,6 +193,16 @@ export class PestenComponent implements OnInit {
   }
 
   newStack() {
+    if(this.pile.length < 2) {
+      this.stack = [];
+      this.addPackToStack();
+      this.shuffle(this.stack);
+      console.log(
+        "New stack generated - Added new pack of cards to stack: Stack length: " + this.stack.length +
+        ", Pile length: " + this.pile.length
+      );
+      return;
+    }
     this.stack = this.pile.splice(0, this.pile.length - 1);
     for(let card of this.stack) {
       card.visible = false;
@@ -230,7 +244,7 @@ export class PestenComponent implements OnInit {
       this.updateView(mx, my);
       return;
     }
-    
+
     if(my < 164 + 2) {
       // top row of cards
       this.doOpponentTurn();
