@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Card, SUITS } from '../card';
 
+const PLAYERS = 4;
+
 @Component({
   selector: 'app-pesten',
   templateUrl: './pesten.component.html',
@@ -45,7 +47,7 @@ export class PestenComponent implements OnInit {
     this.addPackToStack();
     this.addPackToStack();
     this.shuffle(this.stack);
-    for(let j = 0; j < 4; j++) {
+    for(let j = 0; j < PLAYERS; j++) {
       this.userCards.push([]);
       for(let i = 0; i < 8; i++) {
         let userCard = this.stack.pop();
@@ -289,17 +291,19 @@ export class PestenComponent implements OnInit {
       card.draw(ctx, 2, xPos, this.img, false, true);
       xPos += 62;
     }
-
-    xPos = (c.width / 2) - ((this.userCards[2].length * 62 + 62) / 2);
-    for(let card of this.userCards[2]) {
-      card.draw(ctx, xPos, 2, this.img, false, false);
-      xPos += 62;
+    if(this.userCards.length > 2) {
+      xPos = (c.width / 2) - ((this.userCards[2].length * 62 + 62) / 2);
+      for(let card of this.userCards[2]) {
+        card.draw(ctx, xPos, 2, this.img, false, false);
+        xPos += 62;
+      }
     }
-
-    xPos = (c.height / 2) - ((this.userCards[3].length * 62 + 62) / 2);
-    for(let card of this.userCards[3]) {
-      card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true);
-      xPos += 62;
+    if(this.userCards.length > 3) {
+      xPos = (c.height / 2) - ((this.userCards[3].length * 62 + 62) / 2);
+      for(let card of this.userCards[3]) {
+        card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true);
+        xPos += 62;
+      }
     }
 
 
