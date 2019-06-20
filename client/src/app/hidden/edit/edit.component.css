@@ -1,3 +1,28 @@
 .editForm{
     
 }
+
+.alert{
+    margin: 10px;
+    padding: 5px;
+}
+
+input.ng-invalid.ng-dirty {
+    background-color: #ffbbbb;
+}
+
+.errorMessage{
+    color: red;
+    margin: 0px;
+    padding: 0px;
+}
+
+.errorMessage p{
+    margin: 0px;
+    padding: 0px;
+}
+
+.form-control {
+    width: 250px;
+    display: inline-block;
+}

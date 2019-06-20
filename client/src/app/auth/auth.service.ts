@@ -31,9 +31,8 @@ export class AuthService {
     );
     localStorage.setItem("idToken", JSON.stringify(authResult.token));
     localStorage.setItem("name", JSON.stringify(authResult.user));
-    console.log("email: " + authResult.id);
     localStorage.setItem("email", JSON.stringify(authResult.email));
-    localStorage.setItem("email", JSON.stringify(authResult.id));
+    localStorage.setItem("id", JSON.stringify(authResult.id));
 
   }
 

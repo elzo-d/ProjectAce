@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Routes, RouterModule} from '@angular/router';
 import {OrderModule} from 'ngx-order-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import {HiddenComponent} from './hidden.component'
 import {HighscoresComponent} from './highscores/highscores.component';
@@ -52,7 +54,9 @@ const hiddenRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(hiddenRoutes),
     OrderModule,
-    GametypesModule
+    GametypesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     ChatService
