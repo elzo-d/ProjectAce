@@ -56,6 +56,15 @@ export class PestenComponent implements OnInit {
     let startCard = this.stack.pop();
     startCard.visible = true;
     this.pile.push(startCard);
+    //window.setTimeout(() => {this.autoPlay()}, 100);
+  }
+
+  autoPlay() {
+    this.doOpponentTurn(this.turn);
+    this.updateView(0, 0);
+    if(!this.finished) {
+      window.setTimeout(() => {this.autoPlay()}, 100);
+    }
   }
 
   addPackToStack() {
@@ -104,7 +113,7 @@ export class PestenComponent implements OnInit {
             this.grabCards += 2;
           }
           // finish turn
-          this.turn = (this.turn + 1) % 4;
+          this.nextTurn();
           return true;
         } else {
           return false;
@@ -126,7 +135,7 @@ export class PestenComponent implements OnInit {
           }
           if(card.number !== 7 && card.number !== 8) {
             // finish turn
-            this.turn = (this.turn + 1) % 4;
+            this.nextTurn();
           }
           return true;
         } else {
@@ -168,7 +177,7 @@ export class PestenComponent implements OnInit {
       }
       this.grabCards = 1;
       // finish turn
-      this.turn = (this.turn + 1) % 4;
+      this.nextTurn();
     }
   }
 
@@ -192,6 +201,10 @@ export class PestenComponent implements OnInit {
       "New stack generated: Stack length: " + this.stack.length +
       ", Pile length: " + this.pile.length
     );
+  }
+
+  nextTurn() {
+    this.turn = (this.turn + 1) % this.userCards.length;
   }
 
   doOpponentTurn(user) {
@@ -271,15 +284,15 @@ export class PestenComponent implements OnInit {
     );
     this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished, false);
 
-    let xPos = (c.width / 2) - ((this.userCards[1].length * 62 + 62) / 2);
+    let xPos = (c.height / 2) - ((this.userCards[1].length * 62 + 62) / 2);
     for(let card of this.userCards[1]) {
-      card.draw(ctx, xPos, 2, this.img, false, false);
+      card.draw(ctx, 2, xPos, this.img, false, true);
       xPos += 62;
     }
 
-    xPos = (c.height / 2) - ((this.userCards[2].length * 62 + 62) / 2);
+    xPos = (c.width / 2) - ((this.userCards[2].length * 62 + 62) / 2);
     for(let card of this.userCards[2]) {
-      card.draw(ctx, 2, xPos, this.img, false, true);
+      card.draw(ctx, xPos, 2, this.img, false, false);
       xPos += 62;
     }
 
