@@ -64,7 +64,6 @@ export class GamelistComponent implements OnInit {
   singlePlayer() {
     // play singleplayer
     console.log("Doing singleplayer game (type: " + this.selectedGame + ")");
-    console.log(this.router);
     this.router.navigateByUrl("/hidden/pesten");
   }
 

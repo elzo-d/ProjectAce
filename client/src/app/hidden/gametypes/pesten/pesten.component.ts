@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Card, SUITS } from '../card';
+import { HttpClient } from '@angular/common/http';
 
 const PLAYERS = 4;
 
@@ -24,7 +25,7 @@ export class PestenComponent implements OnInit {
   ctx = undefined;
   img = undefined;
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   ngOnInit() {
     this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
@@ -59,6 +60,17 @@ export class PestenComponent implements OnInit {
     startCard.visible = true;
     this.pile.push(startCard);
     //window.setTimeout(() => {this.autoPlay()}, 100);
+
+    // TEMP: testing server connection
+    console.log("Doing request...");
+    this.http.post<Test>("http://localhost:5000/api/pesten", {test: "a", test2: 3}).subscribe(
+      res => this.handleMessage(res),
+      err => console.log(err)
+    );
+  }
+
+  handleMessage(res) {
+    console.log(res)
   }
 
   autoPlay() {
@@ -334,4 +346,9 @@ export class PestenComponent implements OnInit {
     }
   }
 
+}
+
+interface Test {
+  error:string,
+  message:string
 }

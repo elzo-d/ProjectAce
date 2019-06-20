@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const loginRoute = require("./routes/login.route");
 const hiddenRoute = require("./routes/hidden.route");
 const userRoute = require("./routes/user.route");
+const pestenRoute = require("./routes/pesten.route");
 
 let app = express();
 
@@ -50,6 +51,7 @@ app.use(bodyParser.json());
 app.use("/api/login", loginRoute);
 app.use("/api/hidden", hiddenRoute);
 app.use("/api/user", userRoute);
+app.use("/api/pesten", pestenRoute);
 
 //connect to database
 mongoose.Promise = global.Promise;
