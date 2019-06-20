@@ -9,9 +9,7 @@ const loginRoutes: Routes = [
 ]
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-  ],
+  declarations: [],
   exports: [],
   providers: [],
   imports: [
