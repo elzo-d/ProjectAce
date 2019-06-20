@@ -36,7 +36,7 @@ app.use(
 
 // Cors
 const cors = require("cors");
-const whitelist = ["http://localhost:4200"];
+const whitelist = ["http://localhost:4200", "http://127.0.0.1:4200"];
 const corsOptions = {
   credentials: true,
   origin: (origin, callback) => {

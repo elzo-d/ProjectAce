@@ -10,7 +10,6 @@ import {HighscoresComponent} from './highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
 import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
 import {GamelistComponent} from './gamelist/gamelist.component';
-import {GametypesComponent} from './gametypes/gametypes.component';
 import {GametypesModule} from './gametypes/gametypes.module';
 import {PestenComponent} from './gametypes/pesten/pesten.component';
 import {GamebarComponent} from './gamebar/gamebar.component';
@@ -44,7 +43,6 @@ const hiddenRoutes: Routes = [
     FriendlistComponent,
     ChatboxComponent,
     GamelistComponent,
-    GametypesComponent,
     GamebarComponent,
     NavigationbarComponent,
     GeneralchatComponent,

@@ -15,7 +15,7 @@ export class GeneralchatComponent implements OnInit, OnDestroy {
   date: Date;
   private subscription: Subscription;
 
-  constructor(private chatService: ChatService, public auth: AuthService) {}
+  constructor(public chatService: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
     this.subscription = this.chatService
