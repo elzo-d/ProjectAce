@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Card, SUITS } from '../card';
 
+const PLAYERS = 4;
+
 @Component({
   selector: 'app-pesten',
   templateUrl: './pesten.component.html',
@@ -10,16 +12,14 @@ export class PestenComponent implements OnInit {
 
   stack:Card[] = [];
 
-  userCards:Card[] = [];
-
-  opponentCards:Card[] = [];
+  userCards:Card[][] = [];
 
   pile:Card[] = [];
 
-  yourTurn:boolean = true;
+  turn:number = 0;
   grabCards:number = 1;
   finished:boolean = false;
-  won:boolean = false;
+  won:number = 0;
 
   ctx = undefined;
   img = undefined;
@@ -39,23 +39,34 @@ export class PestenComponent implements OnInit {
   reset() {
     this.stack = [];
     this.userCards = [];
-    this.opponentCards = [];
     this.pile = [];
-    this.yourTurn = true;
+    this.turn = 0;
     this.grabCards = 1;
     this.finished = false;
-    this.won = false;
+    this.won = 0;
+    this.addPackToStack();
     this.addPackToStack();
     this.shuffle(this.stack);
-    for(let i = 0; i < 8; i++) {
-      let userCard = this.stack.pop();
-      userCard.visible = true;
-      this.userCards.push(userCard);
-      this.opponentCards.push(this.stack.pop());
+    for(let j = 0; j < PLAYERS; j++) {
+      this.userCards.push([]);
+      for(let i = 0; i < 8; i++) {
+        let userCard = this.stack.pop();
+        userCard.visible = j === 0 ? true : false;
+        this.userCards[j].push(userCard);
+      }
     }
     let startCard = this.stack.pop();
     startCard.visible = true;
     this.pile.push(startCard);
+    //window.setTimeout(() => {this.autoPlay()}, 100);
+  }
+
+  autoPlay() {
+    this.doOpponentTurn(this.turn);
+    this.updateView(0, 0);
+    if(!this.finished) {
+      window.setTimeout(() => {this.autoPlay()}, 100);
+    }
   }
 
   addPackToStack() {
@@ -91,7 +102,7 @@ export class PestenComponent implements OnInit {
 
   clickCard(card, user) {
 
-    if(this.yourTurn === user && !this.finished) {
+    if(this.turn === user && !this.finished) {
       // it's our turn
       if(this.grabCards > 1) {
         // a grab-card was thrown, we need to grab or throw a grab-card of our own
@@ -104,7 +115,7 @@ export class PestenComponent implements OnInit {
             this.grabCards += 2;
           }
           // finish turn
-          this.yourTurn = !this.yourTurn;
+          this.nextTurn();
           return true;
         } else {
           return false;
@@ -126,7 +137,7 @@ export class PestenComponent implements OnInit {
           }
           if(card.number !== 7 && card.number !== 8) {
             // finish turn
-            this.yourTurn = !this.yourTurn;
+            this.nextTurn();
           }
           return true;
         } else {
@@ -141,54 +152,34 @@ export class PestenComponent implements OnInit {
   }
 
   removeCardFromUser(card, user) {
-    if(user) {
-      let i;
-      for(i = 0; i < this.userCards.length; i++) {
-        if(this.userCards[i] === card) {
-          break;
-        }
+    let i;
+    for(i = 0; i < this.userCards[user].length; i++) {
+      if(this.userCards[user][i] === card) {
+        break;
       }
-      this.userCards.splice(i, 1);
-      if(this.userCards.length === 0) {
-        this.finished = true;
-        this.won = true;
-      }
-    } else {
-      let i;
-      for(i = 0; i < this.opponentCards.length; i++) {
-        if(this.opponentCards[i] === card) {
-          break;
-        }
-      }
-      this.opponentCards.splice(i, 1);
-      if(this.opponentCards.length === 0) {
-        this.finished = true;
-        this.won = false;
-      }
+    }
+    this.userCards[user].splice(i, 1);
+    if(this.userCards[user].length === 0) {
+      this.finished = true;
+      this.won = user;
     }
   }
 
-  clickTable(stack, turn) {
-    if(this.yourTurn === turn && stack && !this.finished) {
+  clickStack(turn) {
+    if(this.turn === turn && !this.finished) {
       // it's our turn
 
       for(let i = 0; i < this.grabCards; i++) {
-        if(stack) {
-          let card = this.stack.pop();
-          if(this.stack.length === 0) {
-            this.newStack();
-          }
-          if(turn) {
-            card.visible = true;
-            this.userCards.push(card);
-          } else {
-            this.opponentCards.push(card);
-          }
+        let card = this.stack.pop();
+        if(this.stack.length === 0) {
+          this.newStack();
         }
+        card.visible = turn === 0 ? true : false;
+        this.userCards[turn].push(card);
       }
       this.grabCards = 1;
       // finish turn
-      this.yourTurn = !this.yourTurn
+      this.nextTurn();
     }
   }
 
@@ -214,18 +205,22 @@ export class PestenComponent implements OnInit {
     );
   }
 
-  doOpponentTurn() {
+  nextTurn() {
+    this.turn = (this.turn + 1) % this.userCards.length;
+  }
+
+  doOpponentTurn(user) {
     let found = false;
-    for(let i = 0; i < this.opponentCards.length; i++) {
-      let card = this.opponentCards[i];
-      if(this.clickCard(card, false)) {
+    for(let i = 0; i < this.userCards[user].length; i++) {
+      let card = this.userCards[user][i];
+      if(this.clickCard(card, user)) {
         found = true;
         card.visible = true;
         break;
       }
     }
     if(!found) {
-      this.clickTable(true, false);
+      this.clickStack(user);
     }
   }
 
@@ -247,22 +242,22 @@ export class PestenComponent implements OnInit {
 
     if(my < 164 + 2) {
       // top row of cards
-      this.doOpponentTurn();
+      this.doOpponentTurn(this.turn);
     } else if(my > this.ctx.canvas.height - 164 - 2) {
       // bottom row of cards
-      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards[0].length * 62 + 62) / 2);
       if(xPos < 0) {
         xPos += (2 * -xPos) * (1 - (2 * (mx / this.ctx.canvas.width)));
       }
       let pickedCard = undefined;
-      for(let card of this.userCards) {
-        if(mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)) {
+      for(let card of this.userCards[0]) {
+        if(mx > xPos && mx < xPos + (card === this.userCards[0][this.userCards[0].length - 1] ? 124 : 62)) {
           pickedCard = card;
         }
         xPos += 62;
       }
       if(pickedCard) {
-        this.clickCard(pickedCard, true);
+        this.clickCard(pickedCard, 0);
       }
     } else {
       // middle of table
@@ -270,7 +265,7 @@ export class PestenComponent implements OnInit {
         my > this.ctx.canvas.height / 2 - 82 && my < this.ctx.canvas.height / 2 + 82 &&
         mx > this.ctx.canvas.width / 2 && mx < this.ctx.canvas.width / 2 + 124 + 2
       ) {
-        this.clickTable(true, true);
+        this.clickStack(0);
       }
     }
     this.updateView(mx, my);
@@ -284,28 +279,44 @@ export class PestenComponent implements OnInit {
     ctx.fillStyle = "#5ba318";
     ctx.fillRect(0, 0, c.width, c.height);
 
-    this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false);
+    this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false, false);
     let highlight = (
       my > c.height / 2 - 82 && my < c.height / 2 + 82 &&
       mx > c.width / 2 && mx < c.width / 2 + 124 + 2
     );
-    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished);
+    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished, false);
 
-    let xPos = (c.width / 2) - ((this.opponentCards.length * 62 + 62) / 2);
-    for(let card of this.opponentCards) {
-      card.draw(ctx, xPos, 2, this.img, false);
+    let xPos = (c.height / 2) - ((this.userCards[1].length * 62 + 62) / 2);
+    for(let card of this.userCards[1]) {
+      card.draw(ctx, 2, xPos, this.img, false, true);
       xPos += 62;
     }
-    xPos = (c.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+    if(this.userCards.length > 2) {
+      xPos = (c.width / 2) - ((this.userCards[2].length * 62 + 62) / 2);
+      for(let card of this.userCards[2]) {
+        card.draw(ctx, xPos, 2, this.img, false, false);
+        xPos += 62;
+      }
+    }
+    if(this.userCards.length > 3) {
+      xPos = (c.height / 2) - ((this.userCards[3].length * 62 + 62) / 2);
+      for(let card of this.userCards[3]) {
+        card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true);
+        xPos += 62;
+      }
+    }
+
+
+    xPos = (c.width / 2) - ((this.userCards[0].length * 62 + 62) / 2);
     if(xPos < 0) {
       xPos += (2 * -xPos) * (1 - (2 * (mx / c.width)));
     }
-    for(let card of this.userCards) {
+    for(let card of this.userCards[0]) {
       let highlight = (
         my > c.height - 164 - 2 &&
-        mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)
+        mx > xPos && mx < xPos + (card === this.userCards[0][this.userCards[0].length - 1] ? 124 : 62)
       );
-      card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight && !this.finished);
+      card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight && !this.finished, false);
       xPos += 62;
     }
 
@@ -317,7 +328,7 @@ export class PestenComponent implements OnInit {
       ctx.fillStyle = "#000000";
       ctx.strokeStyle = "#000000";
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
-      ctx.fillText(this.won ? "You won!" : "You lost...", c.width / 2, c.height / 2);
+      ctx.fillText(this.won === 0 ? "You won!" : "You lost...", c.width / 2, c.height / 2);
       ctx.font = "15px arial";
       ctx.fillText("Click to play again", c.width / 2, c.height / 2 + 30);
     }
