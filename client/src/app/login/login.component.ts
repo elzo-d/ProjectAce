@@ -7,7 +7,8 @@ import { UserService } from "../user.service";
 @Component({
   selector: "login",
   providers: [AuthService],
-  templateUrl: "login.component.html"
+  templateUrl: "login.component.html",
+  styleUrls: ['./../app.component.css']
 })
 export class LoginComponent {
   form: FormGroup;

@@ -10,7 +10,8 @@ import { AlertService } from "../alert.service";
 @Component({
   selector: "register",
   templateUrl: "register.component.html",
-  providers: [AlertService]
+  providers: [AlertService],
+  styleUrls: ["./../app.component.css"]
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
