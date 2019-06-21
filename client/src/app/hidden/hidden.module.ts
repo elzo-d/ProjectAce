@@ -2,13 +2,14 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Routes, RouterModule} from '@angular/router';
 import {OrderModule} from 'ngx-order-pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import {HiddenComponent} from './hidden.component'
 import {HighscoresComponent} from './highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
 import {ChatboxComponent} from './friendlist/chatbox/chatbox.component';
 import {GamelistComponent} from './gamelist/gamelist.component';
-import {GametypesComponent} from './gametypes/gametypes.component';
 import {GametypesModule} from './gametypes/gametypes.module';
 import {PestenComponent} from './gametypes/pesten/pesten.component';
 import {GamebarComponent} from './gamebar/gamebar.component';
@@ -42,7 +43,6 @@ const hiddenRoutes: Routes = [
     FriendlistComponent,
     ChatboxComponent,
     GamelistComponent,
-    GametypesComponent,
     GamebarComponent,
     NavigationbarComponent,
     GeneralchatComponent,
@@ -52,7 +52,9 @@ const hiddenRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(hiddenRoutes),
     OrderModule,
-    GametypesModule
+    GametypesModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     ChatService

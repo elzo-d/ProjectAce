@@ -63,7 +63,6 @@ loginRoutes.route("/").post((req, res) => {
         console.log(`User logged in: ${name}`);
         let payload = { name: user.name, id: user.id, email: user.email };
         let token = jwt.sign(payload, privateKey, signOptions);
-        console.log("Kom ik hier?")
         console.log(payload)
         res.json({
           message: "ok",
