@@ -8,7 +8,7 @@ import { UserService } from "../user.service";
   selector: "login",
   providers: [AuthService],
   templateUrl: "login.component.html",
-  styleUrls: ['./../app.component.css']
+  styleUrls: ["./../app.component.css"]
 })
 export class LoginComponent {
   form: FormGroup;
@@ -21,7 +21,7 @@ export class LoginComponent {
     private userService: UserService
   ) {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(["/"]);
+      this.router.navigate(["/hidden/lobby"]);
     }
 
     this.form = this.fb.group({
