@@ -62,7 +62,6 @@ userRoutes.route("/edit/:id").get(function(req, res) {
 
 
 userRoutes.route("/update/:id").post(function(req, res) {
-  console.log(req.params.password)
   console.log(req.body.password)
   let password = req.body.password;
   bcrypt.hash(password, saltRounds, (err, hash) => {
@@ -73,7 +72,6 @@ userRoutes.route("/update/:id").post(function(req, res) {
     } else {
       req.body.password = hash;
       console.log(">> password hashed to", hash);
-      // console.log(`${user}`)
       User.findByIdAndUpdate(
         req.params.id, 
         req.body, 
@@ -83,36 +81,16 @@ userRoutes.route("/update/:id").post(function(req, res) {
         if(!user){
           return console.log("!user")
         }
-        if (err) return next(new Error('Could not load Document'));
-        return res.send(User)
+        if (err) {
+          res.status(400).send("Dikke probleem");
+          return;
+        }
+        return res.send(user)
       });
     }
   })
 
 });
-
-//  Defined update route
-// userRoutes.route("/update/:id").post(function(req, res) {
-//   console.log(req.params.id)
-//   User.findById(req.params.id, function(err, next, user) {
-//     console.log(req.body)
-//     if (user) return next(new Error('Could not load Document'));
-//     else {
-//       user.name = req.body.name;
-//       user.pasword = req.body.password;
-//       user.email = req.body.email;
-
-//       user
-//         .save()
-//         .then(user => {
-//           res.json("Update complete");
-//         })
-//         .catch(err => {
-//           res.status(400).send("unable to update the database");
-//         });
-//     }
-//   });
-// });
 
 userRoutes.route("/delete/:id").get(function(req, res) {
   User.findByIdAndRemove({ _id: req.params.id }, function(err, user) {
