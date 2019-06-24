@@ -1,68 +1,81 @@
 #navbar {
-    width: calc(100% -2rem);
-    height: 8rem;
-    background-color: #EBEBEB;
-    margin: 1rem;
-    margin-top: unset;
-
-    border-radius: 15px 15px 15px 15px;
+  width: calc(100% - 2rem);
+  height: 8rem;
+  background-color: #EBEBEB;
+  margin: 1rem;
+  margin-top: unset;
+  border-radius: 0px 0px 15px 15px;
 }
 
 #friendlist {
-    margin-right: 1rem;
-    width: calc(300px + 1rem);
-    float: right;
-    min-height: calc(100vh - 10rem);
-    background-color: #EBEBEB;
-    color: black;
-    /* border-radius: 15px 0px 0px 15px; */
-    border-radius: 15px;
-    padding: 1rem;
+  margin-right: 1rem;
+  width: calc(300px + 1rem);
+  float: right;
+  min-height: calc(100vh - 10rem);
+  background-color: #EBEBEB;
+  color: black;
+  border-radius: 15px;
+  padding: 1rem;
 }
 
 #body {
-    width: calc(100% - 410px - 6rem);
-    float: left;
-    margin-left: 1rem;
-    /* margin-bottom: 2rem; */
-    padding-right: 1rem;
-    padding-left: 1rem;
-    padding: 1rem;
-    background-color: #EBEBEB;
-    color: black;
-    border-radius: 15px;
-    min-height: calc(100vh / 2);
+  width: calc(100% - 410px - 6rem);
+  float: left;
+  margin-left: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding: 1rem;
+  background-color: #EBEBEB;
+  color: black;
+  border-radius: 15px;
+  min-height: calc(100vh / 2);
 }
 
-
 #main {
-    min-height: calc(100vh - 10px);
-    /* background-color: #e9ecef; */
-    color: white;
-    background-color: #8B2738;
-    margin: none;
-
-} 
+  min-height: calc(100vh - 10px);
+  color: white;
+  background-color: #8B2738;
+  margin: none;
+}
 
 #gamebar {
-    margin-left: 1rem;
-    width: 120px;
-    float: left;
-    min-height: calc(100vh - 10rem);
-    bottom: 30px;
-    background-color: #EBEBEB;
-    color: black;
-    border-radius: 0px 15px 15px 0px;
-    border-radius: 15px;
-    padding: 1rem;
+  margin-left: 1rem;
+  width: 120px;
+  float: left;
+  min-height: calc(100vh - 10rem);
+  bottom: 30px;
+  background-color: #EBEBEB;
+  color: black;
+  border-radius: 0px 15px 15px 0px;
+  border-radius: 15px;
+  padding: 1rem;
 }
 
 .shadow {
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
+
 .container-full {
-    margin: 0 auto;
-    width: 100%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  #navbar {
+    height: 7rem;
   }
+
+  #gamebar {
+    display: none;
+  }
+  
+  #friendlist {
+    display: none;
+  }
+
+  #body {
+    width: calc(100% - 2rem);
+  }
+}

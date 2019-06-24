@@ -1,24 +1,37 @@
-<div id="logo"></div>
 <div id="navigation">
-  <nav>
-    <div class="container-fluid">
+  <div id="logo"></div>
 
-      <ul  id="nav">
-        <li routerLinkActive="active" >
-          <a routerLink="lobby"  (click)="toggleClass(1)">Lobby</a></li>
-        <li routerLinkActive="active">
-          <a routerLink="highscores"  (click)="toggleClass(2)">Highscores</a></li>
-      </ul>
-      <div id="profile">
-        <div class="dropdown">
-          <button class="dropbtn">{{currentUser}}</button>
-          <div class="dropdown-content" routerLinkActive="active">
-            <a routerLink="edit">Edit profile</a>
-            <a href="#" (click)="logout()">Logout</a>
-          </div>
-        </div>
+  <ul id="nav">
+    <li routerLinkActive="active">
+      <a routerLink="lobby" (click)="toggleClass(1)">Lobby</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="highscores" (click)="toggleClass(2)">Highscores</a>
+    </li>
+
+    <div class="dropdown">
+      <button class="dropbtn">{{currentUser}}</button>
+      <div class="dropdown-content" routerLinkActive="active">
+        <a routerLink="edit">Edit profile</a>
+        <a href="#" (click)="logout()">Logout</a>
       </div>
     </div>
-    
-  </nav>
+  </ul>
+
+  <!--Mobile-->
+  <div class="dropdown" id="mobileDropdown">
+    <button class="dropbtn">
+        <div id="menuLogo"></div>
+        <div id="menuLogo"></div>
+        <div id="menuLogo"></div>
+    </button>
+
+    <div class="dropdown-content" routerLinkActive="active">
+      <a routerLink="lobby" (click)="toggleClass(1)">Lobby</a>
+      <a routerLink="highscores" (click)="toggleClass(2)">Highscores</a>
+      <a routerLink="edit">Edit profile</a>
+      <a href="#" (click)="logout()">Logout</a>
+    </div>
+
+  </div>
 </div>

@@ -84,7 +84,7 @@ userRoutes.route("/update/:id").post(function(req, res) {
           return console.log("!user")
         }
         if (err) return next(new Error('Could not load Document'));
-        return res.send(User)
+        return res.send(user)
       });
     }
   })

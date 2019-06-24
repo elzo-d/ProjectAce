@@ -1,9 +1,5 @@
 <h2>Games</h2>
 <div>
-    <!--
-    <b><a routerLink="pesten">Elzo's Pesten</a></b><br>
-    <br>
-    -->
     <b><span class="link" (click)="selectGame(undefined)">All games</span></b>
     <div *ngFor="let game of games">
       <b><span class="link" (click)="selectGame(game)">{{game}}</span></b>
