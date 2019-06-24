@@ -62,33 +62,52 @@ userRoutes.route("/edit/:id").get(function(req, res) {
 
 
 userRoutes.route("/update/:id").post(function(req, res) {
-  console.log(req.body.password)
   let password = req.body.password;
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    console.log(`hash: ${hash}`);
-    if (err) {
-      res.status(400).send("unable to save password");
-      return;
-    } else {
-      req.body.password = hash;
-      console.log(">> password hashed to", hash);
-      User.findByIdAndUpdate(
-        req.params.id, 
-        req.body, 
-        {new: true}, 
-        (err, user) => {
-        console.log(req.body)
-        if(!user){
-          return console.log("!user")
-        }
-        if (err) {
-          res.status(400).send("Dikke probleem");
-          return;
-        }
-        return res.send(user)
-      });
-    }
-  })
+  if(password == undefined){
+    console.log("No password changed")
+    User.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      {new: true}, 
+      (err, user) => {
+      console.log(req.body)
+      if(!user){
+        return console.log("!user")
+      }
+      if (err) {
+        res.status(400).send("Dikke probleem");
+        return;
+      }
+      return res.send(user)
+    });
+  } else{
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      console.log(`hash: ${hash}`);
+      if (err) {
+        res.status(400).send("unable to save password");
+        return;
+      } else {
+        req.body.password = hash;
+        console.log(">> password hashed to", hash);
+        User.findByIdAndUpdate(
+          req.params.id, 
+          req.body, 
+          {new: true}, 
+          (err, user) => {
+          console.log(req.body)
+          if(!user){
+            return console.log("!user")
+          }
+          if (err) {
+            res.status(400).send("Dikke probleem");
+            return;
+          }
+          return res.send(user)
+        });
+      }
+    })
+  }
+
 
 });
 

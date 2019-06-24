@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from "../../user.service";
 import { AuthService } from "../../auth/auth.service";
 import { AlertService } from "../../alert.service";
-import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { PasswordValidation } from './password-validation';
 
@@ -21,22 +20,22 @@ export class EditComponent implements OnInit {
   changePassword = false;
   submitted = false;
   invalid = false;
+  invalidForm = true;
   editForm: FormGroup;
+
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private alertService: AlertService,
     private router: Router
-
-    // private alertService: AlertService
     ) { }
 
   ngOnInit() {
+    // initialize the form
     this.editForm = this.formBuilder.group({
-      username: [this.currentUser, Validators.minLength(1)],
-      email: [this.email, [Validators.minLength(1), Validators.email]],
+      username: [this.currentUser, Validators.required],
+      email: [this.email, [Validators.required, Validators.email]],
       currentPassword: ["", Validators.required],
       newPassword: ["", [Validators.required, Validators.minLength(6)]],
       confirmPassword: ["", [Validators.required]]
@@ -44,21 +43,44 @@ export class EditComponent implements OnInit {
       validator: PasswordValidation.MatchPassword // your validation method
     });
   }
-    // convenience getter for easy access to form fields
+
+  // convenience getter for easy access to form fields
   get f() {
     return this.editForm.controls;
   }
-  onSubmit() {
-    console.log("Submit")
-    this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.editForm.invalid) {
-      this.invalid = true;
-      console.log("invalid form")
-      return;
-    }
-    console.log(this.editForm.value.username, this.editForm.value.email, this.editForm.value.currentPassword, this.editForm.value.newPassword, this.editForm.value.confirmPassword)
+ formError() {
+   //  check form requirements 
+   if(this.editForm.get('username').hasError('required')){
+     console.log("username required")
+     return false
+   } else if (this.editForm.get('email').hasError('required')){
+    console.log("email required") 
+    return false
+   } else if(this.editForm.get('email').hasError('email')){
+    console.log("Valid email please")
+     return false
+   }
+   return true
+  }
+
+  submitWithoutPassword() {
+    // Submit the form without a changed password
+    console.log("no password")
+    this.userService.editProfile(
+      this.editForm.value.username,
+      this.editForm.value.email,
+      undefined,
+      undefined,
+      undefined,
+      this.authService.getId()
+      );
+      this.invalidForm = false;
+      this.router.navigate(["/hidden/lobby"])
+  }
+
+  submitWithPassword(){
+    // submit form with the changed password
     this.userService.editProfile(
       this.editForm.value.username,
       this.editForm.value.email,
@@ -67,22 +89,29 @@ export class EditComponent implements OnInit {
       this.editForm.value.confirmPassword,
       this.authService.getId()
     );
-    this.router.navigate(["/hidden/lobby"])
-    // .pipe(first())
-    // .subscribe(
-    //   data => {
-    //     this.alertService.success("Edit profile successful", true)
-    //     this.router.navigate(["/hidden/lobby"]);
-    //   },
-    //   error=> {
-    //     this.alertService.error(error);
-    //   }
-    // );
   }
-
+  
+  onSubmit() {
+    this.invalidForm = true;
+    console.log("Submit")
+    this.submitted = true;
+    this.logForm();
+    if (!this.changePassword && this.formError()){
+      this.submitWithoutPassword();
+    } else if (this.editForm.invalid) {
+      this.invalid = true;
+      console.log("invalid form")
+    } else {
+      this.submitWithoutPassword();
+    }
+  }
 
   newPassword() {
     this.changePassword = !this.changePassword;
+  }
+
+  logForm() {
+    console.log(this.editForm.value.username, this.editForm.value.email, this.editForm.value.currentPassword, this.editForm.value.newPassword, this.editForm.value.confirmPassword)
   }
 
 }
