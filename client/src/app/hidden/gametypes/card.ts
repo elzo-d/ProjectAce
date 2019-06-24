@@ -76,4 +76,13 @@ export class Card {
       ctx.fillRect(x, y, 124, 164);
     }
   }
+
+  setFromArray(arr) {
+    this.suit = arr[0];
+    this.number = arr[1];
+  }
+
+  getArray() {
+    return [this.suit, this.number];
+  }
 }

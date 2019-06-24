@@ -11,19 +11,23 @@ const PLAYERS = 4;
 })
 export class PestenComponent implements OnInit {
 
-  stack:Card[] = [];
+  userCards:Card[] = [];
+  opponentLengths:number[] = [];
 
-  userCards:Card[][] = [];
+  pileTop:Card = undefined;
 
-  pile:Card[] = [];
-
-  turn:number = 0;
-  grabCards:number = 1;
   finished:boolean = false;
   won:number = 0;
 
+  user:number = 0;
+
+  started:boolean = false;
+
   ctx = undefined;
   img = undefined;
+
+  mx:number = 0;
+  my:number = 0;
 
   constructor(private http:HttpClient) { }
 
@@ -38,58 +42,60 @@ export class PestenComponent implements OnInit {
   }
 
   reset() {
-    this.stack = [];
+    this.started = false;
     this.userCards = [];
-    this.pile = [];
-    this.turn = 0;
-    this.grabCards = 1;
+    this.pileTop = undefined;
     this.finished = false;
+    this.opponentLengths = [];
     this.won = 0;
-    this.addPackToStack();
-    this.addPackToStack();
-    this.shuffle(this.stack);
-    for(let j = 0; j < PLAYERS; j++) {
-      this.userCards.push([]);
-      for(let i = 0; i < 8; i++) {
-        let userCard = this.stack.pop();
-        userCard.visible = j === 0 ? true : false;
-        this.userCards[j].push(userCard);
-      }
-    }
-    let startCard = this.stack.pop();
-    startCard.visible = true;
-    this.pile.push(startCard);
+    this.user = 0;
     //window.setTimeout(() => {this.autoPlay()}, 100);
 
     // TEMP: testing server connection
-    console.log("Doing request...");
-    this.http.post<Test>("http://localhost:5000/api/pesten", {test: "a", test2: 3}).subscribe(
+    this.http.post<Test>("http://localhost:5000/api/pesten", {
+      // type: 1,
+      // card: [1, 1],
+      // moveType: 1,
+      // user: 0
+      type: 0,
+      user: this.user
+    }).subscribe(
       res => this.handleMessage(res),
       err => console.log(err)
     );
   }
 
   handleMessage(res) {
+    this.started = true;
+    this.userCards = [];
+    for(let arr of res.data.userCards) {
+      let c = new Card(1, 1);
+      c.setFromArray(arr);
+      c.visible = true;
+      this.userCards.push(c);
+    }
+    let c = new Card(1, 1);
+    c.setFromArray(res.data.pileTop);
+    c.visible = true;
+    this.pileTop = c;
+    this.opponentLengths = res.data.otherCards;
+    this.finished = res.data.finished;
+    this.won = res.data.won;
+
+    this.updateView(this.mx, this.my);
     console.log(res)
   }
 
-  autoPlay() {
-    this.doOpponentTurn(this.turn);
-    this.updateView(0, 0);
-    if(!this.finished) {
-      window.setTimeout(() => {this.autoPlay()}, 100);
-    }
-  }
-
-  addPackToStack() {
-    for(let i = 1; i <= 13; i++) {
-      this.stack.push(new Card(i, SUITS.HEARTS));
-      this.stack.push(new Card(i, SUITS.DIAMONDS));
-      this.stack.push(new Card(i, SUITS.SPADES));
-      this.stack.push(new Card(i, SUITS.CLUBS));
-    }
-    this.stack.push(new Card(1, SUITS.JOKER));
-    this.stack.push(new Card(2, SUITS.JOKER));
+  sendMessage(type, card, user) {
+    this.http.post<Test>("http://localhost:5000/api/pesten", {
+      type: 1,
+      card: card.getArray(),
+      moveType: type,
+      user: user
+    }).subscribe(
+      res => this.handleMessage(res),
+      err => console.log(err)
+    );
   }
 
   onImageLoad() {
@@ -102,144 +108,12 @@ export class PestenComponent implements OnInit {
     window.setTimeout(() => this.updateView(0, 0), 0);
   }
 
-  shuffle(arr) {
-    for(let i = 0; i < arr.length; i++) {
-      let r = Math.floor(Math.random() * (arr.length - i));
-      let temp = arr[arr.length - i - 1];
-      arr[arr.length - i - 1] = arr[r];
-      arr[r] = temp;
-    }
-    return arr;
-  }
-
-  clickCard(card, user) {
-
-    if(this.turn === user && !this.finished) {
-      // it's our turn
-      if(this.grabCards > 1) {
-        // a grab-card was thrown, we need to grab or throw a grab-card of our own
-        if(card.getSuit() === "Joker" || card.number === 2) {
-          this.pile.push(card);
-          this.removeCardFromUser(card, user);
-          if(card.getSuit() === "Joker") {
-            this.grabCards += 5;
-          } else {
-            this.grabCards += 2;
-          }
-          // finish turn
-          this.nextTurn();
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        // normal turn
-        if(
-          card.getSuit() === this.getTopPileCard().getSuit() ||
-          card.number === this.getTopPileCard().number ||
-          card.number === 11 || card.getSuit() === "Joker" ||
-          this.getTopPileCard().getSuit() === "Joker"
-        ) {
-          this.pile.push(card);
-          this.removeCardFromUser(card, user);
-          if(card.getSuit() === "Joker") {
-            this.grabCards = 5;
-          } else if(card.number === 2) {
-            this.grabCards = 2;
-          }
-          if(card.number !== 7 && card.number !== 8) {
-            // finish turn
-            this.nextTurn();
-          }
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
-  }
-
-  getTopPileCard() {
-    return this.pile[this.pile.length - 1];
-  }
-
-  removeCardFromUser(card, user) {
-    let i;
-    for(i = 0; i < this.userCards[user].length; i++) {
-      if(this.userCards[user][i] === card) {
-        break;
-      }
-    }
-    this.userCards[user].splice(i, 1);
-    if(this.userCards[user].length === 0) {
-      this.finished = true;
-      this.won = user;
-    }
-  }
-
-  clickStack(turn) {
-    if(this.turn === turn && !this.finished) {
-      // it's our turn
-
-      for(let i = 0; i < this.grabCards; i++) {
-        let card = this.stack.pop();
-        if(this.stack.length === 0) {
-          this.newStack();
-        }
-        card.visible = turn === 0 ? true : false;
-        this.userCards[turn].push(card);
-      }
-      this.grabCards = 1;
-      // finish turn
-      this.nextTurn();
-    }
-  }
-
-  newStack() {
-    if(this.pile.length < 2) {
-      this.stack = [];
-      this.addPackToStack();
-      this.shuffle(this.stack);
-      console.log(
-        "New stack generated - Added new pack of cards to stack: Stack length: " + this.stack.length +
-        ", Pile length: " + this.pile.length
-      );
-      return;
-    }
-    this.stack = this.pile.splice(0, this.pile.length - 1);
-    for(let card of this.stack) {
-      card.visible = false;
-    }
-    this.shuffle(this.stack);
-    console.log(
-      "New stack generated: Stack length: " + this.stack.length +
-      ", Pile length: " + this.pile.length
-    );
-  }
-
-  nextTurn() {
-    this.turn = (this.turn + 1) % this.userCards.length;
-  }
-
-  doOpponentTurn(user) {
-    let found = false;
-    for(let i = 0; i < this.userCards[user].length; i++) {
-      let card = this.userCards[user][i];
-      if(this.clickCard(card, user)) {
-        found = true;
-        card.visible = true;
-        break;
-      }
-    }
-    if(!found) {
-      this.clickStack(user);
-    }
-  }
-
   onCanvasMove(e) {
     let mx = e.offsetX;
     let my = e.offsetY;
     this.updateView(mx, my);
+    this.mx = mx;
+    this.my = my;
   }
 
   onCanvasClick(e) {
@@ -254,22 +128,22 @@ export class PestenComponent implements OnInit {
 
     if(my < 164 + 2) {
       // top row of cards
-      this.doOpponentTurn(this.turn);
+      this.sendMessage(2, new Card(1, 1), 0);
     } else if(my > this.ctx.canvas.height - 164 - 2) {
       // bottom row of cards
-      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards[0].length * 62 + 62) / 2);
+      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * 62 + 62) / 2);
       if(xPos < 0) {
         xPos += (2 * -xPos) * (1 - (2 * (mx / this.ctx.canvas.width)));
       }
       let pickedCard = undefined;
-      for(let card of this.userCards[0]) {
-        if(mx > xPos && mx < xPos + (card === this.userCards[0][this.userCards[0].length - 1] ? 124 : 62)) {
+      for(let card of this.userCards) {
+        if(mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)) {
           pickedCard = card;
         }
         xPos += 62;
       }
       if(pickedCard) {
-        this.clickCard(pickedCard, 0);
+        this.sendMessage(0, pickedCard, this.user);
       }
     } else {
       // middle of table
@@ -277,10 +151,18 @@ export class PestenComponent implements OnInit {
         my > this.ctx.canvas.height / 2 - 82 && my < this.ctx.canvas.height / 2 + 82 &&
         mx > this.ctx.canvas.width / 2 && mx < this.ctx.canvas.width / 2 + 124 + 2
       ) {
-        this.clickStack(0);
+        this.sendMessage(1, new Card(1, 1), this.user);
       }
     }
     this.updateView(mx, my);
+  }
+
+  getCardArray(num) {
+    let ret = [];
+    for(let i = 0; i < num; i++) {
+      ret.push(new Card(1, 1));
+    }
+    return ret;
   }
 
   updateView(mx, my) {
@@ -291,42 +173,46 @@ export class PestenComponent implements OnInit {
     ctx.fillStyle = "#5ba318";
     ctx.fillRect(0, 0, c.width, c.height);
 
-    this.pile[this.pile.length - 1].draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false, false);
+    this.pileTop.draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false, false);
     let highlight = (
       my > c.height / 2 - 82 && my < c.height / 2 + 82 &&
       mx > c.width / 2 && mx < c.width / 2 + 124 + 2
     );
-    this.stack[this.stack.length - 1].draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished, false);
+    let stackTop = new Card(1, 1);
+    stackTop.draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished, false);
 
-    let xPos = (c.height / 2) - ((this.userCards[1].length * 62 + 62) / 2);
-    for(let card of this.userCards[1]) {
+    let user1cards = this.getCardArray(this.opponentLengths[0]);
+    let xPos = (c.height / 2) - ((user1cards.length * 62 + 62) / 2);
+    for(let card of user1cards) {
       card.draw(ctx, 2, xPos, this.img, false, true);
       xPos += 62;
     }
-    if(this.userCards.length > 2) {
-      xPos = (c.width / 2) - ((this.userCards[2].length * 62 + 62) / 2);
-      for(let card of this.userCards[2]) {
+    if(PLAYERS > 2) {
+      let user2cards = this.getCardArray(this.opponentLengths[1]);
+      xPos = (c.width / 2) - ((user2cards.length * 62 + 62) / 2);
+      for(let card of user2cards) {
         card.draw(ctx, xPos, 2, this.img, false, false);
         xPos += 62;
       }
     }
-    if(this.userCards.length > 3) {
-      xPos = (c.height / 2) - ((this.userCards[3].length * 62 + 62) / 2);
-      for(let card of this.userCards[3]) {
+    if(PLAYERS > 3) {
+      let user3cards = this.getCardArray(this.opponentLengths[2]);
+      xPos = (c.height / 2) - ((user3cards.length * 62 + 62) / 2);
+      for(let card of user3cards) {
         card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true);
         xPos += 62;
       }
     }
 
 
-    xPos = (c.width / 2) - ((this.userCards[0].length * 62 + 62) / 2);
+    xPos = (c.width / 2) - ((this.userCards.length * 62 + 62) / 2);
     if(xPos < 0) {
       xPos += (2 * -xPos) * (1 - (2 * (mx / c.width)));
     }
-    for(let card of this.userCards[0]) {
+    for(let card of this.userCards) {
       let highlight = (
         my > c.height - 164 - 2 &&
-        mx > xPos && mx < xPos + (card === this.userCards[0][this.userCards[0].length - 1] ? 124 : 62)
+        mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)
       );
       card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight && !this.finished, false);
       xPos += 62;
@@ -340,7 +226,7 @@ export class PestenComponent implements OnInit {
       ctx.fillStyle = "#000000";
       ctx.strokeStyle = "#000000";
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
-      ctx.fillText(this.won === 0 ? "You won!" : "You lost...", c.width / 2, c.height / 2);
+      ctx.fillText(this.won === this.user ? "You won!" : "You lost...", c.width / 2, c.height / 2);
       ctx.font = "15px arial";
       ctx.fillText("Click to play again", c.width / 2, c.height / 2 + 30);
     }

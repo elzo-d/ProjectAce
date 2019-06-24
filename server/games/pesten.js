@@ -1,5 +1,5 @@
 
-const PLAYERS = 2;
+const PLAYERS = 4;
 
 class Pesten {
   constructor() {
@@ -110,7 +110,7 @@ class Pesten {
   removeCardFromUser(card, user) {
     let i;
     for(i = 0; i < this.userCards[user].length; i++) {
-      if(this.userCards[user][i] === card) {
+      if(this.userCards[user][i].equals(card)) {
         break;
       }
     }
@@ -186,7 +186,7 @@ class Pesten {
         break;
       }
       case MOVE_TYPE.OPPONENT: {
-        doOpponentTurn(this.turn);
+        this.doOpponentTurn(this.turn);
         break;
       }
     }
@@ -198,13 +198,16 @@ class Pesten {
       cardList.push(card.getArray());
     }
     let otherLengths = [];
-    for(let arr of this.userCards) {
-      otherLengths.push(arr.length);
+    for(let i = 1; i < PLAYERS; i++) {
+      otherLengths.push(this.userCards[i].length);
     }
     return {
       userCards: cardList,
       otherCards: otherLengths,
-      pileTop: this.getTopPileCard().getArray()
+      pileTop: this.getTopPileCard().getArray(),
+      turn: this.turn,
+      finished: this.finished,
+      won: this.won
     }
   }
 }
@@ -236,6 +239,10 @@ class Card {
 
   getArray() {
     return [this.suit, this.number];
+  }
+
+  equals(card) {
+    return this.suit === card.suit && this.number === card.number
   }
 }
 

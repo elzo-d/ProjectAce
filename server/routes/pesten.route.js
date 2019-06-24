@@ -13,7 +13,8 @@ pestenRoutes.route("/").post((req, res) => {
       pesten = new Pesten();
       console.log("Started new 'pesten'-game");
       res.json({
-        error: "success"
+        error: "success",
+        data: pesten.getState(req.body.user)
       })
       break;
     }
@@ -25,7 +26,7 @@ pestenRoutes.route("/").post((req, res) => {
       console.log("Did update for 'pesten'-game");
       res.json({
         error: "success",
-        data: pesten.getState()
+        data: pesten.getState(req.body.user)
       });
       break;
     }
