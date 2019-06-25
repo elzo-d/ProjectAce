@@ -50,6 +50,17 @@ userRoutes.route("/").get(function(req, res) {
   });
 });
 
+userRoutes.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  User.findOne({ _id: id }, "name", (err, user) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(user);
+    }
+  });
+});
+
 // Defined edit route
 userRoutes.route("/edit/:id").get(function(req, res) {
   let id = req.params.id;

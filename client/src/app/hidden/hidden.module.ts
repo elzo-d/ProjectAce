@@ -2,9 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Routes, RouterModule} from '@angular/router';
 import {OrderModule} from 'ngx-order-pipe';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HiddenComponent} from './hidden.component'
 import {HighscoresComponent} from './highscores/highscores.component';
 import {FriendlistComponent} from './friendlist/friendlist.component';
@@ -23,17 +21,13 @@ const hiddenRoutes: Routes = [
   {
     path: '', component: HiddenComponent,
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'data'
-      },
-      // {path:'lobby', redirectTo: ''},
+      {path: '', pathMatch: 'full', redirectTo: 'data'},
       {path: 'lobby', component: GamelistComponent},
       {path: 'highscores', component: HighscoresComponent},
       {path: 'pesten', component: PestenComponent},
       {path: 'edit', component: EditComponent},
       {path: 'profile/:user', component: ProfileComponent}
+      {path: 'gamebar', component: GamebarComponent}
     ]
   }
 ]
