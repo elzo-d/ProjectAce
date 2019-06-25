@@ -9,8 +9,10 @@
 #title {
   color: black;
   text-align: center;
+  margin-top: 0px;
+  padding-top: 20px;
 }
 
 #row {
-  height: calc(100vh - 20px);
+  height: calc(100vh);
 }
