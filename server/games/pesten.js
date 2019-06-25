@@ -1,5 +1,5 @@
 
-const PLAYERS = 4;
+const PLAYERS = 2;
 
 class Pesten {
   constructor() {
@@ -189,6 +189,10 @@ class Pesten {
         this.doOpponentTurn(this.turn);
         break;
       }
+      case MOVE_TYPE.UPDATE: {
+        // don't change game state, only requesting new state
+        break;
+      }
     }
   }
 
@@ -199,15 +203,18 @@ class Pesten {
     }
     let otherLengths = [];
     for(let i = 1; i < PLAYERS; i++) {
-      otherLengths.push(this.userCards[i].length);
+      let ind = (user + i) % PLAYERS;
+      otherLengths.push(this.userCards[ind].length);
     }
     return {
+      waiting: false,
       userCards: cardList,
       otherCards: otherLengths,
       pileTop: this.getTopPileCard().getArray(),
       turn: this.turn,
       finished: this.finished,
-      won: this.won
+      won: this.won,
+      user: user
     }
   }
 }
@@ -223,7 +230,8 @@ const SUITS = {
 const MOVE_TYPE = {
   HAND_CARD: 0,
   STACK_CARD: 1,
-  OPPONENT: 2
+  OPPONENT: 2,
+  UPDATE: 3
 }
 
 class Card {
@@ -250,5 +258,6 @@ module.exports = {
   Pesten: Pesten,
   SUITS: SUITS,
   MOVE_TYPE: MOVE_TYPE,
-  Card: Card
+  Card: Card,
+  PLAYERS: PLAYERS
 }

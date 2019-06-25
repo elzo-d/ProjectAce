@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Card, SUITS } from '../card';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../../auth/auth.service';
 
-const PLAYERS = 4;
+const PLAYERS = 2;
+const URL = "http://localhost:5000";
 
 @Component({
   selector: 'app-pesten',
@@ -22,14 +24,16 @@ export class PestenComponent implements OnInit {
   user:number = 0;
 
   started:boolean = false;
+  waiting:boolean = true;
 
+  intervalId:number = 0;
   ctx = undefined;
   img = undefined;
 
   mx:number = 0;
   my:number = 0;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private auth:AuthService) { }
 
   ngOnInit() {
     this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
@@ -39,35 +43,39 @@ export class PestenComponent implements OnInit {
     this.img.onload = () => {this.onImageLoad()};
     window.onresize = () => {this.onResize()};
     this.reset();
+    this.intervalId = window.setInterval(() => {this.doUpdateRequest()}, 2000);
+    this.doUpdateRequest();
+  }
+
+  ngOnDestroy() {
+    window.clearInterval(this.intervalId);
   }
 
   reset() {
     this.started = false;
+    this.waiting = true;
     this.userCards = [];
     this.pileTop = undefined;
     this.finished = false;
     this.opponentLengths = [];
     this.won = 0;
     this.user = 0;
-    //window.setTimeout(() => {this.autoPlay()}, 100);
+  }
 
-    // TEMP: testing server connection
-    this.http.post<Test>("http://localhost:5000/api/pesten", {
-      // type: 1,
-      // card: [1, 1],
-      // moveType: 1,
-      // user: 0
-      type: 0,
-      user: this.user
-    }).subscribe(
-      res => this.handleMessage(res),
-      err => console.log(err)
-    );
+  doUpdateRequest() {
+    this.sendMessage(3, new Card(1, 1));
   }
 
   handleMessage(res) {
     this.started = true;
+    if(res.data.waiting) {
+      this.waiting = true;
+      this.updateView(this.mx, this.my);
+      return;
+    }
+    this.waiting = false;
     this.userCards = [];
+    this.user = res.data.user;
     for(let arr of res.data.userCards) {
       let c = new Card(1, 1);
       c.setFromArray(arr);
@@ -86,12 +94,12 @@ export class PestenComponent implements OnInit {
     console.log(res)
   }
 
-  sendMessage(type, card, user) {
-    this.http.post<Test>("http://localhost:5000/api/pesten", {
+  sendMessage(type, card) {
+    this.http.post(URL + "/api/pesten", {
       type: 1,
       card: card.getArray(),
       moveType: type,
-      user: user
+      userId: this.auth.getId()
     }).subscribe(
       res => this.handleMessage(res),
       err => console.log(err)
@@ -128,7 +136,7 @@ export class PestenComponent implements OnInit {
 
     if(my < 164 + 2) {
       // top row of cards
-      this.sendMessage(2, new Card(1, 1), 0);
+      this.sendMessage(2, new Card(1, 1));
     } else if(my > this.ctx.canvas.height - 164 - 2) {
       // bottom row of cards
       let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * 62 + 62) / 2);
@@ -143,7 +151,7 @@ export class PestenComponent implements OnInit {
         xPos += 62;
       }
       if(pickedCard) {
-        this.sendMessage(0, pickedCard, this.user);
+        this.sendMessage(0, pickedCard);
       }
     } else {
       // middle of table
@@ -151,7 +159,7 @@ export class PestenComponent implements OnInit {
         my > this.ctx.canvas.height / 2 - 82 && my < this.ctx.canvas.height / 2 + 82 &&
         mx > this.ctx.canvas.width / 2 && mx < this.ctx.canvas.width / 2 + 124 + 2
       ) {
-        this.sendMessage(1, new Card(1, 1), this.user);
+        this.sendMessage(1, new Card(1, 1));
       }
     }
     this.updateView(mx, my);
@@ -172,6 +180,18 @@ export class PestenComponent implements OnInit {
     let c = ctx.canvas;
     ctx.fillStyle = "#5ba318";
     ctx.fillRect(0, 0, c.width, c.height);
+
+    if(!this.started || this.waiting) {
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+      ctx.fillRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#000000";
+      ctx.strokeStyle = "#000000";
+      ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
+      ctx.font = "15px arial";
+      ctx.fillText(this.started ? "Waiting for players..." : "Connecting...", c.width / 2, c.height / 2);
+      return;
+    }
 
     this.pileTop.draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false, false);
     let highlight = (
@@ -232,9 +252,4 @@ export class PestenComponent implements OnInit {
     }
   }
 
-}
-
-interface Test {
-  error:string,
-  message:string
 }
