@@ -1,6 +1,11 @@
 <div id="navigation">
-  <button routerLink="lobby" class="visibleNotMobile" id="logo"></button>
-  <button routerLink="lobby" class="visibleMobile" id="logo" (click)="resetAllComponents()"></button>
+  <button routerLink="lobby" class="visibleNotMobile" id="logo">
+      <img src="/assets/logo.png">
+  </button>
+
+  <button routerLink="lobby" class="visibleMobile" id="logo" (click)="resetAllComponents()">
+      <img src="/assets/logo.png" alt="Paris">
+  </button>
 
   <ul id="nav">
     <li routerLinkActive="active">

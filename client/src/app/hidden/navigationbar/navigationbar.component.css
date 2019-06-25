@@ -1,12 +1,14 @@
 input, button, submit { border:none; } 
 
+img {
+  width: 100%;
+}
+
 #logo {
-  background-image: url("/assets/logo.png");
-  background-repeat: no-repeat;
-  width: 90px;
-  height: 45px;
-  transform: scale(1);
-  margin-top: 10px;
+  border-radius: 5px;
+  width: 100px;
+  height: 50px;
+  margin-top: 5px;
   margin-left: 25px;
   float: left;
 }
@@ -136,6 +138,8 @@ h2 {
 
   #logo {
     float: right;
+    height: 45px;
+    width: 90px;
     margin-right: 15px;
     margin-top: 4px;
   }
