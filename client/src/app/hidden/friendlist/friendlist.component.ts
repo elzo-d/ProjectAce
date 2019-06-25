@@ -17,6 +17,7 @@ enum ActiveTab {
 })
 export class FriendlistComponent implements OnInit {
   players: Friend[];
+  displayPlayers: Friend[];
   friends: Friend[];
   sortedFriends: Friend[];
   visible = true;
@@ -62,6 +63,7 @@ export class FriendlistComponent implements OnInit {
           status: Status.ONLINE
         });
       }
+      this.searchUser("user");
     });
   }
 
@@ -76,48 +78,6 @@ export class FriendlistComponent implements OnInit {
       { id: 7, name: "friend7", status: Status.OFFLINE },
       { id: 8, name: "friend8", status: Status.ONLINE }
     ];
-    // this.players = [
-    //   { id: 1, name: "player1", status: Status.OFFLINE },
-    //   { id: 2, name: "player2", status: Status.OFFLINE },
-    //   { id: 3, name: "player3", status: Status.OFFLINE },
-    //   { id: 4, name: "player4", status: Status.ONLINE },
-    //   { id: 5, name: "player5", status: Status.AWAY },
-    //   { id: 6, name: "player6", status: Status.BUSY },
-    //   { id: 7, name: "player7", status: Status.ONLINE },
-    //   { id: 8, name: "player8", status: Status.OFFLINE },
-    //   { id: 9, name: "player9", status: Status.AWAY },
-    //   { id: 10, name: "player10", status: Status.OFFLINE },
-    //   { id: 3, name: "player3", status: Status.OFFLINE },
-    //   { id: 4, name: "player4", status: Status.ONLINE },
-    //   { id: 5, name: "player5", status: Status.AWAY },
-    //   { id: 6, name: "player6", status: Status.BUSY },
-    //   { id: 7, name: "player7", status: Status.ONLINE },
-    //   { id: 8, name: "player8", status: Status.OFFLINE },
-    //   { id: 9, name: "player9", status: Status.AWAY },
-    //   { id: 10, name: "player10", status: Status.OFFLINE },
-    //   { id: 8, name: "player8", status: Status.OFFLINE },
-    //   { id: 9, name: "player9", status: Status.AWAY },
-    //   { id: 10, name: "player10", status: Status.OFFLINE },
-    //   { id: 3, name: "player3", status: Status.OFFLINE },
-    //   { id: 4, name: "player4", status: Status.ONLINE },
-    //   { id: 5, name: "player5", status: Status.AWAY },
-    //   { id: 6, name: "player6", status: Status.BUSY },
-    //   { id: 7, name: "player7", status: Status.ONLINE },
-    //   { id: 8, name: "player8", status: Status.OFFLINE },
-    //   { id: 9, name: "player9", status: Status.AWAY },
-    //   { id: 10, name: "player10", status: Status.OFFLINE },
-    //   { id: 8, name: "player8", status: Status.OFFLINE },
-    //   { id: 9, name: "player9", status: Status.AWAY },
-    //   { id: 10, name: "player10", status: Status.OFFLINE },
-    //   { id: 3, name: "player3", status: Status.OFFLINE },
-    //   { id: 4, name: "player4", status: Status.ONLINE },
-    //   { id: 5, name: "player5", status: Status.AWAY },
-    //   { id: 6, name: "player6", status: Status.BUSY },
-    //   { id: 7, name: "player7", status: Status.ONLINE },
-    //   { id: 8, name: "player8", status: Status.OFFLINE },
-    //   { id: 9, name: "player9", status: Status.AWAY },
-    //   { id: 10, name: "player10", status: Status.OFFLINE }
-    // ];
   }
 
   toggleList() {
@@ -139,6 +99,16 @@ export class FriendlistComponent implements OnInit {
     }
 
     this.order = value;
+  }
+
+  searchUser(searchString: string) {
+    console.log("searching...");
+    this.displayPlayers = [];
+    for (let player of this.players) {
+      if (player.name.includes(searchString)) {
+        this.displayPlayers.push(player);
+      }
+    }
   }
 
   customComparator(itemA, itemB) {
