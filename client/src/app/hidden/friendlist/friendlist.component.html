@@ -70,9 +70,15 @@
       </thead>
       <tbody id="playerList">
         <tr *ngFor="let player of displayPlayers">
-          <td>{{ player.name }}</td>
+          <td>
+            <a routerLink="profile/{{ player.id }}">{{ player.name }}</a>
+          </td>
           <td class="{{ player.status }}">{{ player.status }}</td>
-          <td><button class="btn btn-dark">Add friend</button></td>
+          <td>
+            <button class="btn btn-dark" (click)="sendFriendRequest(player.id)">
+              Add friend
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
