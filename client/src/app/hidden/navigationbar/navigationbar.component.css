@@ -1,10 +1,13 @@
+input, button, submit { border:none; } 
+
 #logo {
   background-image: url("/assets/logo.png");
-  width: 80px;
-  height: 50px;
+  background-repeat: no-repeat;
+  width: 90px;
+  height: 45px;
   transform: scale(1);
-  margin-top: 6px;
-  width: 125px;
+  margin-top: 10px;
+  margin-left: 25px;
   float: left;
 }
 
@@ -114,11 +117,27 @@ h2 {
   margin-top: 10px;
 }
 
+.visibleMobile {
+  display: none;
+}
+
+.visibleNotMobile {
+  display: unset;
+}
+
 @media only screen and (max-width: 600px) {
+  .visibleMobile {
+    display: unset;
+  }
+
+  .visibleNotMobile {
+    display: none;
+  }
+
   #logo {
     float: right;
-    margin-right: 10px;
-    margin-top: 3px;
+    margin-right: 15px;
+    margin-top: 4px;
   }
 
   #nav {

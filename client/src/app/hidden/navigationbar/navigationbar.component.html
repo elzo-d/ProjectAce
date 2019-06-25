@@ -1,12 +1,13 @@
 <div id="navigation">
-  <div id="logo"></div>
+  <button routerLink="lobby" class="visibleNotMobile" id="logo"></button>
+  <button routerLink="lobby" class="visibleMobile" id="logo" (click)="resetAllComponents()"></button>
 
   <ul id="nav">
     <li routerLinkActive="active">
-      <a routerLink="lobby" (click)="toggleClass(1)">Lobby</a>
+      <a routerLink="lobby">Lobby</a>
     </li>
     <li routerLinkActive="active">
-      <a routerLink="highscores" (click)="toggleClass(2)">Highscores</a>
+      <a routerLink="highscores">Highscores</a>
     </li>
 
     <div class="dropdown">
@@ -21,9 +22,9 @@
   <!--Mobile-->
   <div class="dropdown" id="mobileDropdown">
     <button class="dropbtn">
-        <div id="menuLogo"></div>
-        <div id="menuLogo"></div>
-        <div id="menuLogo"></div>
+      <div id="menuLogo"></div>
+      <div id="menuLogo"></div>
+      <div id="menuLogo"></div>
     </button>
 
     <div class="dropdown-content" routerLinkActive="active">
