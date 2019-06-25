@@ -1,7 +1,25 @@
 <div *ngIf="visible">
-  <button (click)="activateTab(ActiveTab.GENERAL_CHAT)" id="tab0" class="{{!friendlist}}">Chat</button>
-  <button (click)="activateTab(ActiveTab.FRIEND_LIST)" id="tab1" class="{{!friendlist}}">Friendlist</button>
-  <button (click)="activateTab(ActiveTab.SEARCH)" id="tab2" class="{{!friendlist}}">Search Friends</button>
+  <button
+    (click)="activateTab(ActiveTab.GENERAL_CHAT)"
+    id="tab0"
+    class="{{ !friendlist }}"
+  >
+    Chat
+  </button>
+  <button
+    (click)="activateTab(ActiveTab.FRIEND_LIST)"
+    id="tab1"
+    class="{{ !friendlist }}"
+  >
+    Friendlist
+  </button>
+  <button
+    (click)="activateTab(ActiveTab.SEARCH)"
+    id="tab2"
+    class="{{ !friendlist }}"
+  >
+    Search Friends
+  </button>
 
   <div *ngIf="activeTab == ActiveTab.GENERAL_CHAT">
     <div class="generalChatbox">
@@ -18,18 +36,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let friend of friends | orderBy: order:reverse:'case-insensitive':customComparator">
-          <td>{{friend.name}}</td>
-          <td class="{{friend.status}}" style="width: 30%">{{friend.status}}</td>
-          <td><button class="btn btn-dark">Message</button></td> <!--(click)="messageFriend(friend)"-->
+        <tr
+          *ngFor="
+            let friend of friends
+              | orderBy: order:reverse:'case-insensitive':customComparator
+          "
+        >
+          <td>{{ friend.name }}</td>
+          <td class="{{ friend.status }}" style="width: 30%">
+            {{ friend.status }}
+          </td>
+          <td><button class="btn btn-dark">Message</button></td>
+          <!--(click)="messageFriend(friend)"-->
         </tr>
       </tbody>
-
     </table>
   </div>
   <div *ngIf="activeTab == ActiveTab.SEARCH">
-    <input id="searchInput" type="text" placeholder="Search.." class="icon-addon addon-sm">
-    <button id="searchButton">Search</button>
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search.."
+      class="icon-addon addon-sm"
+      (input)="searchUser($event.target.value)"
+    />
     <table>
       <thead>
         <tr>
@@ -39,16 +69,18 @@
         </tr>
       </thead>
       <tbody id="playerList">
-        <tr *ngFor="let player of players">
-          <td>{{player.name}}</td>
-          <td class="{{player.status}}">{{player.status}}</td>
+        <tr *ngFor="let player of displayPlayers">
+          <td>{{ player.name }}</td>
+          <td class="{{ player.status }}">{{ player.status }}</td>
           <td><button class="btn btn-dark">Add friend</button></td>
         </tr>
       </tbody>
-
     </table>
   </div>
   <div class="chatbox" *ngIf="chatFriend !== undefined">
-    <app-chatbox (messageEvent)="closeChat()" [friend]="chatFriend"></app-chatbox>
+    <app-chatbox
+      (messageEvent)="closeChat()"
+      [friend]="chatFriend"
+    ></app-chatbox>
   </div>
 </div>

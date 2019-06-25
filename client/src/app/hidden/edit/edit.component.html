@@ -5,9 +5,12 @@
       <label class="col-lg-3 control-label">Username</label>
       <div class="col-lg-8">
         <input class="form-control" type="text" formControlName="username">
-        <span class=" errorMessage" *ngIf="invalid && editForm.get('username').hasError('required')" >
+        <p class=" errorMessage" *ngIf="invalid && editForm.get('username').hasError('required')" >
             This field is required
-        </span>
+        </p>
+        <p class=" errorMessage" *ngIf="invalid && editForm.get('username').hasError('maxlength')" >
+          Username cannot contain more than 16 characters
+        </p>
       </div>
     </div>
 
@@ -15,12 +18,12 @@
       <label class="col-lg-3 control-label">Email</label>
       <div class="col-lg-8">
         <input class="form-control" type="text" formControlName="email">
-        <span class=" errorMessage" *ngIf="invalid && editForm.get('email').hasError('required')">
+        <p class=" errorMessage" *ngIf="invalid && editForm.get('email').hasError('required')">
             This field is required
-        </span>
-        <span class="errorMessage" *ngIf="invalid && editForm.get('email').hasError('email')">
+        </p>
+        <p class="errorMessage" *ngIf="invalid && editForm.get('email').hasError('email')">
             Please enter a valid email address
-        </span>
+        </p>
       </div>
       <div class=" errorMessage col-lg-4" *ngIf="invalid && editForm.get('email').hasError('required')" >
         <p></p>
@@ -42,9 +45,9 @@
         <label class="col-lg-3 control-label">Current password</label>
         <div class="col-lg-8">
           <input class="form-control" type="password" formControlName="currentPassword">
-          <span class=" errorMessage" *ngIf="invalid && editForm.get('currentPassword').hasError('required')">
+          <p class=" errorMessage" *ngIf="invalid && editForm.get('currentPassword').hasError('required')">
               This field is required
-          </span>
+          </p>
         </div>
       </div>
       
@@ -52,12 +55,12 @@
         <label class="col-lg-3 control-label">Password</label>
         <div class="col-lg-8">
             <input class="form-control" type="password" formControlName="newPassword">
-            <span class=" errorMessage" *ngIf="invalid && editForm.get('newPassword').hasError('required')">
+            <p class=" errorMessage" *ngIf="invalid && editForm.get('newPassword').hasError('required')">
                 This field is required
-            </span>
-            <span class=" errorMessage" *ngIf="invalid && editForm.get('newPassword').hasError('minlength')">
+            </p>
+            <p class=" errorMessage" *ngIf="invalid && editForm.get('newPassword').hasError('minlength')">
                 The password should contain at least 6 characters
-            </span>
+            </p>
         </div>
       </div>
       
@@ -65,12 +68,12 @@
         <label class="col-lg-3 control-label">Confirm password</label>
         <div class="col-lg-8">
           <input class="form-control" type="password" formControlName="confirmPassword">
-          <span class="errorMessage" *ngIf="invalid && editForm.get('confirmPassword').hasError('required')" >
+          <p class="errorMessage" *ngIf="invalid && editForm.get('confirmPassword').hasError('required')" >
             This field is required
-          </span>
-          <span class="errorMessage" *ngIf="invalid && editForm.controls.confirmPassword.errors?.MatchPassword">
+          </p>
+          <p class="errorMessage" *ngIf="invalid && editForm.controls.confirmPassword.errors?.MatchPassword">
             Password do not match
-          </span>
+          </p>
         </div>
         
       </div>

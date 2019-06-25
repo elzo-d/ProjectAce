@@ -19,15 +19,21 @@ export class UserService {
     return this.http.post(`${this.uri}/add`, user);
   }
 
-  editProfile(name, email, currentPassword, newPassword, confirmPassword, id){
+  editProfile(name, email, currentPassword, newPassword, confirmPassword, id) {
     console.log("submitting");
     const user = {
       name: name,
       password: newPassword,
       email: email,
-      // id:id
+      currentPassword: currentPassword
     };
-    console.log(user)
-    this.http.post(`${this.uri}/update/${id}`, user).subscribe(res =>console.log('Done'));
+    console.log(user);
+    this.http
+      .post(`${this.uri}/update/${id}`, user)
+      .subscribe(res => console.log("Done"));
+  }
+
+  getPlayerList() {
+    return this.http.get(`${this.uri}`);
   }
 }

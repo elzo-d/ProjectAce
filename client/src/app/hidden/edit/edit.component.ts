@@ -34,7 +34,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     // initialize the form
     this.editForm = this.formBuilder.group({
-      username: [this.currentUser, Validators.required],
+      username: [this.currentUser, [Validators.required, Validators.maxLength(16)]],
       email: [this.email, [Validators.required, Validators.email]],
       currentPassword: ["", Validators.required],
       newPassword: ["", [Validators.required, Validators.minLength(6)]],
@@ -53,6 +53,9 @@ export class EditComponent implements OnInit {
    //  check form requirements 
    if(this.editForm.get('username').hasError('required')){
      console.log("username required")
+     return false
+   } else if(this.editForm.get('username').hasError('maxlength')) {
+     console.log("No longer than 16 charachters")
      return false
    } else if (this.editForm.get('email').hasError('required')){
     console.log("email required") 
@@ -102,7 +105,7 @@ export class EditComponent implements OnInit {
       this.invalid = true;
       console.log("invalid form")
     } else {
-      this.submitWithoutPassword();
+      this.submitWithPassword();
     }
   }
 
