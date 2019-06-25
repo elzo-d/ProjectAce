@@ -12,9 +12,10 @@ import {GametypesModule} from './gametypes/gametypes.module';
 import {PestenComponent} from './gametypes/pesten/pesten.component';
 import {GamebarComponent} from './gamebar/gamebar.component';
 import {ChatService} from './friendlist/chatbox/chat.service';
-import {NavigationbarComponent} from './navigationbar/navigationbar.component';
-import {GeneralchatComponent} from './friendlist/chatbox/generalchat.component';
-import {EditComponent} from './edit/edit.component';
+import { NavigationbarComponent } from './navigationbar/navigationbar.component';
+import { GeneralchatComponent } from './friendlist/chatbox/generalchat.component';
+import { EditComponent } from './edit/edit.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const hiddenRoutes: Routes = [
   {
@@ -25,6 +26,7 @@ const hiddenRoutes: Routes = [
       {path: 'highscores', component: HighscoresComponent},
       {path: 'pesten', component: PestenComponent},
       {path: 'edit', component: EditComponent},
+      {path: 'profile/:user', component: ProfileComponent},
       {path: 'gamebar', component: GamebarComponent}
     ]
   }
@@ -40,7 +42,8 @@ const hiddenRoutes: Routes = [
     GamebarComponent,
     NavigationbarComponent,
     GeneralchatComponent,
-    EditComponent
+    EditComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
