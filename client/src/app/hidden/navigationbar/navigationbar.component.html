@@ -27,9 +27,11 @@
     </button>
 
     <div class="dropdown-content" routerLinkActive="active">
-      <a routerLink="lobby" (click)="toggleClass(1)">Lobby</a>
-      <a routerLink="highscores" (click)="toggleClass(2)">Highscores</a>
-      <a routerLink="edit">Edit profile</a>
+      <a routerLink="lobby" (click)="resetAllComponents()">Lobby</a>
+      <a routerLink="highscores" (click)="resetAllComponents()">Highscores</a>
+      <a routerLink="gamebar" (click)=resetAllComponents()>Game Types</a>
+      <a (click)=toggleFriendComponent()>Chat and Friends</a>
+      <a routerLink="edit" (click)="resetAllComponents()">Edit profile</a>
       <a href="#" (click)="logout()">Logout</a>
     </div>
 

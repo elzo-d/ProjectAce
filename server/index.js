@@ -21,9 +21,10 @@ const port = process.env.PORT || 5000;
 
 // Chat socket
 io.on("connection", socket => {
-  console.log("user connected");
+  console.log("User connected to chatbox");
 
   socket.on("new-message", message => {
+    console.log("Message:" + message);
     io.emit("new-message", message);
   });
 });
@@ -63,16 +64,6 @@ mongoose.connect(dbConfig.DB, { useNewUrlParser: true }).then(
     console.log("Can not connect to the database" + err);
   }
 );
-
-// Chat socket
-io.on("connection", socket => {
-  console.log("User connected to chatbox");
-
-  socket.on("new-message", message => {
-    console.log("Message:" + message);
-    io.emit(message);
-  });
-});
 
 server.listen(port, () => {
   console.log(`started on port: ${port}`);
