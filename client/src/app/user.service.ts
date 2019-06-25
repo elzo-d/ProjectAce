@@ -25,9 +25,11 @@ export class UserService {
       name: name,
       password: newPassword,
       email: email,
-      // id:id
+      currentPassword: currentPassword,
     };
     console.log(user)
     this.http.post(`${this.uri}/update/${id}`, user).subscribe(res =>console.log('Done'));
   }
+
+
 }

@@ -63,6 +63,7 @@ userRoutes.route("/edit/:id").get(function(req, res) {
 
 userRoutes.route("/update/:id").post(function(req, res) {
   let password = req.body.password;
+  let currentPassword = req.body.currentPassword
   if(password == undefined){
     console.log("No password changed")
     User.findByIdAndUpdate(
@@ -81,34 +82,45 @@ userRoutes.route("/update/:id").post(function(req, res) {
       return res.send(user)
     });
   } else{
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      console.log(`hash: ${hash}`);
-      if (err) {
-        res.status(400).send("unable to save password");
-        return;
-      } else {
-        req.body.password = hash;
-        console.log(">> password hashed to", hash);
-        User.findByIdAndUpdate(
-          req.params.id, 
-          req.body, 
-          {new: true}, 
-          (err, user) => {
-          console.log(req.body)
-          if(!user){
-            return console.log("!user")
+    //Password comparison
+    User.findById(
+      req.params.id,
+      (err, user) => {
+        bcrypt.compare(currentPassword, user.password, function(err, passCorrect) {
+          if (passCorrect) {
+            console.log(`Password is correct`);
+            bcrypt.hash(password, saltRounds, (err, hash) => {
+              console.log(`hash: ${hash}`);
+              if (err) {
+                res.status(400).send("unable to save password");
+                return;
+              } else {
+                req.body.password = hash;
+                console.log(">> password hashed to", hash);
+                User.findByIdAndUpdate(
+                  req.params.id, 
+                  req.body, 
+                  {new: true}, 
+                  (err, user) => {
+                  console.log(req.body)
+                  if(!user){
+                    return console.log("!user")
+                  }
+                  if (err) {
+                    res.status(400).send("Dikke probleem");
+                    return;
+                  }
+                  return res.send(user)
+                });
+              }
+            })
+          } else {
+            res.status(401).json({ message: "password did not match" });
           }
-          if (err) {
-            res.status(400).send("Dikke probleem");
-            return;
-          }
-          return res.send(user)
         });
       }
-    })
+    )
   }
-
-
 });
 
 userRoutes.route("/delete/:id").get(function(req, res) {
