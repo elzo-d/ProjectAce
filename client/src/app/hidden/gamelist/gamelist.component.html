@@ -3,14 +3,16 @@
   <tr>
     <th class="thead-dark" width="200px">Game</th>
     <th class="thead-light" width="200px">Name</th>
+    <th class="thead-light" width="200px">Players</th>
     <th class="thead" width="200px">
       <button (click)="joinRandom()">Join random</button>
-      <button *ngIf="selectedGame" (click)="singlePlayer()">Play singleplayer</button>
+      <button *ngIf="selectedGame" (click)="newGame()">Start new game</button>
     </th>
   </tr>
-  <tr *ngFor="let game of getList()">
+  <tr *ngFor="let game of finalList">
     <td>{{game.gameType}}</td>
     <td>{{game.name}}</td>
+    <td>{{game.players}}</td>
     <td><button (click)="joinGame(game)">Join</button></td>
   </tr>
 </table>
