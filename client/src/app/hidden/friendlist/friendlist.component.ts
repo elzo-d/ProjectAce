@@ -1,23 +1,26 @@
-import {AuthService} from './../../auth/auth.service';
-import {Component, OnInit} from '@angular/core';
-import {OrderPipe} from 'ngx-order-pipe';
-import {Friend} from './Friend';
+import { AuthService } from "./../../auth/auth.service";
+import { Component, OnInit } from "@angular/core";
+import { OrderPipe } from "ngx-order-pipe";
+import { Friend } from "./Friend";
+import { UserService } from "src/app/user.service";
 
 enum ActiveTab {
-  GENERAL_CHAT, FRIEND_LIST, SEARCH
+  GENERAL_CHAT,
+  FRIEND_LIST,
+  SEARCH
 }
 
 @Component({
-  selector: 'app-friendlist',
-  templateUrl: './friendlist.component.html',
-  styleUrls: ['./friendlist.component.css']
+  selector: "app-friendlist",
+  templateUrl: "./friendlist.component.html",
+  styleUrls: ["./friendlist.component.css"]
 })
 export class FriendlistComponent implements OnInit {
   players: Friend[];
   friends: Friend[];
   sortedFriends: Friend[];
   visible = true;
-  order: string = 'id';
+  order: string = "id";
   reverse: boolean = false;
   itemARank: number = 4;
   itemBRank: number = 4;
@@ -25,75 +28,96 @@ export class FriendlistComponent implements OnInit {
   currentUser: string = this.auth.getUser();
   activeTab: ActiveTab;
 
-  constructor(private orderPipe: OrderPipe, public auth: AuthService) {
-    this.sortedFriends = orderPipe.transform(this.friends, 'id');
+  constructor(
+    private orderPipe: OrderPipe,
+    public auth: AuthService,
+    private userService: UserService
+  ) {
+    this.sortedFriends = orderPipe.transform(this.friends, "id");
     this.activeTab = ActiveTab.GENERAL_CHAT;
   }
 
-  get ActiveTab() { return ActiveTab; }
+  get ActiveTab() {
+    return ActiveTab;
+  }
 
   ngOnInit() {
     this.mockData();
-    this.setOrder('status');
+    this.updatePlayerList();
+    this.setOrder("status");
   }
 
   messageFriend(friend: Friend) {
     this.chatFriend = friend;
   }
 
+  updatePlayerList() {
+    this.userService.getPlayerList().subscribe(res => {
+      this.players = [];
+      for (let i in res) {
+        let user = res[i];
+        this.players.push({
+          id: user._id,
+          name: user.name,
+          status: Status.ONLINE
+        });
+      }
+    });
+  }
+
   mockData() {
     this.friends = [
-      {id: 1, name: 'friend1', status: Status.ONLINE},
-      {id: 2, name: 'friend2', status: Status.AWAY},
-      {id: 3, name: 'friend3', status: Status.OFFLINE},
-      {id: 4, name: 'friend4', status: Status.ONLINE},
-      {id: 5, name: 'friend5', status: Status.BUSY},
-      {id: 6, name: 'friend6', status: Status.OFFLINE},
-      {id: 7, name: 'friend7', status: Status.OFFLINE},
-      {id: 8, name: 'friend8', status: Status.ONLINE},
+      { id: 1, name: "friend1", status: Status.ONLINE },
+      { id: 2, name: "friend2", status: Status.AWAY },
+      { id: 3, name: "friend3", status: Status.OFFLINE },
+      { id: 4, name: "friend4", status: Status.ONLINE },
+      { id: 5, name: "friend5", status: Status.BUSY },
+      { id: 6, name: "friend6", status: Status.OFFLINE },
+      { id: 7, name: "friend7", status: Status.OFFLINE },
+      { id: 8, name: "friend8", status: Status.ONLINE }
     ];
-    this.players = [
-      {id: 1, name: 'player1', status: Status.OFFLINE},
-      {id: 2, name: 'player2', status: Status.OFFLINE},
-      {id: 3, name: 'player3', status: Status.OFFLINE},
-      {id: 4, name: 'player4', status: Status.ONLINE},
-      {id: 5, name: 'player5', status: Status.AWAY},
-      {id: 6, name: 'player6', status: Status.BUSY},
-      {id: 7, name: 'player7', status: Status.ONLINE},
-      {id: 8, name: 'player8', status: Status.OFFLINE},
-      {id: 9, name: 'player9', status: Status.AWAY},
-      {id: 10, name: 'player10', status: Status.OFFLINE},
-      {id: 3, name: 'player3', status: Status.OFFLINE},
-      {id: 4, name: 'player4', status: Status.ONLINE},
-      {id: 5, name: 'player5', status: Status.AWAY},
-      {id: 6, name: 'player6', status: Status.BUSY},
-      {id: 7, name: 'player7', status: Status.ONLINE},
-      {id: 8, name: 'player8', status: Status.OFFLINE},
-      {id: 9, name: 'player9', status: Status.AWAY},
-      {id: 10, name: 'player10', status: Status.OFFLINE},
-      {id: 8, name: 'player8', status: Status.OFFLINE},
-      {id: 9, name: 'player9', status: Status.AWAY},
-      {id: 10, name: 'player10', status: Status.OFFLINE},
-      {id: 3, name: 'player3', status: Status.OFFLINE},
-      {id: 4, name: 'player4', status: Status.ONLINE},
-      {id: 5, name: 'player5', status: Status.AWAY},
-      {id: 6, name: 'player6', status: Status.BUSY},
-      {id: 7, name: 'player7', status: Status.ONLINE},
-      {id: 8, name: 'player8', status: Status.OFFLINE},
-      {id: 9, name: 'player9', status: Status.AWAY},
-      {id: 10, name: 'player10', status: Status.OFFLINE},
-      {id: 8, name: 'player8', status: Status.OFFLINE},
-      {id: 9, name: 'player9', status: Status.AWAY},
-      {id: 10, name: 'player10', status: Status.OFFLINE},
-      {id: 3, name: 'player3', status: Status.OFFLINE},
-      {id: 4, name: 'player4', status: Status.ONLINE},
-      {id: 5, name: 'player5', status: Status.AWAY},
-      {id: 6, name: 'player6', status: Status.BUSY},
-      {id: 7, name: 'player7', status: Status.ONLINE},
-      {id: 8, name: 'player8', status: Status.OFFLINE},
-      {id: 9, name: 'player9', status: Status.AWAY},
-      {id: 10, name: 'player10', status: Status.OFFLINE},
-    ]
+    // this.players = [
+    //   { id: 1, name: "player1", status: Status.OFFLINE },
+    //   { id: 2, name: "player2", status: Status.OFFLINE },
+    //   { id: 3, name: "player3", status: Status.OFFLINE },
+    //   { id: 4, name: "player4", status: Status.ONLINE },
+    //   { id: 5, name: "player5", status: Status.AWAY },
+    //   { id: 6, name: "player6", status: Status.BUSY },
+    //   { id: 7, name: "player7", status: Status.ONLINE },
+    //   { id: 8, name: "player8", status: Status.OFFLINE },
+    //   { id: 9, name: "player9", status: Status.AWAY },
+    //   { id: 10, name: "player10", status: Status.OFFLINE },
+    //   { id: 3, name: "player3", status: Status.OFFLINE },
+    //   { id: 4, name: "player4", status: Status.ONLINE },
+    //   { id: 5, name: "player5", status: Status.AWAY },
+    //   { id: 6, name: "player6", status: Status.BUSY },
+    //   { id: 7, name: "player7", status: Status.ONLINE },
+    //   { id: 8, name: "player8", status: Status.OFFLINE },
+    //   { id: 9, name: "player9", status: Status.AWAY },
+    //   { id: 10, name: "player10", status: Status.OFFLINE },
+    //   { id: 8, name: "player8", status: Status.OFFLINE },
+    //   { id: 9, name: "player9", status: Status.AWAY },
+    //   { id: 10, name: "player10", status: Status.OFFLINE },
+    //   { id: 3, name: "player3", status: Status.OFFLINE },
+    //   { id: 4, name: "player4", status: Status.ONLINE },
+    //   { id: 5, name: "player5", status: Status.AWAY },
+    //   { id: 6, name: "player6", status: Status.BUSY },
+    //   { id: 7, name: "player7", status: Status.ONLINE },
+    //   { id: 8, name: "player8", status: Status.OFFLINE },
+    //   { id: 9, name: "player9", status: Status.AWAY },
+    //   { id: 10, name: "player10", status: Status.OFFLINE },
+    //   { id: 8, name: "player8", status: Status.OFFLINE },
+    //   { id: 9, name: "player9", status: Status.AWAY },
+    //   { id: 10, name: "player10", status: Status.OFFLINE },
+    //   { id: 3, name: "player3", status: Status.OFFLINE },
+    //   { id: 4, name: "player4", status: Status.ONLINE },
+    //   { id: 5, name: "player5", status: Status.AWAY },
+    //   { id: 6, name: "player6", status: Status.BUSY },
+    //   { id: 7, name: "player7", status: Status.ONLINE },
+    //   { id: 8, name: "player8", status: Status.OFFLINE },
+    //   { id: 9, name: "player9", status: Status.AWAY },
+    //   { id: 10, name: "player10", status: Status.OFFLINE }
+    // ];
   }
 
   toggleList() {
@@ -105,7 +129,7 @@ export class FriendlistComponent implements OnInit {
   }
 
   closeChat() {
-    console.log("closing")
+    console.log("closing");
     this.chatFriend = undefined;
   }
 
@@ -147,7 +171,6 @@ export class FriendlistComponent implements OnInit {
     }
     return itemARank > itemBRank ? 1 : -1;
   }
-
 }
 
 enum Status {
