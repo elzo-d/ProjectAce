@@ -26,7 +26,7 @@ const hiddenRoutes: Routes = [
       {path: 'highscores', component: HighscoresComponent},
       {path: 'pesten', component: PestenComponent},
       {path: 'edit', component: EditComponent},
-      {path: 'profile/:user', component: ProfileComponent}
+      {path: 'profile/:user', component: ProfileComponent},
       {path: 'gamebar', component: GamebarComponent}
     ]
   }
