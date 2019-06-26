@@ -28,6 +28,7 @@ export class PestenComponent implements OnInit {
   waiting:boolean = true;
 
   intervalId:number = 0;
+  scale:number = 1;
   ctx = undefined;
   img = undefined;
 
@@ -40,6 +41,7 @@ export class PestenComponent implements OnInit {
     this.ctx = (<HTMLCanvasElement> document.getElementById("canvas")).getContext("2d");
     this.ctx.canvas.width = this.ctx.canvas.offsetWidth;
     this.ctx.canvas.height = this.ctx.canvas.offsetHeight;
+    this.scale = this.ctx.canvas.width < 600 ? 0.5 : 1;
     this.img = document.getElementById("img");
     this.img.onload = () => {this.onImageLoad()};
     window.onresize = () => {this.onResize()};
@@ -116,6 +118,7 @@ export class PestenComponent implements OnInit {
   onResize() {
     this.ctx.canvas.width = this.ctx.canvas.offsetWidth;
     this.ctx.canvas.height = this.ctx.canvas.offsetHeight;
+    this.scale = this.ctx.canvas.width < 600 ? 0.5 : 1;
     window.setTimeout(() => this.updateView(0, 0), 0);
   }
 
@@ -135,21 +138,25 @@ export class PestenComponent implements OnInit {
       return;
     }
 
-    if(my < 164 + 2) {
+    let cardWidth = 124 * this.scale;
+    let cardHeight = 164 * this.scale;
+    let cardOverlap = cardWidth / 2;
+
+    if(my < cardHeight + 2) {
       // top row of cards
-      this.sendMessage(2, new Card(1, 1));
-    } else if(my > this.ctx.canvas.height - 164 - 2) {
+      // this.sendMessage(2, new Card(1, 1));
+    } else if(my > this.ctx.canvas.height - cardHeight - 2) {
       // bottom row of cards
-      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+      let xPos = (this.ctx.canvas.width / 2) - ((this.userCards.length * cardOverlap + cardOverlap) / 2);
       if(xPos < 0) {
         xPos += (2 * -xPos) * (1 - (2 * (mx / this.ctx.canvas.width)));
       }
       let pickedCard = undefined;
       for(let card of this.userCards) {
-        if(mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)) {
+        if(mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? cardWidth : cardOverlap)) {
           pickedCard = card;
         }
-        xPos += 62;
+        xPos += cardOverlap;
       }
       if(pickedCard) {
         this.sendMessage(0, pickedCard);
@@ -157,8 +164,8 @@ export class PestenComponent implements OnInit {
     } else {
       // middle of table
       if(
-        my > this.ctx.canvas.height / 2 - 82 && my < this.ctx.canvas.height / 2 + 82 &&
-        mx > this.ctx.canvas.width / 2 && mx < this.ctx.canvas.width / 2 + 124 + 2
+        my > this.ctx.canvas.height / 2 - (cardHeight / 2) && my < this.ctx.canvas.height / 2 + (cardHeight / 2) &&
+        mx > this.ctx.canvas.width / 2 && mx < this.ctx.canvas.width / 2 + cardWidth + 2
       ) {
         this.sendMessage(1, new Card(1, 1));
       }
@@ -191,6 +198,10 @@ export class PestenComponent implements OnInit {
     ctx.fillStyle = "#5ba318";
     ctx.fillRect(0, 0, c.width, c.height);
 
+    let cardWidth = 124 * this.scale;
+    let cardHeight = 164 * this.scale;
+    let cardOverlap = cardWidth / 2;
+
     if(!this.started || this.waiting) {
       ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.fillRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
@@ -203,84 +214,83 @@ export class PestenComponent implements OnInit {
       return;
     }
 
-    this.pileTop.draw(ctx, (c.width / 2) - 124 - 2, (c.height / 2) - 82, this.img, false, false);
-    let highlight = (
-      my > c.height / 2 - 82 && my < c.height / 2 + 82 &&
-      mx > c.width / 2 && mx < c.width / 2 + 124 + 2
-    );
-    let stackTop = new Card(1, 1);
-    stackTop.draw(ctx, (c.width / 2) + 2, (c.height / 2) - 82, this.img, highlight && !this.finished, false);
-
     let user1cards = this.getCardArray(this.opponentLengths[0]);
-    let xPos = (c.height / 2) - ((user1cards.length * 62 + 62) / 2);
+    let xPos = (c.height / 2) - ((user1cards.length * cardOverlap + cardOverlap) / 2);
     for(let card of user1cards) {
-      card.draw(ctx, 2, xPos, this.img, false, true);
-      xPos += 62;
+      card.draw(ctx, 2, xPos, this.img, false, true, this.scale);
+      xPos += cardOverlap;
     }
     if(this.turn === (this.user + 1) % PLAYERS && !this.finished) {
       // draw triangle
       this.drawTriangle(
         ctx,
-        170, c.height / 2,
-        170 + 10, c.height / 2 - 20,
-        170 + 10, c.height / 2 + 20
+        cardHeight + 6, c.height / 2,
+        cardHeight + 6 + 10, c.height / 2 - 20,
+        cardHeight + 6 + 10, c.height / 2 + 20
       );
     }
     if(PLAYERS > 2) {
       let user2cards = this.getCardArray(this.opponentLengths[1]);
-      xPos = (c.width / 2) - ((user2cards.length * 62 + 62) / 2);
+      xPos = (c.width / 2) - ((user2cards.length * cardOverlap + cardOverlap) / 2);
       for(let card of user2cards) {
-        card.draw(ctx, xPos, 2, this.img, false, false);
-        xPos += 62;
+        card.draw(ctx, xPos, 2, this.img, false, false, this.scale);
+        xPos += cardOverlap;
       }
       if(this.turn === (this.user + 2) % PLAYERS && !this.finished) {
         // draw triangle
         this.drawTriangle(
           ctx,
-          c.width / 2, 170,
-          c.width / 2 - 20, 170 + 10,
-          c.width / 2 + 20, 170 + 10
+          c.width / 2, cardHeight + 6,
+          c.width / 2 - 20, cardHeight + 6 + 10,
+          c.width / 2 + 20, cardHeight + 6 + 10
         );
       }
     }
     if(PLAYERS > 3) {
       let user3cards = this.getCardArray(this.opponentLengths[2]);
-      xPos = (c.height / 2) - ((user3cards.length * 62 + 62) / 2);
+      xPos = (c.height / 2) - ((user3cards.length * cardOverlap + cardOverlap) / 2);
       for(let card of user3cards) {
-        card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true);
-        xPos += 62;
+        card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true, this.scale);
+        xPos += cardOverlap;
       }
       if(this.turn === (this.user + 3) % PLAYERS && !this.finished) {
         // draw triangle
         this.drawTriangle(
           ctx,
-          c.width - 170, c.height / 2,
-          c.width - 170 - 10, c.height / 2 - 20,
-          c.width - 170 - 10, c.height / 2 + 20
+          c.width - (cardHeight + 6), c.height / 2,
+          c.width - (cardHeight + 6) - 10, c.height / 2 - 20,
+          c.width - (cardHeight + 6) - 10, c.height / 2 + 20
         );
       }
     }
 
+    this.pileTop.draw(ctx, (c.width / 2) - cardWidth - 2, (c.height / 2) - (cardHeight / 2), this.img, false, false, this.scale);
+    let highlight = (
+      my > c.height / 2 - (cardHeight / 2) && my < c.height / 2 + (cardHeight / 2) &&
+      mx > c.width / 2 && mx < c.width / 2 + cardWidth + 2
+    );
+    let stackTop = new Card(1, 1);
+    stackTop.draw(ctx, (c.width / 2) + 2, (c.height / 2) - (cardHeight / 2), this.img, highlight && !this.finished, false, this.scale);
 
-    xPos = (c.width / 2) - ((this.userCards.length * 62 + 62) / 2);
+    xPos = (c.width / 2) - ((this.userCards.length * cardOverlap + cardOverlap) / 2);
     if(xPos < 0) {
       xPos += (2 * -xPos) * (1 - (2 * (mx / c.width)));
     }
     for(let card of this.userCards) {
       let highlight = (
-        my > c.height - 164 - 2 &&
-        mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? 124 : 62)
+        my > c.height - cardHeight - 2 &&
+        mx > xPos && mx < xPos + (card === this.userCards[this.userCards.length - 1] ? cardWidth : cardOverlap)
       );
-      card.draw(ctx, xPos, c.height - 164 - 2, this.img, highlight && !this.finished, false);
-      xPos += 62;
+      card.draw(ctx, xPos, c.height - cardHeight - 2, this.img, highlight && !this.finished, false, this.scale);
+      xPos += cardOverlap;
     }
     if(this.turn === this.user && !this.finished) {
       // draw triangle
       this.drawTriangle(
         ctx,
-        c.width / 2, c.height - 170,
-        c.width / 2 - 20, c.height - 170 - 10,
-        c.width / 2 + 20, c.height - 170 - 10
+        c.width / 2, c.height - (cardHeight + 6),
+        c.width / 2 - 20, c.height - (cardHeight + 6) - 10,
+        c.width / 2 + 20, c.height - (cardHeight + 6) - 10
       );
     }
 

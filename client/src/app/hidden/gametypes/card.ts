@@ -61,7 +61,7 @@ export class Card {
     return "black";
   }
 
-  draw(ctx, x, y, img, highlight, rotate):void {
+  draw(ctx, x, y, img, highlight, rotate, scale):void {
     let coords = this.getCoords();
     if(rotate) {
       coords = [124 * 3, 164 * 4];
@@ -69,11 +69,11 @@ export class Card {
     ctx.drawImage(
       img,
       coords[0], coords[1], rotate ? 164 : 124, rotate ? 124 : 164,
-      x, y, rotate ? 164 : 124, rotate ? 124 : 164
+      x, y, (rotate ? 164 : 124) * scale, (rotate ? 124 : 164) * scale
     );
     if(highlight) {
       ctx.fillStyle = "rgba(200, 200, 255, 0.7)";
-      ctx.fillRect(x, y, 124, 164);
+      ctx.fillRect(x, y, 124 * scale, 164 * scale);
     }
   }
 
