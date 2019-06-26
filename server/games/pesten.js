@@ -11,6 +11,8 @@ class Pesten {
     this.finished = false;
     this.won = 0;
     this.reset();
+
+    this.joinedUsers = [];
   }
 
   reset() {
@@ -214,7 +216,8 @@ class Pesten {
       turn: this.turn,
       finished: this.finished,
       won: this.won,
-      user: user
+      user: user,
+      joinedUsers: this.joinedUsers
     }
   }
 }
