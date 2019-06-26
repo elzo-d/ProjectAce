@@ -98,10 +98,11 @@ export class GamelistComponent implements OnInit {
   joinRandom() {
     // join a random game
     if(this.finalList.length < 1) {
+      console.log("No game to join");
       return;
     }
     let n = Math.floor(Math.random() * this.finalList.length);
-    joinGame(this.finalList[n]);
+    this.joinGame(this.finalList[n]);
   }
 
   newGame() {
