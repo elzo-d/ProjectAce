@@ -26,6 +26,7 @@ export class PestenComponent implements OnInit {
 
   started:boolean = false;
   waiting:boolean = true;
+  joinedUsers:number = 0;
 
   intervalId:number = 0;
   scale:number = 1;
@@ -57,6 +58,7 @@ export class PestenComponent implements OnInit {
   reset() {
     this.started = false;
     this.waiting = true;
+    this.joinedUsers = 1;
     this.userCards = [];
     this.pileTop = undefined;
     this.finished = false;
@@ -74,6 +76,7 @@ export class PestenComponent implements OnInit {
     this.started = true;
     if(res.data.waiting) {
       this.waiting = true;
+      this.joinedUsers = res.data.players;
       this.updateView(this.mx, this.my);
       return;
     }
@@ -182,7 +185,7 @@ export class PestenComponent implements OnInit {
   }
 
   drawTriangle(ctx, x1, y1, x2, y2, x3, y3) {
-    ctx.fillStyle = "#ffff00";
+    ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
@@ -210,7 +213,8 @@ export class PestenComponent implements OnInit {
       ctx.strokeStyle = "#000000";
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
       ctx.font = "15px arial";
-      ctx.fillText(this.started ? "Waiting for players..." : "Connecting...", c.width / 2, c.height / 2);
+      ctx.fillText(this.started ? "Waiting for players..." : "Connecting...", c.width / 2, c.height / 2 - 20);
+      ctx.fillText(this.started ? this.joinedUsers + " / " + PLAYERS + " users joined" : "", c.width / 2, c.height / 2 + 20);
       return;
     }
 
@@ -220,30 +224,12 @@ export class PestenComponent implements OnInit {
       card.draw(ctx, 2, xPos, this.img, false, true, this.scale);
       xPos += cardOverlap;
     }
-    if(this.turn === (this.user + 1) % PLAYERS && !this.finished) {
-      // draw triangle
-      this.drawTriangle(
-        ctx,
-        cardHeight + 6, c.height / 2,
-        cardHeight + 6 + 10, c.height / 2 - 20,
-        cardHeight + 6 + 10, c.height / 2 + 20
-      );
-    }
     if(PLAYERS > 2) {
       let user2cards = this.getCardArray(this.opponentLengths[1]);
       xPos = (c.width / 2) - ((user2cards.length * cardOverlap + cardOverlap) / 2);
       for(let card of user2cards) {
         card.draw(ctx, xPos, 2, this.img, false, false, this.scale);
         xPos += cardOverlap;
-      }
-      if(this.turn === (this.user + 2) % PLAYERS && !this.finished) {
-        // draw triangle
-        this.drawTriangle(
-          ctx,
-          c.width / 2, cardHeight + 6,
-          c.width / 2 - 20, cardHeight + 6 + 10,
-          c.width / 2 + 20, cardHeight + 6 + 10
-        );
       }
     }
     if(PLAYERS > 3) {
@@ -252,15 +238,6 @@ export class PestenComponent implements OnInit {
       for(let card of user3cards) {
         card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true, this.scale);
         xPos += cardOverlap;
-      }
-      if(this.turn === (this.user + 3) % PLAYERS && !this.finished) {
-        // draw triangle
-        this.drawTriangle(
-          ctx,
-          c.width - (cardHeight + 6), c.height / 2,
-          c.width - (cardHeight + 6) - 10, c.height / 2 - 20,
-          c.width - (cardHeight + 6) - 10, c.height / 2 + 20
-        );
       }
     }
 
@@ -271,6 +248,32 @@ export class PestenComponent implements OnInit {
     );
     let stackTop = new Card(1, 1);
     stackTop.draw(ctx, (c.width / 2) + 2, (c.height / 2) - (cardHeight / 2), this.img, highlight && !this.finished, false, this.scale);
+
+    // draw turn-triangles
+    if(this.turn === (this.user + 1) % PLAYERS && !this.finished) {
+      this.drawTriangle(
+        ctx,
+        cardHeight + 6, c.height / 2,
+        cardHeight + 6 + 10, c.height / 2 - 20,
+        cardHeight + 6 + 10, c.height / 2 + 20
+      );
+    }
+    if(this.turn === (this.user + 2) % PLAYERS && !this.finished && PLAYERS > 2) {
+      this.drawTriangle(
+        ctx,
+        c.width / 2, cardHeight + 6,
+        c.width / 2 - 20, cardHeight + 6 + 10,
+        c.width / 2 + 20, cardHeight + 6 + 10
+      );
+    }
+    if(this.turn === (this.user + 3) % PLAYERS && !this.finished && PLAYERS > 3) {
+      this.drawTriangle(
+        ctx,
+        c.width - (cardHeight + 6), c.height / 2,
+        c.width - (cardHeight + 6) - 10, c.height / 2 - 20,
+        c.width - (cardHeight + 6) - 10, c.height / 2 + 20
+      );
+    }
 
     xPos = (c.width / 2) - ((this.userCards.length * cardOverlap + cardOverlap) / 2);
     if(xPos < 0) {
@@ -302,7 +305,7 @@ export class PestenComponent implements OnInit {
       ctx.fillStyle = "#000000";
       ctx.strokeStyle = "#000000";
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
-      ctx.fillText(this.won === this.user ? "You won!" : "You lost...", c.width / 2, c.height / 2);
+      ctx.fillText(this.won === this.user ? "You won!" : "You lost...", c.width / 2, c.height / 2 + 10);
       // ctx.font = "15px arial";
       // ctx.fillText("Click to play again", c.width / 2, c.height / 2 + 30);
     }
