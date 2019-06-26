@@ -17,7 +17,6 @@ export class StatsService {
   }
 
   getStatsById(userId) {
-    console.log(userId);
     return this.http.get<UserStats>(`${this.uri}/${userId}`);
   }
 

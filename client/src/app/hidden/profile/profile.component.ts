@@ -1,3 +1,5 @@
+import { AuthService } from './../../auth/auth.service';
+import { FriendService } from './../../friend.service';
 import { UserService } from 'src/app/user.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
@@ -30,12 +32,12 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private statsService: StatsService,
-
+    private friendService: FriendService,
+    private authService: AuthService
     ) { }
 
   getUser(searchUser: string){
     this.userService.getUser(searchUser).subscribe(res => {
-      // console.log(res)
       this.user = res
       this.updateUserValues();
     });
@@ -44,7 +46,6 @@ export class ProfileComponent implements OnInit {
   testData(id: string){
     console.log(this.usersWithData)
     if(this.usersWithData.includes(id)){
-      console.log("returning")
       return
     }
     this.usersWithData.push(id)
@@ -55,7 +56,6 @@ export class ProfileComponent implements OnInit {
   getStats(searchUser: string){
     this.testData(searchUser)
     this.statsService.getStatsById(searchUser).subscribe(res => {
-      console.log(res)
       this.stats = res[0]
       this.updateStatValues();
     })
@@ -88,6 +88,7 @@ export class ProfileComponent implements OnInit {
 
   addFriend(id: string){
     console.log("adding "+this.userName)
+    this.friendService.friendRequest(this.authService.getId(),id)
   }
 
   ngOnInit() {
