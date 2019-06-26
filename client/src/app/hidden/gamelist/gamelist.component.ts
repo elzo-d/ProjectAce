@@ -23,6 +23,8 @@ export class GamelistComponent implements OnInit {
 
   finalList:ActiveGame[] = [];
 
+  subscription = undefined;
+
   constructor(
     private gameDataService:GameDataService,
     private router:Router,
@@ -38,7 +40,7 @@ export class GamelistComponent implements OnInit {
       err => console.log(err)
     );
 
-    this.gameDataService.selectedGame$.subscribe(n => {
+    this.subscription = this.gameDataService.selectedGame$.subscribe(n => {
       this.selectedGame = n;
       this.getList();
       this.http.post("http://localhost:5000/api/pesten/list", {}).subscribe(
@@ -46,6 +48,10 @@ export class GamelistComponent implements OnInit {
         err => console.log(err)
       );
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   handleRequest(res) {
@@ -91,11 +97,12 @@ export class GamelistComponent implements OnInit {
 
   joinRandom() {
     // join a random game
-    if(this.selectedGame) {
-      console.log("Joining random game (type: " + this.selectedGame + ")");
-    } else {
-      console.log("Joining random game");
+    if(this.finalList.length < 1) {
+      console.log("No game to join");
+      return;
     }
+    let n = Math.floor(Math.random() * this.finalList.length);
+    this.joinGame(this.finalList[n]);
   }
 
   newGame() {
