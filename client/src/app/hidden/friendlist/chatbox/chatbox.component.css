@@ -95,3 +95,17 @@ button {
   color: gray;
 }
 
+@media only screen and (max-width: 600px) {
+  .input {
+    bottom: 20px;
+    width: calc(100% - 40px);
+  }
+
+  button {
+    float: right;
+  }
+
+  #chatInput {
+    width: calc(100% - 70px);
+  }
+}
