@@ -16,6 +16,7 @@ pestenRoutes.route("/").post((req, res) => {
   switch(req.body.type) {
     case 0: {
       // starting game
+      // TODO: use checkIfInGame() to see if we can start new game/join game etc
       let hash = getHash();
       pestenGames[hash] = new Pesten();
       pestenHashes.push(hash);
@@ -53,9 +54,38 @@ pestenRoutes.route("/").post((req, res) => {
       joinGame(req.body.gameHash, req.body.userId, res);
       break;
     }
+    case 3: {
+      // leaving game, called when done
+      let map = pestenMap[req.body.userId];
+      pestenMap[req.body.userId] = undefined;
+      pestenGames[map[0]].leftPlayers++;
+      console.log("Removed user from 'pesten'-game - hash: " + map[0] + ", user: " + map[1]);
+      if(pestenGames[map[0]].leftPlayers === PLAYERS) {
+        console.log("'Pesten'-game has all users finished, removing. - hash: " + map[0]);
+        pestenGames[map[0]] = undefined;
+        removeHash(map[0]);
+      }
+      res.json({
+        error: "success",
+        data: {}
+      });
+      break;
+    }
   }
 
 });
+
+function removeHash(hash) {
+  let i;
+  for(i = 0; i < pestenHashes.length; i++) {
+    if(pestenHashes[i] === hash) {
+      break;
+    }
+  }
+  if(i < pestenHashes.length) {
+    pestenHashes.splice(i, 1);
+  }
+}
 
 function joinGame(hash, userId, res) {
   pestenMap[userId] = [hash, pestenGames[hash].joinedUsers.length];
@@ -67,7 +97,7 @@ function joinGame(hash, userId, res) {
     } else {
       let name = user.name;
       pestenGames[hash].joinedUsers.push(name);
-      console.log("Added user to 'pesten' - name: " + name);
+      console.log("Added user to 'pesten'-game - name: " + name);
       res.json({
         error: "success",
         data: {
@@ -95,9 +125,16 @@ pestenRoutes.route("/list").post((req, res) => {
   }
   res.json({
     error: "success",
-    data: {games: ret}
+    data: {games: ret, inGame: checkIfInGame(req.body.userId)}
   });
 });
+
+function checkIfInGame(userId) {
+  if(pestenMap[userId] !== undefined) {
+    return true;
+  }
+  return false;
+}
 
 function getHash() {
   let num = Math.floor(Math.random() * 0x1000000);

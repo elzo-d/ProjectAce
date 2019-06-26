@@ -13,6 +13,7 @@ class Pesten {
     this.reset();
 
     this.joinedUsers = [];
+    this.leftPlayers = 0;
   }
 
   reset() {

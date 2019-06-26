@@ -101,8 +101,19 @@ export class PestenComponent implements OnInit {
     this.finished = res.data.finished;
     this.won = res.data.won;
 
+    if(this.finished) {
+      window.clearInterval(this.intervalId);
+      // notify server we're done
+      this.http.post(URL + "/api/pesten", {
+        type: 3,
+        userId: this.auth.getId()
+      }).subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      );
+    }
+
     this.updateView(this.mx, this.my);
-    console.log(res)
   }
 
   sendMessage(type, card) {
