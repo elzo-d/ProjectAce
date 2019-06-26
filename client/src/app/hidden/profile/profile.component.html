@@ -1,8 +1,9 @@
 <div class="body">
-    <h2>Profile</h2>
-    <h4>{{this.userName}}</h4>
+    <h2>{{this.userName}}'s Profile</h2>
+    <p>Skillgroup: {{this.userSkillGroup}}</p>
+    <p>Level: {{this.userLevel}}    <meter value="{{levelProgress}}" max="5"></meter></p> 
     <button (click)="addFriend(this.userId)" class="btn btn-dark" >Add Friend</button>
-    <h4>Stats</h4>
+    <h4>Game Stats</h4>
     <p>Win/Loss ratio: {{this.userWinLossRatio}}</p>
     <p>Wins: {{this.userWins}}</p>
     <p>Losses: {{this.userLosses}}</p>

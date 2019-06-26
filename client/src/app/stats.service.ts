@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { UserStats } from './hidden/profile/profile.component';
 
 @Injectable({
   providedIn: "root"
@@ -17,7 +18,7 @@ export class StatsService {
 
   getStatsById(userId) {
     console.log(userId);
-    return this.http.get(`${this.uri}/${userId}`);
+    return this.http.get<UserStats>(`${this.uri}/${userId}`);
   }
 
   getStatsByGame(game) {
