@@ -1,3 +1,4 @@
+import { UserProfile } from './hidden/profile/profile.component';
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
@@ -35,5 +36,10 @@ export class UserService {
 
   getPlayerList() {
     return this.http.get(`${this.uri}`);
+  }
+
+  getUser(userId: string){
+    console.log("trying to get user")
+    return this.http.get<UserProfile>(`${this.uri}/${userId}`)
   }
 }

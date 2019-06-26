@@ -1,1 +1,9 @@
-<h2>Profile</h2>
+<div class="body">
+    <h2>Profile</h2>
+    <h4>{{this.userName}}</h4>
+    <button (click)="addFriend(this.userId)" class="btn btn-dark" >Add Friend</button>
+    <h4>Stats</h4>
+    <p>Win/Loss ratio: {{this.userWinLossRatio}}</p>
+    <p>Wins: {{this.userWins}}</p>
+    <p>Losses: {{this.userLosses}}</p>
+</div>
