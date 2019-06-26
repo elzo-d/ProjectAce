@@ -27,6 +27,7 @@ export class PestenComponent implements OnInit {
   started:boolean = false;
   waiting:boolean = true;
   joinedUsers:number = 0;
+  userIds:string[] = [];
 
   intervalId:number = 0;
   scale:number = 1;
@@ -59,6 +60,7 @@ export class PestenComponent implements OnInit {
     this.started = false;
     this.waiting = true;
     this.joinedUsers = 1;
+    this.userIds = [];
     this.userCards = [];
     this.pileTop = undefined;
     this.finished = false;
@@ -74,6 +76,7 @@ export class PestenComponent implements OnInit {
 
   handleMessage(res) {
     this.started = true;
+    this.userIds = res.data.joinedUsers;
     if(res.data.waiting) {
       this.waiting = true;
       this.joinedUsers = res.data.players;
@@ -273,6 +276,25 @@ export class PestenComponent implements OnInit {
         c.width - (cardHeight + 6) - 10, c.height / 2 - 20,
         c.width - (cardHeight + 6) - 10, c.height / 2 + 20
       );
+    }
+
+    // draw box for joined users
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.fillRect(c.width - 200, 0, 200, 80);
+    ctx.fillStyle = "#000000";
+    ctx.font = "15px arial";
+    ctx.textAlign = "center";
+    let yPos = 16;
+    let index = 0;
+    for(let id of this.userIds) {
+      if(index === this.turn && !this.finished) {
+        ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
+        ctx.fillRect(c.width - 200, yPos - 16, 200, 20);
+      }
+      ctx.fillStyle = "#000000";
+      ctx.fillText(id, c.width - 100, yPos);
+      yPos += 20;
+      index++;
     }
 
     xPos = (c.width / 2) - ((this.userCards.length * cardOverlap + cardOverlap) / 2);

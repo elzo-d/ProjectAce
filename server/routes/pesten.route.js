@@ -2,9 +2,9 @@ const express = require("express");
 const pestenRoutes = express.Router();
 const {Pesten, Card, SUITS, MOVE_TYPES, PLAYERS } = require("../games/pesten");
 
-let pestenGames = {}; // indexed on hash
+let User = require("../models/User");
 
-let pestenPlayerCounts = {}; // indexed on hash
+let pestenGames = {}; // indexed on hash
 
 let pestenHashes = [];
 
@@ -19,28 +19,22 @@ pestenRoutes.route("/").post((req, res) => {
       let hash = getHash();
       pestenGames[hash] = new Pesten();
       pestenHashes.push(hash);
-      pestenMap[req.body.userId] = [hash, 0];
-      pestenPlayerCounts[hash] = 1;
       console.log("Started new 'pesten'-game, hash: " + hash);
-      res.json({
-        error: "success",
-        data: {
-          waiting: true,
-          players: 1
-        }
-      });
+      joinGame(hash, req.body.userId, res);
       break;
     }
     case 1: {
       // move
       let map = pestenMap[req.body.userId];
+      let count
       console.log("Did update for 'pesten'-game, hash: " + map[0] + ", user: " + map[1]);
-      if(pestenPlayerCounts[map[0]] !== PLAYERS) {
+      if(pestenGames[map[0]].joinedUsers.length !== PLAYERS) {
         res.json({
           error: "success",
           data: {
             waiting: true,
-            players: pestenPlayerCounts[map[0]]
+            players: pestenGames[map[0]].joinedUsers.length,
+            joinedUsers: pestenGames[map[0]].joinedUsers
           }
         });
         return;
@@ -56,40 +50,46 @@ pestenRoutes.route("/").post((req, res) => {
     }
     case 2: {
       // joining game
-      let hash = req.body.gameHash;
-      pestenMap[req.body.userId] = [hash, pestenPlayerCounts[hash]++];
-      console.log("Joined 'pesten'-game, hash: " + hash);
-      if(pestenPlayerCounts[hash] === PLAYERS) {
-        res.json({
-          error: "success",
-          data: {
-            waiting: true,
-            players: PLAYERS
-          }
-        });
-      } else {
-        res.json({
-          error: "success",
-          data: {
-            waiting: true,
-            players: pestenPlayerCounts[hash]
-          }
-        });
-      }
+      joinGame(req.body.gameHash, req.body.userId, res);
+      break;
     }
   }
 
 });
 
+function joinGame(hash, userId, res) {
+  pestenMap[userId] = [hash, pestenGames[hash].joinedUsers.length];
+  console.log("Joined 'pesten'-game, hash: " + hash);
+
+  User.findById(userId, (err, user) => {
+    if(err) {
+      console.log(err);
+    } else {
+      let name = user.name;
+      pestenGames[hash].joinedUsers.push(name);
+      console.log("Added user to 'pesten' - name: " + name);
+      res.json({
+        error: "success",
+        data: {
+          waiting: true,
+          players: pestenGames[hash].joinedUsers.length,
+          joinedUsers: pestenGames[hash].joinedUsers
+        }
+      });
+    }
+  });
+
+}
+
 pestenRoutes.route("/list").post((req, res) => {
   console.log("Post for pesten-list API - req: " + JSON.stringify(req.body));
   let ret = [];
   for(let hash of pestenHashes) {
-    if(pestenPlayerCounts[hash] < PLAYERS) {
+    if(pestenGames[hash].joinedUsers.length < PLAYERS) {
       ret.push({
         game: "Pesten",
         hash: hash,
-        players: pestenPlayerCounts[hash]
+        players: pestenGames[hash].joinedUsers.length
       });
     }
   }
