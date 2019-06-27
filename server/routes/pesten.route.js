@@ -16,7 +16,12 @@ pestenRoutes.route("/").post((req, res) => {
   switch(req.body.type) {
     case 0: {
       // starting game
-      // TODO: use checkIfInGame() to see if we can start new game/join game etc
+      if(checkIfInGame(req.body.userId)) {
+        res.json({
+          error: "already in game"
+        });
+        return;
+      }
       let hash = getHash();
       pestenGames[hash] = new Pesten();
       pestenHashes.push(hash);
@@ -27,7 +32,12 @@ pestenRoutes.route("/").post((req, res) => {
     case 1: {
       // move
       let map = pestenMap[req.body.userId];
-      let count
+      if(map === undefined) {
+        res.json({
+          error: "not in a game"
+        });
+        return;
+      }
       console.log("Did update for 'pesten'-game, hash: " + map[0] + ", user: " + map[1]);
       if(pestenGames[map[0]].joinedUsers.length !== PLAYERS) {
         res.json({
@@ -51,12 +61,24 @@ pestenRoutes.route("/").post((req, res) => {
     }
     case 2: {
       // joining game
+      if(checkIfInGame(req.body.userId)) {
+        res.json({
+          error: "already in game"
+        });
+        return;
+      }
       joinGame(req.body.gameHash, req.body.userId, res);
       break;
     }
     case 3: {
       // leaving game, called when done
       let map = pestenMap[req.body.userId];
+      if(map === undefined) {
+        res.json({
+          error: "not in a game"
+        });
+        return;
+      }
       pestenMap[req.body.userId] = undefined;
       pestenGames[map[0]].leftPlayers++;
       console.log("Removed user from 'pesten'-game - hash: " + map[0] + ", user: " + map[1]);

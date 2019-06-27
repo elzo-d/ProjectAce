@@ -83,6 +83,14 @@ export class GamelistComponent implements OnInit {
     this.finalList = finalList;
   }
 
+  handleGameStart(res) {
+    if(res.error !== "success") {
+      console.log("Can't join game: " + res.error);
+    } else {
+      this.router.navigateByUrl("/hidden/pesten");
+    }
+  }
+
   joinGame(game) {
     // join the game
     console.log("Joining " + game.name + " (type: " + game.gameType + ")");
@@ -91,9 +99,7 @@ export class GamelistComponent implements OnInit {
       gameHash: game.name,
       userId: this.auth.getId()
     }).subscribe(
-      res => {
-        this.router.navigateByUrl("/hidden/pesten");
-      },
+      res => {this.handleGameStart(res)},
       err => console.log(err)
     );
   }
@@ -121,9 +127,7 @@ export class GamelistComponent implements OnInit {
       type: 0,
       userId: this.auth.getId()
     }).subscribe(
-      res => {
-        this.router.navigateByUrl("/hidden/pesten");
-      },
+      res => {this.handleGameStart(res)},
       err => console.log(err)
     );
   }
