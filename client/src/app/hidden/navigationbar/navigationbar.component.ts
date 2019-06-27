@@ -9,7 +9,8 @@ import {HiddenComponent} from '../hidden.component';
 })
 export class NavigationbarComponent implements OnInit {
   currentUser: string = this.authService.getUser();
-
+  currentUserId: string = this.authService.getId();
+  
   constructor(private authService: AuthService, private hiddenComp: HiddenComponent) {}
 
   ngOnInit() {}

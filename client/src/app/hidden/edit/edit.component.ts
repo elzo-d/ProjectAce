@@ -5,7 +5,7 @@ import { AuthService } from "../../auth/auth.service";
 import { AlertService } from "../../alert.service";
 import { Router } from "@angular/router";
 import { PasswordValidation } from './password-validation';
-
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -28,7 +28,8 @@ export class EditComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private _location: Location
     ) { }
 
   ngOnInit() {
@@ -67,6 +68,10 @@ export class EditComponent implements OnInit {
    return true
   }
 
+  backClicked() {
+    this._location.back();
+  }
+  
   submitWithoutPassword() {
     // Submit the form without a changed password
     console.log("no password")

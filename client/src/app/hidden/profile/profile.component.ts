@@ -18,6 +18,9 @@ export class ProfileComponent implements OnInit {
   user: UserProfile
   stats: UserStats
 
+  currentUser: string = this.authService.getUser();
+  email: string = this.authService.getEmail();
+
   userId: string
   userName: string
   userWins: number
@@ -27,6 +30,7 @@ export class ProfileComponent implements OnInit {
   userLevel: number
   levelProgress: number
   usersWithData: string[] = Array()
+  userProfile: boolean
 
   constructor( 
     private route: ActivatedRoute,
@@ -96,7 +100,17 @@ export class ProfileComponent implements OnInit {
       this.viewUser = params.get("user");
       this.getUser(this.viewUser);
       this.getStats(this.viewUser);
+      this.userProfile = this.checkUserProfile(this.viewUser)
     }) 
+   
+  }
+
+  checkUserProfile(viewUser: string) {
+    if(viewUser == this.authService.getId()){
+      return true
+    } else{
+      return false
+    }
   }
 }
 

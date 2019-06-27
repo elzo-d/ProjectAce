@@ -1,10 +1,28 @@
 <div class="body">
-    <h2>{{this.userName}}'s Profile</h2>
-    <p>Skillgroup: {{this.userSkillGroup}}</p>
-    <p>Level: {{this.userLevel}}    <meter value="{{levelProgress}}" max="5"></meter></p> 
-    <button (click)="addFriend(this.userId)" class="btn btn-dark" >Add Friend</button>
-    <h4>Game Stats</h4>
-    <p>Win/Loss ratio: {{this.userWinLossRatio}}</p>
-    <p>Wins: {{this.userWins}}</p>
-    <p>Losses: {{this.userLosses}}</p>
+    <div *ngIf="!userProfile">
+        <h2>{{this.userName}}'s Profile</h2>
+        <p>Level: {{this.userLevel}}    <meter value="{{levelProgress}}" max="5"></meter></p>
+        <p>Skillgroup: {{this.userSkillGroup}}</p> 
+        <button (click)="addFriend(this.userId)" class="btn btn-dark" >Add Friend</button>
+        <br>
+        <h4>Game Stats</h4>
+        <p>Win/Loss ratio: {{this.userWinLossRatio}}</p>
+        <p>Wins: {{this.userWins}}</p>
+        <p>Losses: {{this.userLosses}}</p>
+    </div>
+    <div *ngIf="userProfile">
+        <h2>{{this.userName}}'s Profile</h2>
+        <p>Level: {{this.userLevel}}    <meter value="{{levelProgress}}" max="5"></meter></p>
+        <p>Skillgroup: {{this.userSkillGroup}}</p> 
+        <br>
+        <h4>Game Stats</h4>
+        <p>Win/Loss ratio: {{this.userWinLossRatio}}</p>
+        <p>Wins: {{this.userWins}}</p>
+        <p>Losses: {{this.userLosses}}</p>
+        <br>
+        <h4>Account Details</h4>
+        <p>Username: {{currentUser}}</p>
+        <p>Email: {{email}}</p>
+        <button class="btn btn-dark" routerLink="../../edit">Edit account details</button>
+    </div>
 </div>

@@ -18,7 +18,7 @@
     <div class="dropdown">
       <button class="dropbtn">{{currentUser}}</button>
       <div class="dropdown-content" routerLinkActive="active">
-        <a routerLink="edit">Profile</a>
+        <a routerLink="profile/{{currentUserId}}">Profile</a>
         <a href="#" (click)="logout()">Logout</a>
       </div>
     </div>
@@ -37,7 +37,7 @@
       <a routerLink="highscores" (click)="resetAllComponents()">Highscores</a>
       <a routerLink="gamebar" (click)=resetAllComponents()>Game Types</a>
       <a (click)=toggleFriendComponent()>Chat and Friends</a>
-      <a routerLink="edit" (click)="resetAllComponents()">Profile</a>
+      <a routerLink="profile/{{currentUserId}}" (click)="resetAllComponents()">Profile</a>
       <a href="#" (click)="logout()">Logout</a>
     </div>
 
