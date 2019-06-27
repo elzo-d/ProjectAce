@@ -17,7 +17,8 @@
               [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
             />
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div class="errormsg" *ngIf="f.email.errors.required">Email is required</div>
+              <div class="errormsg" *ngIf="f.email.errors.email">Please enter a valid email address</div>
             </div>
           </div>
           <div class="form-group">
@@ -32,11 +33,11 @@
               *ngIf="submitted && f.username.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.username.errors.required">Username is required</div>
-              <div *ngIf="f.username.errors.minlength">
+              <div class="errormsg" *ngIf="f.username.errors.required">Username is required</div>
+              <div class="errormsg" *ngIf="f.username.errors.minlength">
                 Username must be at least 6 and at most 20 characters long
               </div>
-              <div *ngIf="f.username.errors.maxlength">
+              <div class="errormsg" *ngIf="f.username.errors.maxlength">
                 Username must be at least 6 and at most 20 characters long
               </div>
             </div>
@@ -53,8 +54,8 @@
               *ngIf="submitted && f.password.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.password.errors.required">Password is required</div>
-              <div *ngIf="f.password.errors.minlength">
+              <div class="errormsg" *ngIf="f.password.errors.required">Password is required</div>
+              <div class="errormsg" *ngIf="f.password.errors.minlength">
                 Password must be at least 6 characters
               </div>
             </div>

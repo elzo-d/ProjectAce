@@ -21,3 +21,7 @@ img {
 #row {
   height: calc(100vh);
 }
+
+.errormsg {
+  color: red;
+}

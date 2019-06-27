@@ -79,7 +79,7 @@ export class FriendlistComponent implements OnInit {
           status: Status.ONLINE
         });
       }
-      this.searchUser("user");
+      this.searchUser("");
     });
   }
 
@@ -119,6 +119,8 @@ export class FriendlistComponent implements OnInit {
 
   searchUser(searchString: string) {
     console.log("searching...");
+    console.log(this.players)
+    console.log(searchString)
     this.displayPlayers = [];
     for (let player of this.players) {
       if (player.name.includes(searchString)) {
