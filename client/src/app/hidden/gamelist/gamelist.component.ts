@@ -9,6 +9,27 @@ class ActiveGame {
   name:string;
   players:number;
 }
+const URL = "http://localhost:5000";
+
+const GAME_DESC = {
+  Pesten: "Pesten is a dutch card game that has a weak relationship with the game Crazy Eights.",
+  KingMarker: "KingMarker is a card game that happens to be fully identical to Pesten apart from the name."
+}
+
+const GAME_RULES = {
+  Pesten: `Players take turns. The player who gets rid of all card first, wins.
+  If it is your turn, a card needs to be thrown on the pile (on the left),
+  or a card needs to be taken from the stack (on the right). A card can only go on the pile if it matches in number or in suit.
+  Certain cards have special effects:
+  A Joker-card (which can go on any card) means that the next player has to grab 5 cards from the stack.
+  A 2 means that the next player has to grab 2 cards from the stack.
+  A 7 means that you get to have another turn, an 8 means the same.
+  A Jack can be placed on any card.
+  If someone needs to grab cards because of a Joker-card or a 2, he can instead also place a Joker-card or 2 on top of it.
+  The player after him will then need to grab the total accumulated grab-count (or also place a Joker-card or 2).
+  `,
+  KingMarker: `Due to strange issues with solar rays, this game is not currently playable.`
+}
 
 @Component({
   selector: 'app-gamelist',
@@ -19,7 +40,11 @@ export class GamelistComponent implements OnInit {
 
   activeGames:ActiveGame[] = [];
 
+  rulesOpened:boolean = false;
+
   selectedGame:string;
+  selectedGameDescription:string;
+  selectedGameRules:string;
 
   finalList:ActiveGame[] = [];
   inGameAlready:boolean = true;
@@ -35,20 +60,28 @@ export class GamelistComponent implements OnInit {
 
   ngOnInit() {
     this.selectedGame = this.gameDataService.selectedGame.value;
+    this.selectedGameDescription = GAME_DESC[this.selectedGame];
+    this.selectedGameRules = GAME_RULES[this.selectedGame];
 
-    this.http.post("http://localhost:5000/api/pesten/list", {userId: this.auth.getId()}).subscribe(
+    this.http.post(URL + "/api/pesten/list", {userId: this.auth.getId()}).subscribe(
       res => this.handleRequest(res),
       err => console.log(err)
     );
 
     this.subscription = this.gameDataService.selectedGame$.subscribe(n => {
       this.selectedGame = n;
+      this.selectedGameDescription = GAME_DESC[n];
+      this.selectedGameRules = GAME_RULES[n];
       this.getList();
-      this.http.post("http://localhost:5000/api/pesten/list", {userId: this.auth.getId()}).subscribe(
+      this.http.post(URL + "/api/pesten/list", {userId: this.auth.getId()}).subscribe(
         res => this.handleRequest(res),
         err => console.log(err)
       );
     });
+  }
+
+  toggleRules() {
+    this.rulesOpened = !this.rulesOpened;
   }
 
   ngOnDestroy() {
@@ -96,7 +129,7 @@ export class GamelistComponent implements OnInit {
   joinGame(game) {
     // join the game
     console.log("Joining " + game.name + " (type: " + game.gameType + ")");
-    this.http.post("http://localhost:5000/api/pesten", {
+    this.http.post(URL + "/api/pesten", {
       type: 2,
       gameHash: game.name,
       userId: this.auth.getId()
@@ -125,7 +158,7 @@ export class GamelistComponent implements OnInit {
   newGame() {
     // start new game
     console.log("Starting new game (type: " + this.selectedGame + ")");
-    this.http.post("http://localhost:5000/api/pesten", {
+    this.http.post(URL + "/api/pesten", {
       type: 0,
       userId: this.auth.getId()
     }).subscribe(

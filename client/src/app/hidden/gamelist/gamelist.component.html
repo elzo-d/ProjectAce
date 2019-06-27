@@ -1,4 +1,9 @@
 <h2>{{getTitle()}}</h2>
+<div *ngIf="selectedGame">
+  <p *ngIf="selectedGame">{{selectedGameDescription}}</p>
+  <p (click)="toggleRules()" class="link">{{rulesOpened ? 'hide rules' : 'show rules'}}</p>
+  <p *ngIf="rulesOpened">{{selectedGameRules}}</p>
+</div>
 <table class="table">
   <tr>
     <th class="thead-dark" width="200px">Game</th>

@@ -9,3 +9,14 @@ button {
 td {
   vertical-align: middle;
 }
+
+.link {
+  color: #1e76bd;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #184e6f;
+  cursor: pointer;
+  text-decoration: underline;
+}
