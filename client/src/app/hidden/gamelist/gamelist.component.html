@@ -6,7 +6,8 @@
     <th class="thead-light" width="200px">Players</th>
     <th class="thead" width="200px">
       <button (click)="joinRandom()">Join random</button>
-      <button *ngIf="selectedGame" (click)="newGame()">Start new game</button>
+      <button *ngIf="selectedGame && !inGameAlready" (click)="newGame()">Start new game</button>
+      <button *ngIf="selectedGame && inGameAlready" (click)="backToGame()">Back to game</button>
     </th>
   </tr>
   <tr *ngFor="let game of finalList">

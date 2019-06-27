@@ -27,6 +27,7 @@ export class PestenComponent implements OnInit {
   started:boolean = false;
   waiting:boolean = true;
   joinedUsers:number = 0;
+  userIds:string[] = [];
 
   intervalId:number = 0;
   scale:number = 1;
@@ -59,6 +60,7 @@ export class PestenComponent implements OnInit {
     this.started = false;
     this.waiting = true;
     this.joinedUsers = 1;
+    this.userIds = [];
     this.userCards = [];
     this.pileTop = undefined;
     this.finished = false;
@@ -73,7 +75,16 @@ export class PestenComponent implements OnInit {
   }
 
   handleMessage(res) {
+    if(res.error !== "success") {
+      this.started = false;
+      this.waiting = false;
+      this.userIds = [];
+      console.log("Error from API: " + res.error);
+      this.updateView(this.mx, this.my);
+      return;
+    }
     this.started = true;
+    this.userIds = res.data.joinedUsers;
     if(res.data.waiting) {
       this.waiting = true;
       this.joinedUsers = res.data.players;
@@ -98,8 +109,19 @@ export class PestenComponent implements OnInit {
     this.finished = res.data.finished;
     this.won = res.data.won;
 
+    if(this.finished) {
+      window.clearInterval(this.intervalId);
+      // notify server we're done
+      this.http.post(URL + "/api/pesten", {
+        type: 3,
+        userId: this.auth.getId()
+      }).subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      );
+    }
+
     this.updateView(this.mx, this.my);
-    console.log(res)
   }
 
   sendMessage(type, card) {
@@ -193,6 +215,28 @@ export class PestenComponent implements OnInit {
     ctx.fill();
   }
 
+  drawUserBox(ctx, highlight) {
+    // draw box for joined users
+    let c = ctx.canvas;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.fillRect(c.width - 200, 0, 200, 80);
+    ctx.fillStyle = "#000000";
+    ctx.font = "15px arial";
+    ctx.textAlign = "center";
+    let yPos = 16;
+    let index = 0;
+    for(let id of this.userIds) {
+      if(index === this.turn && highlight) {
+        ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
+        ctx.fillRect(c.width - 200, yPos - 16, 200, 20);
+      }
+      ctx.fillStyle = "#000000";
+      ctx.fillText(id, c.width - 100, yPos);
+      yPos += 20;
+      index++;
+    }
+  }
+
   updateView(mx, my) {
     // card: 124 * 164
     // card overlap: 62 px
@@ -215,6 +259,8 @@ export class PestenComponent implements OnInit {
       ctx.font = "15px arial";
       ctx.fillText(this.started ? "Waiting for players..." : "Connecting...", c.width / 2, c.height / 2 - 20);
       ctx.fillText(this.started ? this.joinedUsers + " / " + PLAYERS + " users joined" : "", c.width / 2, c.height / 2 + 20);
+
+      this.drawUserBox(ctx, false);
       return;
     }
 
@@ -275,6 +321,8 @@ export class PestenComponent implements OnInit {
       );
     }
 
+    this.drawUserBox(ctx, !this.finished);
+
     xPos = (c.width / 2) - ((this.userCards.length * cardOverlap + cardOverlap) / 2);
     if(xPos < 0) {
       xPos += (2 * -xPos) * (1 - (2 * (mx / c.width)));
@@ -305,7 +353,13 @@ export class PestenComponent implements OnInit {
       ctx.fillStyle = "#000000";
       ctx.strokeStyle = "#000000";
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
-      ctx.fillText(this.won === this.user ? "You won!" : "You lost...", c.width / 2, c.height / 2 + 10);
+      if(this.won === this.user) {
+        ctx.fillText("You won!", c.width / 2, c.height / 2 + 10);
+      } else {
+        ctx.fillText("You lost.", c.width / 2, c.height / 2 + 5);
+        ctx.font = "15px arial";
+        ctx.fillText(this.userIds[this.won] + " won", c.width / 2, c.height / 2 + 25);
+      }
       // ctx.font = "15px arial";
       // ctx.fillText("Click to play again", c.width / 2, c.height / 2 + 30);
     }

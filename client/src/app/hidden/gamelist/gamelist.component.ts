@@ -22,6 +22,7 @@ export class GamelistComponent implements OnInit {
   selectedGame:string;
 
   finalList:ActiveGame[] = [];
+  inGameAlready:boolean = true;
 
   subscription = undefined;
 
@@ -35,7 +36,7 @@ export class GamelistComponent implements OnInit {
   ngOnInit() {
     this.selectedGame = this.gameDataService.selectedGame.value;
 
-    this.http.post("http://localhost:5000/api/pesten/list", {}).subscribe(
+    this.http.post("http://localhost:5000/api/pesten/list", {userId: this.auth.getId()}).subscribe(
       res => this.handleRequest(res),
       err => console.log(err)
     );
@@ -43,7 +44,7 @@ export class GamelistComponent implements OnInit {
     this.subscription = this.gameDataService.selectedGame$.subscribe(n => {
       this.selectedGame = n;
       this.getList();
-      this.http.post("http://localhost:5000/api/pesten/list", {}).subscribe(
+      this.http.post("http://localhost:5000/api/pesten/list", {userId: this.auth.getId()}).subscribe(
         res => this.handleRequest(res),
         err => console.log(err)
       );
@@ -64,6 +65,8 @@ export class GamelistComponent implements OnInit {
       });
     }
     this.getList();
+    this.inGameAlready = res.data.inGame;
+    console.log(res.data);
   }
 
   getList() {
@@ -80,6 +83,14 @@ export class GamelistComponent implements OnInit {
     this.finalList = finalList;
   }
 
+  handleGameStart(res) {
+    if(res.error !== "success") {
+      console.log("Can't join game: " + res.error);
+    } else {
+      this.router.navigateByUrl("/hidden/pesten");
+    }
+  }
+
   joinGame(game) {
     // join the game
     console.log("Joining " + game.name + " (type: " + game.gameType + ")");
@@ -88,11 +99,15 @@ export class GamelistComponent implements OnInit {
       gameHash: game.name,
       userId: this.auth.getId()
     }).subscribe(
-      res => {
-        this.router.navigateByUrl("/hidden/pesten");
-      },
+      res => {this.handleGameStart(res)},
       err => console.log(err)
     );
+  }
+
+  backToGame(game) {
+    // go back to an existing game
+    console.log("Going back to game (type: " + this.selectedGame + ")");
+    this.router.navigateByUrl("/hidden/pesten");
   }
 
   joinRandom() {
@@ -112,9 +127,7 @@ export class GamelistComponent implements OnInit {
       type: 0,
       userId: this.auth.getId()
     }).subscribe(
-      res => {
-        this.router.navigateByUrl("/hidden/pesten");
-      },
+      res => {this.handleGameStart(res)},
       err => console.log(err)
     );
   }
