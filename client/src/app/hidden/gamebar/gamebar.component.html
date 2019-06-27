@@ -1,7 +1,11 @@
 <h2>Games</h2>
 <div>
-    <b><span class="link" (click)="selectGame(undefined)">All games</span></b>
-    <div *ngFor="let game of games">
-      <b><span class="link" (click)="selectGame(game)">{{game}}</span></b>
-    </div>
+  <table class="table">
+    <tr>
+      <td (click)="selectGame(undefined)" class="link">All games</td>
+    </tr>
+    <tr *ngFor="let game of games">
+      <td (click)="selectGame(game)" class="link">{{game}}</td>
+    </tr>
+  </table>
 </div>
