@@ -29,4 +29,10 @@ export class HiddenComponent implements OnInit {
     document.getElementById("friendlist").style.setProperty("display", "unset");
     document.getElementById("body").style.setProperty("display", "none");
   }
+
+  removeFriendComponent() {
+    this.resetAllComponents()
+    document.getElementById("friendlist").style.setProperty("display", "none");
+  }
+
 }

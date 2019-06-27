@@ -1,8 +1,11 @@
+import { HiddenComponent } from './../hidden.component';
 import { AuthService } from "./../../auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { OrderPipe } from "ngx-order-pipe";
 import { Friend } from "./Friend";
 import { UserService } from "src/app/user.service";
+import { Router } from '@angular/router';
+
 
 enum ActiveTab {
   GENERAL_CHAT,
@@ -32,7 +35,9 @@ export class FriendlistComponent implements OnInit {
   constructor(
     private orderPipe: OrderPipe,
     public auth: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private hiddenComp: HiddenComponent
   ) {
     this.sortedFriends = orderPipe.transform(this.friends, "id");
     this.activeTab = ActiveTab.GENERAL_CHAT;
@@ -50,6 +55,17 @@ export class FriendlistComponent implements OnInit {
 
   messageFriend(friend: Friend) {
     this.chatFriend = friend;
+  }
+
+  viewMobileProfile(){
+    console.log("viewmobileprofile")
+    this.hiddenComp.removeFriendComponent();
+    // this.router.navigateByUrl(`/hidden/profile/${id}`)
+  }
+
+  viewProfile(id: string){
+    // console.log("viewprofile")
+    // this.router.navigateByUrl(`/hidden/profile/${id}`)
   }
 
   updatePlayerList() {

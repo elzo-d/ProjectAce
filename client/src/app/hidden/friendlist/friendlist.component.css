@@ -148,3 +148,29 @@ tbody td {
 #playerList {
   height: calc(100vh - 216px);
 }
+
+
+.visibleMobile {
+  display: none;
+}
+
+.visibleNotMobile {
+  display: unset;
+}
+
+@media only screen and (max-width: 600px) {
+  .visibleMobile {
+    display: unset;
+  }
+  .visibleNotMobile {
+    display: none;
+  }
+}
+
+a:link{
+  /* text-decoration: none; */
+}
+a{
+  color: black
+}
+
