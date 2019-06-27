@@ -14,6 +14,28 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+## Run the webapp locally:
+
+*Install dependencies for http-server:*
+
+`npm i -g http-server`
+
+*Create production build the webapp:*
+
+`ng build --prod`
+
+*Run with http-server from client folder:*
+
+`http-server -p4200 dist/projectace`
+
+*Available options:*
+
+`https://www.npmjs.com/package/http-server`
+
+*Or run Python server in client/dist/projectace:*
+
+`python -m http.server 4200` (Service worker not working)
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
