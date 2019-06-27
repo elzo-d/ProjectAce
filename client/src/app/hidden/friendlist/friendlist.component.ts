@@ -60,12 +60,6 @@ export class FriendlistComponent implements OnInit {
   viewMobileProfile(){
     console.log("viewmobileprofile")
     this.hiddenComp.removeFriendComponent();
-    // this.router.navigateByUrl(`/hidden/profile/${id}`)
-  }
-
-  viewProfile(id: string){
-    // console.log("viewprofile")
-    // this.router.navigateByUrl(`/hidden/profile/${id}`)
   }
 
   updatePlayerList() {
@@ -73,11 +67,14 @@ export class FriendlistComponent implements OnInit {
       this.players = [];
       for (let i in res) {
         let user = res[i];
-        this.players.push({
-          id: user._id,
-          name: user.name,
-          status: Status.ONLINE
-        });
+        if(user._id !== this.auth.getId()){
+          this.players.push({
+            id: user._id,
+            name: user.name,
+            status: Status.ONLINE
+          });
+        }
+        
       }
       this.searchUser("");
     });

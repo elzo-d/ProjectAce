@@ -20,3 +20,7 @@ td {
   cursor: pointer;
   text-decoration: underline;
 }
+.smallButton{
+  width: 90px;
+  height: 50px;
+}
