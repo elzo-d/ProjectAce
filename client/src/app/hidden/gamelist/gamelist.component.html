@@ -10,9 +10,9 @@
     <th class="thead-light" width="200px">Name</th>
     <th class="thead-light" width="200px">Players</th>
     <th class="thead" width="200px">
-      <button (click)="joinRandom()" class="smallButton" >Join random</button>
-      <button class="smallButton"  *ngIf="selectedGame && !inGameAlready" (click)="newGame()">Start new game</button>
-      <button class="smallButton" *ngIf="selectedGame && inGameAlready" (click)="backToGame()">Back to game</button>
+      <button (click)="joinRandom()" class="smallButton btn btn-default" >Join random</button>
+      <button class="smallButton btn btn-default"  *ngIf="selectedGame && !inGameAlready" (click)="newGame()">New game</button>
+      <button class="smallButton btn btn-default" *ngIf="selectedGame && inGameAlready" (click)="backToGame()">Back to game</button>
     </th>
   </tr>
   <tr *ngFor="let game of finalList">
