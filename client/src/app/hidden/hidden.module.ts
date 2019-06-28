@@ -54,7 +54,7 @@ const hiddenRoutes: Routes = [
     ReactiveFormsModule
   ],
   providers: [
-    ChatService
+    ChatService,
   ]
 })
 

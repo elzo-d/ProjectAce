@@ -8,13 +8,6 @@ const saltRounds = 10;
 
 let User = require("../models/User");
 
-const users = [
-  { id: 1, name: "bart", password: "henker" },
-  { id: 2, name: "test", password: "test" },
-  { id: 3, name: "user", password: "user" },
-  { id: 4, name: "Thom", password: "Thom123" }
-];
-
 const signOptions = {
   expiresIn: "30d",
   algorithm: "ES256"
