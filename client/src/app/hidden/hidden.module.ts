@@ -21,7 +21,7 @@ const hiddenRoutes: Routes = [
   {
     path: '', component: HiddenComponent,
     children: [
-      {path: '', pathMatch: 'full', redirectTo: 'data'},
+      {path: '', pathMatch: 'full', redirectTo: 'lobby'},
       {path: 'lobby', component: GamelistComponent},
       {path: 'highscores', component: HighscoresComponent},
       {path: 'pesten', component: PestenComponent},
