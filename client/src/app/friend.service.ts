@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth/auth.service";
 import { HttpClient } from "@angular/common/http";
+import { URL } from './config';
 
 @Injectable({
   providedIn: "root"
 })
 export class FriendService {
-  uri = "http://localhost:5000/api/friend";
+  uri = URL + "/api/friend";
 
   constructor(private http: HttpClient) {}
 

@@ -1,12 +1,13 @@
 import { UserProfile } from './hidden/profile/profile.component';
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { URL } from './config';
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
-  uri = "http://localhost:5000/api/user";
+  uri = URL + "/api/user";
 
   constructor(private http: HttpClient) {}
 

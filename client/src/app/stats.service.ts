@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { UserStats } from './hidden/profile/profile.component';
+import { URL } from './config';
 
 @Injectable({
   providedIn: "root"
 })
 export class StatsService {
-  uri = "http://localhost:5000/api/stats";
+  uri = URL + "/api/stats";
 
   constructor(private http: HttpClient) {}
 

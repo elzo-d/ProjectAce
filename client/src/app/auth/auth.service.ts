@@ -5,7 +5,9 @@ import { shareReplay, tap } from "rxjs/operators";
 import * as moment from "moment";
 import { JsonPipe } from '@angular/common';
 
-const API_URL = "http://localhost:5000/api/";
+import { URL } from '../config';
+
+const API_URL = URL + "/api/";
 
 @Injectable()
 export class AuthService {

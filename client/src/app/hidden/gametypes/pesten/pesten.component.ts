@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Card, SUITS } from '../card';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
+import { URL } from '../../../config';
 
-const PLAYERS = 2;
-const URL = "http://localhost:5000";
+const PLAYERS = 4;
 
 @Component({
   selector: 'app-pesten',

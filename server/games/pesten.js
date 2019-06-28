@@ -1,5 +1,5 @@
 
-const PLAYERS = 2;
+const PLAYERS = 4;
 
 class Pesten {
   constructor() {

@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 
+import { URL } from '../../config';
+
 class ActiveGame {
   gameType:string;
   name:string;
   players:number;
 }
-const URL = "http://localhost:5000";
 
 const GAME_DESC = {
   Pesten: "Pesten is a dutch card game that has a weak relationship with the game Crazy Eights.",
