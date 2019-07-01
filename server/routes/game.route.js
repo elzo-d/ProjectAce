@@ -42,20 +42,19 @@ gameRoutes.route("/list").post((req, res) => {
   // console.log("Post for game-list API - req: " + JSON.stringify(req.body));
   // get the list for each game and combine them
   let ret = pestenHandler.getList();
-  let games = findInWhichGame(req.body.userId);
+  let inGame = findIfInGame(req.body.userId);
   res.json({
     error: "success",
-    data: {games: ret, inGames: games}
+    data: {games: ret, inGame: inGame}
   });
 });
 
-function findInWhichGame(userId) {
-  // go through all games to find the game we might be in
-  let ret = [];
+function findIfInGame(userId) {
+  // go through all games to find if we are in a game
   if(pestenHandler.isUserInGame(userId)) {
-    ret.push("Pesten");
+    return true;
   }
-  return ret;
+  return false;
 
 }
 

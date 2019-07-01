@@ -105,8 +105,7 @@ export class GamelistComponent implements OnInit {
       });
     }
     this.getList();
-    let inGames = res.data.inGames;
-    this.inGameAlready = inGames.includes(this.selectedGame);
+    this.inGameAlready = res.data.inGame;
   }
 
   getList() {
