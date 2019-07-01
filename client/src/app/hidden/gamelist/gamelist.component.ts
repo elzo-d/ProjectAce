@@ -8,8 +8,10 @@ import { URL } from '../../config';
 
 class ActiveGame {
   gameType:string;
+  hash:string;
   name:string;
   players:number;
+  joined:number;
 }
 
 const GAME_DESC = {
@@ -96,13 +98,14 @@ export class GamelistComponent implements OnInit {
     for(let item of res.data.games) {
       this.activeGames.push({
         gameType: item.game,
-        name: item.hash,
-        players: item.players
+        hash: item.hash,
+        name: item.name,
+        players: item.players,
+        joined: item.joined
       });
     }
     this.getList();
     this.inGameAlready = res.data.inGame;
-    console.log(res.data);
   }
 
   getList() {
@@ -132,7 +135,7 @@ export class GamelistComponent implements OnInit {
     console.log("Joining " + game.name + " (type: " + game.gameType + ")");
     this.http.post(URL + "/api/pesten", {
       type: 2,
-      gameHash: game.name,
+      gameHash: game.hash,
       userId: this.auth.getId()
     }).subscribe(
       res => {this.handleGameStart(res)},
@@ -159,9 +162,13 @@ export class GamelistComponent implements OnInit {
   newGame() {
     // start new game
     console.log("Starting new game (type: " + this.selectedGame + ")");
+    let name = (<HTMLInputElement>document.getElementById("gamename")).value;
+    let players = (<HTMLInputElement>document.getElementById("playercount")).value;
     this.http.post(URL + "/api/pesten", {
       type: 0,
-      userId: this.auth.getId()
+      userId: this.auth.getId(),
+      name: name,
+      players: players
     }).subscribe(
       res => {this.handleGameStart(res)},
       err => console.log(err)
