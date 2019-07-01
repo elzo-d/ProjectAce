@@ -1,15 +1,13 @@
 .table {
-    max-height: inherit;
-
+  max-height: inherit;
 }
 
-.body{
-    max-height: calc(100vh - 22rem);
+.body {
+  max-height: calc(100vh - 22rem);
 }
 
 table {
-    display: inline-block;
-    max-height: 100%;
-    overflow-y: scroll;
-
+  display: inline-block;
+  max-height: 100%;
+  overflow-y: scroll;
 }
