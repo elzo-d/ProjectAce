@@ -8,69 +8,26 @@ import {Subscription} from 'rxjs';
   templateUrl: './generalchat.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class GeneralchatComponent implements OnInit, OnDestroy {
+export class GeneralchatComponent implements OnInit {
   @Output() messageEvent = new EventEmitter();
   close: boolean = true;
   currentUser: string = this.auth.getUser();
-  date: Date;
-  private subscription: Subscription;
   window: any;
 
   constructor(public chatService: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
     this.window = <any> window;
-    this.subscription = this.chatService
-      .getMessages()
-      .subscribe((message: string) => {
-        this.recieveMessage(message)
-      });
 
-    console.log("Requesting permission for notifications...");
     if("Notification" in this.window) {
       let permission = this.window.Notification.permission;
       if(permission !== "granted" && permission !== "denied") {
+        console.log("Requesting permission for notifications...");
         this.window.Notification.requestPermission(per => {
           if(per === "granted") {
             let noti = new this.window.Notification("Notifications enabled");
           }
         });
-      }
-    }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe()
-  }
-
-  recieveMessage(message: string) {
-    let words = message.split(' ')
-    let thisUser = false
-    this.date = new Date()
-
-    // Check for current user
-    if (words[0] == this.currentUser) {
-      thisUser = true
-    }
-
-    // Remove name from the message
-    message = message.replace(words[0], '');
-
-    if (message != " ") {
-      this.chatService.messages.push({
-        fromUser: thisUser,
-        user: words[0],
-        text: message,
-        hour: (this.date.getHours() < 10 ? '0' : '') + this.date.getHours(),
-        minutes: (this.date.getMinutes() < 10 ? '0' : '') + this.date.getMinutes()
-      })
-
-      console.log("Send notification");
-      if("Notification" in this.window && !thisUser && !this.window.document.hasFocus()) {
-        let permission = this.window.Notification.permission;
-        if(permission === "granted") {
-          let noti = new this.window.Notification(words[0] + ": " + message);
-        }
       }
     }
   }

@@ -20,20 +20,20 @@ export class ChatboxComponent implements OnInit {
 
   ngOnInit() {
     //this.mockMessages();
-    this.chatService
-      .getMessages()
-      .subscribe((message: string) => {
-        this.messages.push({
-          fromUser: true,
-          text: message,
-        });
+    // this.chatService
+    //   .getMessages()
+    //   .subscribe((message: string) => {
+    //     this.messages.push({
+    //       fromUser: true,
+    //       text: message,
+    //     });
         // if("Notification" in window) {
         //   let permission = window.Notification.permission;
         //   if(permission === "granted") {
         //     let noti = new window.Notification("Notifications enabled");
         //   }
         // }
-      });
+      // });
 
     // if("Notification" in window) {
     //   let permission = window.Notification.permission;

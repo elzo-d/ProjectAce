@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Card, SUITS } from '../card';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
@@ -9,7 +9,7 @@ import { URL } from '../../../config';
   templateUrl: './pesten.component.html',
   styleUrls: ['./pesten.component.css']
 })
-export class PestenComponent implements OnInit {
+export class PestenComponent implements OnInit, OnDestroy {
 
   userCards:Card[] = [];
   opponentLengths:number[] = [];
