@@ -111,7 +111,7 @@ export class PestenComponent implements OnInit {
     if(this.finished) {
       window.clearInterval(this.intervalId);
       // notify server we're done
-      this.http.post(URL + "/api/pesten", {
+      this.http.post(URL + "/api/game/pesten", {
         type: 3,
         userId: this.auth.getId()
       }).subscribe(
@@ -124,7 +124,7 @@ export class PestenComponent implements OnInit {
   }
 
   sendMessage(type, card) {
-    this.http.post(URL + "/api/pesten", {
+    this.http.post(URL + "/api/game/pesten", {
       type: 1,
       card: card.getArray(),
       moveType: type,

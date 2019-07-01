@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const loginRoute = require("./routes/login.route");
 const hiddenRoute = require("./routes/hidden.route");
 const userRoute = require("./routes/user.route");
-const pestenRoute = require("./routes/pesten.route");
+const gameRoute = require("./routes/game.route");
 const friendRoute = require("./routes/friend.route");
 const statsRoute = require("./routes/stats.route");
 
@@ -55,7 +55,7 @@ app.use(bodyParser.json());
 app.use("/api/login", loginRoute);
 app.use("/api/hidden", hiddenRoute);
 app.use("/api/user", userRoute);
-app.use("/api/pesten", pestenRoute);
+app.use("/api/game", gameRoute);
 app.use("/api/friend", friendRoute);
 app.use("/api/stats", statsRoute);
 

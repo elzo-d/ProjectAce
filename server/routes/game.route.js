@@ -1,12 +1,12 @@
 const express = require("express");
-const pestenRoutes = express.Router();
+const gameRoutes = express.Router();
 const {PestenHandler} = require("../games/pestenhandler");
 
 let User = require("../models/User");
 
 let pestenHandler = new PestenHandler();
 
-pestenRoutes.route("/").post((req, res) => {
+gameRoutes.route("/pesten").post((req, res) => {
   console.log("Post for pesten-API - req: " + JSON.stringify(req.body));
 
   switch(req.body.type) {
@@ -42,24 +42,25 @@ pestenRoutes.route("/").post((req, res) => {
   }
 });
 
-pestenRoutes.route("/list").post((req, res) => {
+gameRoutes.route("/list").post((req, res) => {
   console.log("Post for game-list API - req: " + JSON.stringify(req.body));
   // get the list for each game and combine them
   let ret = pestenHandler.getList();
-  let game = findInWhichGame(req.body.userId);
+  let games = findInWhichGame(req.body.userId);
   res.json({
     error: "success",
-    data: {games: ret, inGame: game === "Pesten" ? true : false}
+    data: {games: ret, inGames: games}
   });
 });
 
 function findInWhichGame(userId) {
   // go through all games to find the game we might be in
+  let ret = [];
   if(pestenHandler.isUserInGame(userId)) {
-    return "Pesten";
+    ret.push("Pesten");
   }
-  return "None";
+  return ret;
 
 }
 
-module.exports = pestenRoutes;
+module.exports = gameRoutes;
