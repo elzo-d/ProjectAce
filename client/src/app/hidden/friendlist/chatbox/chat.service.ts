@@ -26,16 +26,6 @@ export class ChatService {
       });
     });
   }
-
-  addPushSubscriber(sub: any) {
-    console.log("User subscribed to push notifications!")
-    return this.http.post(this.url + '/api/notifications', sub);
-  }
-
-  send() {
-    console.log("New push notification!")
-    return this.http.post(this.url + '/api/newsletter', null);
-  }
 }
 
 interface Message {

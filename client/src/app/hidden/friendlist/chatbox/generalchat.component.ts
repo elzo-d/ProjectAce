@@ -17,14 +17,7 @@ export class GeneralchatComponent implements OnInit, OnDestroy {
   date: Date;
   private subscription: Subscription;
 
-  constructor(
-    public chatService: ChatService,
-    public auth: AuthService,
-    private swUpdate: SwUpdate,
-    private swPush: SwPush,
-  ) {
-    this.subscribeToNotifications();
-  }
+  constructor(public chatService: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
     this.subscription = this.chatService
@@ -32,27 +25,10 @@ export class GeneralchatComponent implements OnInit, OnDestroy {
       .subscribe((message: string) => {
         this.recieveMessage(message)
       })
-
-    // For something with updated push notifications
-    // if (this.swUpdate.isEnabled) {
-    //   this.swUpdate.available.subscribe(() => {
-    //     if (confirm("New version available. Load New Version?")) {
-    //       window.location.reload();
-    //     }
-    //   });
-    // }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe()
-  }
-
-  subscribeToNotifications() {
-    this.swPush.requestSubscription({
-      serverPublicKey: this.VAPID_PUBLIC_KEY
-    })
-      .then(sub => this.chatService.addPushSubscriber(sub).subscribe())
-      .catch(err => console.error("Could not subscribe to notifications", err));
   }
 
   recieveMessage(message: string) {
@@ -76,8 +52,6 @@ export class GeneralchatComponent implements OnInit, OnDestroy {
         hour: (this.date.getHours() < 10 ? '0' : '') + this.date.getHours(),
         minutes: (this.date.getMinutes() < 10 ? '0' : '') + this.date.getMinutes()
       })
-
-      this.chatService.send()
     }
   }
 

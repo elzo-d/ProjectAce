@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dbConfig = require("./DB");
 const bodyParser = require("body-parser");
-const webpush = require('web-push');
 
 const loginRoute = require("./routes/login.route");
 const hiddenRoute = require("./routes/hidden.route");
@@ -74,59 +73,3 @@ mongoose.connect(dbConfig.DB, {useNewUrlParser: true}).then(
 server.listen(port, () => {
   console.log(`started on port: ${port}`);
 });
-
-
-// Add subscriber for notifications
-let USER_SUBSCRIPTIONS = [];
-
-app.route('/api/notifications').post((req, res) => {
-  const sub = req.body;
-  console.log('Received Subscription on the server: ', sub);
-
-  USER_SUBSCRIPTIONS.push(sub);
-  res.status(200).json({message: "Subscription added successfully."});
-})
-
-
-// Push notifications
-const vapidKeys = {
-  "publicKey": "BOeUCIce-rGD5dA9g6qT455oAnvKU1AFzQU8eixLWlGVuHzFZSHjqymYIzjYN7Sh7Kqxk9AoHoCBgpSgM9Tes60",
-  "privateKey": "GY2AuRfljx1iHcj1FuXCa8Nc9cJOOkEp3a_ekqY6S_A"
-};
-
-webpush.setVapidDetails(
-  'mailto:example@yourdomain.org',
-  vapidKeys.publicKey,
-  vapidKeys.privateKey
-);
-
-app.route('/api/newsletter').post((req, res) => {
-  const allSubscriptions = USER_SUBSCRIPTIONS
-
-  console.log('Total subscriptions', allSubscriptions.length);
-
-  const notificationPayload = {
-    "notification": {
-      "title": "Angular News",
-      "body": "Newsletter Available!",
-      // "icon": "assets/main-page-logo-small-hat.png",
-      "vibrate": [100, 50, 100],
-      "data": {
-        "dateOfArrival": Date.now(),
-        "primaryKey": 1
-      },
-      "actions": [{
-        "action": "explore",
-        "title": "Go to the site"
-      }]
-    }
-  };
-
-  Promise.all(allSubscriptions.map(sub => webpush.sendNotification(
-    sub, JSON.stringify(notificationPayload))))
-    .then(() => res.status(200).json({message: 'Newsletter sent successfully.'}))
-    .catch(err => {
-      console.error("Error sending notification, reason: ", err);
-      res.sendStatus(500);
-    });
-})
