@@ -16,15 +16,29 @@ export class GeneralchatComponent implements OnInit, OnDestroy {
   currentUser: string = this.auth.getUser();
   date: Date;
   private subscription: Subscription;
+  window: any;
 
   constructor(public chatService: ChatService, public auth: AuthService) {}
 
   ngOnInit() {
+    this.window = <any> window;
     this.subscription = this.chatService
       .getMessages()
       .subscribe((message: string) => {
         this.recieveMessage(message)
-      })
+      });
+
+    console.log("Requesting permission for notifications...");
+    if("Notification" in this.window) {
+      let permission = this.window.Notification.permission;
+      if(permission !== "granted" && permission !== "denied") {
+        this.window.Notification.requestPermission(per => {
+          if(per === "granted") {
+            let noti = new this.window.Notification("Notifications enabled");
+          }
+        });
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -52,6 +66,14 @@ export class GeneralchatComponent implements OnInit, OnDestroy {
         hour: (this.date.getHours() < 10 ? '0' : '') + this.date.getHours(),
         minutes: (this.date.getMinutes() < 10 ? '0' : '') + this.date.getMinutes()
       })
+
+      console.log("Send notification");
+      if("Notification" in this.window && !thisUser && !this.window.document.hasFocus()) {
+        let permission = this.window.Notification.permission;
+        if(permission === "granted") {
+          let noti = new this.window.Notification(words[0] + ": " + message);
+        }
+      }
     }
   }
 
