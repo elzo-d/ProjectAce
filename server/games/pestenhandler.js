@@ -1,6 +1,8 @@
 
 const {Pesten, Card} = require("./pesten");
 
+const {getUsername} = require("../useractions");
+
 class PestenHandler {
 
   constructor() {
@@ -9,66 +11,75 @@ class PestenHandler {
     this.pestenMap = {}; // indexed on userId
   }
 
-  newGame(userId, playerCount, name) {
+  newGame(userId, playerCount, name, cb) {
     if(this.isUserInGame(userId)) {
-      return {error: "user already in game"};
+      cb({error: "user already in game"});
+      return;
     }
     let hash = this.getHash();
     this.pestenGames[hash] = new Pesten(playerCount, name);
     this.pestenHashes.push(hash);
     console.log("Created pesten game");
-    return this.joinGame(hash, userId);
+    this.joinGame(hash, userId, cb);
   }
 
-  joinGame(hash, userId) {
+  joinGame(hash, userId, cb) {
     if(this.isUserInGame(userId)) {
-      return {error: "user already in game"};
+      cb({error: "user already in game"});
+      return;
     }
+
     let players = this.pestenGames[hash].players;
     if(this.pestenGames[hash].joinedUsers.length === players) {
-      return {error: "game is full"};
+      cb({error: "game is full"});
+      return;
     }
-    this.pestenMap[userId] = [hash, this.pestenGames[hash].joinedUsers.length];
-    this.pestenGames[hash].joinedUsers.push(userId);
-    return {
-      error: "success",
-      data: {
-        waiting: true,
-        players: players,
-        joinedUsers: this.pestenGames[hash].joinedUsers
-      }
-    };
+
+    getUsername(userId, name => {
+      this.pestenMap[userId] = [hash, this.pestenGames[hash].joinedUsers.length];
+      this.pestenGames[hash].joinedUsers.push(name);
+      cb({
+        error: "success",
+        data: {
+          waiting: true,
+          players: players,
+          joinedUsers: this.pestenGames[hash].joinedUsers
+        }
+      });
+    });
   }
 
-  doMove(userId, card, moveType) {
+  doMove(userId, card, moveType, cb) {
     if(!this.isUserInGame(userId)) {
-      return {error: "user not in game"};
+      cb({error: "user not in game"});
+      return;
     }
     let map = this.pestenMap[userId];
     let players = this.pestenGames[map[0]].players;
     if(this.pestenGames[map[0]].joinedUsers.length !== players) {
-      return {
+      cb({
         error: "success",
         data: {
           waiting: true,
           players: players,
           joinedUsers: this.pestenGames[map[0]].joinedUsers
         }
-      };
+      });
+      return;
     }
-    console.log(map);
     let c = new Card(1, 1);
     c.setFromArray(card);
     this.pestenGames[map[0]].doUpdate(moveType, c, map[1]);
-    return {
+    cb({
       error: "success",
       data: this.pestenGames[map[0]].getState(map[1])
-    };
+    });
   }
 
-  leaveGame(userId) {
+  leaveGame(userId, cb) {
     if(!this.isUserInGame(userId)) {
-      return {error: "user not in game"};
+      cb({error: "user not in game"});
+      return;
     }
     let map = this.pestenMap[userId];
     this.pestenMap[userId] = undefined;
@@ -79,10 +90,10 @@ class PestenHandler {
       this.removeHash(map[0]);
       console.log("Removed pesten gane, all players finished");
     }
-    return {
+    cb({
       error: "success",
       data: {}
-    };
+    });
   }
 
   getHash() {
