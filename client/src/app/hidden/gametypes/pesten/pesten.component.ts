@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
 import { URL } from '../../../config';
 
-const PLAYERS = 4;
+const PLAYERS = 3;
 
 @Component({
   selector: 'app-pesten',
