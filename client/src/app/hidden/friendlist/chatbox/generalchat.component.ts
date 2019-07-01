@@ -2,7 +2,6 @@ import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angula
 import {AuthService} from './../../../auth/auth.service';
 import {ChatService} from './chat.service';
 import {Subscription} from 'rxjs';
-import {SwUpdate, SwPush} from '@angular/service-worker';
 
 @Component({
   selector: 'app-generalchat',
@@ -11,7 +10,6 @@ import {SwUpdate, SwPush} from '@angular/service-worker';
 })
 export class GeneralchatComponent implements OnInit, OnDestroy {
   @Output() messageEvent = new EventEmitter();
-  readonly VAPID_PUBLIC_KEY = "BOeUCIce-rGD5dA9g6qT455oAnvKU1AFzQU8eixLWlGVuHzFZSHjqymYIzjYN7Sh7Kqxk9AoHoCBgpSgM9Tes60";
   close: boolean = true;
   currentUser: string = this.auth.getUser();
   date: Date;

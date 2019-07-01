@@ -6,7 +6,6 @@ import { Friend } from "./Friend";
 import { UserService } from "src/app/user.service";
 import { Router } from '@angular/router';
 
-
 enum ActiveTab {
   GENERAL_CHAT,
   FRIEND_LIST,
@@ -58,8 +57,7 @@ export class FriendlistComponent implements OnInit {
   }
 
   viewMobileProfile(){
-    console.log("viewmobileprofile")
-    this.hiddenComp.removeFriendComponent();
+    this.hiddenComp.resetAllComponents();
   }
 
   updatePlayerList() {

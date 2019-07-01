@@ -22,15 +22,11 @@
   width: calc(100% - 410px - 6rem);
   float: left;
   margin-left: 1rem;
-  padding-right: 1rem;
-  padding-left: 2rem;
-  padding-top: 2rem;
-  padding: 2rem;
+  padding: 10px;
   background-color: #EBEBEB;
   color: black;
   border-radius: 15px;
   min-height: calc(100vh - 10rem);
-
 }
 
 #main {

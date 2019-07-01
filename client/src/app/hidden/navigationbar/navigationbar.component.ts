@@ -23,7 +23,7 @@ export class NavigationbarComponent implements OnInit {
     this.hiddenComp.resetAllComponents();
   }
 
-  toggleFriendComponent() {
-    this.hiddenComp.toggleFriendComponent();
+  activateFriendComponent() {
+    this.hiddenComp.activateFriendComponent();
   }
 }
