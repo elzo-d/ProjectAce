@@ -1,32 +1,10 @@
 
 div.game {
   background-color: #008800;
-  min-height: calc(100vh - 10rem - 72px);
+  min-height: 100%;
   min-width: 100%;
   padding: 0;
   margin: 0;
-  position: relative;
-}
-
-.top {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.middle {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.bottom {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 #img {
@@ -35,6 +13,6 @@ div.game {
 
 #canvas {
   display: block;
-  width:100%;
-  height: calc(100vh - 10rem - 72px);
+  width: 100%;
+  min-height: calc(100vh - 14rem);
 }
