@@ -3,6 +3,18 @@
   <p *ngIf="selectedGame">{{selectedGameDescription}}</p>
   <p (click)="toggleRules()" class="link">{{rulesOpened ? 'hide rules' : 'show rules'}}</p>
   <p *ngIf="rulesOpened">{{selectedGameRules}}</p>
+
+  <p *ngIf="!inGameAlready">
+    Name: <input id="gamename">&nbsp;&nbsp;&nbsp;&nbsp;Players: <select id="playercount">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="smallButton btn btn-default" (click)="newGame()">New game</button>
+  </p>
+  <p *ngIf="inGameAlready">
+    <button class="smallButton btn btn-default" (click)="backToGame()">Back to game</button>
+  </p>
 </div>
 <table class="table">
   <tr>
@@ -10,15 +22,13 @@
     <th class="thead-light" width="200px">Name</th>
     <th class="thead-light" width="200px">Players</th>
     <th class="thead" width="200px">
-      <button (click)="joinRandom()" class="smallButton btn btn-default" >Join random</button>
-      <button class="smallButton btn btn-default"  *ngIf="selectedGame && !inGameAlready" (click)="newGame()">New game</button>
-      <button class="smallButton btn btn-default" *ngIf="selectedGame && inGameAlready" (click)="backToGame()">Back to game</button>
+      <button (click)="joinRandom()" class="smallButton btn btn-default" [attr.disabled]="inGameAlready ? true : null">Join random</button>
     </th>
   </tr>
   <tr *ngFor="let game of finalList">
     <td>{{game.gameType}}</td>
     <td>{{game.name}}</td>
-    <td>{{game.players}}</td>
-    <td><button class="smallButton btn btn-default" (click)="joinGame(game)">Join</button></td>
+    <td>{{game.joined}} / {{game.players}}</td>
+    <td><button class="smallButton btn btn-default" (click)="joinGame(game)" [attr.disabled]="inGameAlready ? true : null">Join</button></td>
   </tr>
 </table>

@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../auth/auth.service';
 import { URL } from '../../../config';
 
-const PLAYERS = 4;
-
 @Component({
   selector: 'app-pesten',
   templateUrl: './pesten.component.html',
@@ -26,8 +24,8 @@ export class PestenComponent implements OnInit {
 
   started:boolean = false;
   waiting:boolean = true;
-  joinedUsers:number = 0;
   userIds:string[] = [];
+  players:number = 2;
 
   intervalId:number = 0;
   scale:number = 1;
@@ -59,8 +57,8 @@ export class PestenComponent implements OnInit {
   reset() {
     this.started = false;
     this.waiting = true;
-    this.joinedUsers = 1;
     this.userIds = [];
+    this.players = 0;
     this.userCards = [];
     this.pileTop = undefined;
     this.finished = false;
@@ -79,15 +77,16 @@ export class PestenComponent implements OnInit {
       this.started = false;
       this.waiting = false;
       this.userIds = [];
+      this.players = 0;
       console.log("Error from API: " + res.error);
       this.updateView(this.mx, this.my);
       return;
     }
     this.started = true;
     this.userIds = res.data.joinedUsers;
+    this.players = res.data.players;
     if(res.data.waiting) {
       this.waiting = true;
-      this.joinedUsers = res.data.players;
       this.updateView(this.mx, this.my);
       return;
     }
@@ -258,7 +257,7 @@ export class PestenComponent implements OnInit {
       ctx.strokeRect(c.width / 2 - 100, c.height / 2 - 60, 200, 120);
       ctx.font = "15px arial";
       ctx.fillText(this.started ? "Waiting for players..." : "Connecting...", c.width / 2, c.height / 2 - 20);
-      ctx.fillText(this.started ? this.joinedUsers + " / " + PLAYERS + " users joined" : "", c.width / 2, c.height / 2 + 20);
+      ctx.fillText(this.started ? this.userIds.length + " / " + this.players + " users joined" : "", c.width / 2, c.height / 2 + 20);
 
       this.drawUserBox(ctx, false);
       return;
@@ -270,7 +269,7 @@ export class PestenComponent implements OnInit {
       card.draw(ctx, 2, xPos, this.img, false, true, this.scale);
       xPos += cardOverlap;
     }
-    if(PLAYERS > 2) {
+    if(this.players > 2) {
       let user2cards = this.getCardArray(this.opponentLengths[1]);
       xPos = (c.width / 2) - ((user2cards.length * cardOverlap + cardOverlap) / 2);
       for(let card of user2cards) {
@@ -278,7 +277,7 @@ export class PestenComponent implements OnInit {
         xPos += cardOverlap;
       }
     }
-    if(PLAYERS > 3) {
+    if(this.players > 3) {
       let user3cards = this.getCardArray(this.opponentLengths[2]);
       xPos = (c.height / 2) - ((user3cards.length * cardOverlap + cardOverlap) / 2);
       for(let card of user3cards) {
@@ -296,7 +295,7 @@ export class PestenComponent implements OnInit {
     stackTop.draw(ctx, (c.width / 2) + 2, (c.height / 2) - (cardHeight / 2), this.img, highlight && !this.finished, false, this.scale);
 
     // draw turn-triangles
-    if(this.turn === (this.user + 1) % PLAYERS && !this.finished) {
+    if(this.turn === (this.user + 1) % this.players && !this.finished) {
       this.drawTriangle(
         ctx,
         cardHeight + 6, c.height / 2,
@@ -304,7 +303,7 @@ export class PestenComponent implements OnInit {
         cardHeight + 6 + 10, c.height / 2 + 20
       );
     }
-    if(this.turn === (this.user + 2) % PLAYERS && !this.finished && PLAYERS > 2) {
+    if(this.turn === (this.user + 2) % this.players && !this.finished && this.players > 2) {
       this.drawTriangle(
         ctx,
         c.width / 2, cardHeight + 6,
@@ -312,7 +311,7 @@ export class PestenComponent implements OnInit {
         c.width / 2 + 20, cardHeight + 6 + 10
       );
     }
-    if(this.turn === (this.user + 3) % PLAYERS && !this.finished && PLAYERS > 3) {
+    if(this.turn === (this.user + 3) % this.players && !this.finished && this.players > 3) {
       this.drawTriangle(
         ctx,
         c.width - (cardHeight + 6), c.height / 2,

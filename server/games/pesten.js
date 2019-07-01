@@ -1,8 +1,8 @@
 
-const PLAYERS = 4;
+// const PLAYERS = 4;
 
 class Pesten {
-  constructor() {
+  constructor(players, name) {
     this.stack = [];
     this.pile = [];
     this.userCards = [];
@@ -10,10 +10,13 @@ class Pesten {
     this.grabCards = 1;
     this.finished = false;
     this.won = 0;
+
+    this.players = players;
     this.reset();
 
     this.joinedUsers = [];
     this.leftPlayers = 0;
+    this.name = name;
   }
 
   reset() {
@@ -27,7 +30,7 @@ class Pesten {
     this.addPackToStack();
     this.addPackToStack();
     this.shuffle(this.stack);
-    for(let j = 0; j < PLAYERS; j++) {
+    for(let j = 0; j < this.players; j++) {
       this.userCards.push([]);
       for(let i = 0; i < 8; i++) {
         let userCard = this.stack.pop();
@@ -205,8 +208,8 @@ class Pesten {
       cardList.push(card.getArray());
     }
     let otherLengths = [];
-    for(let i = 1; i < PLAYERS; i++) {
-      let ind = (user + i) % PLAYERS;
+    for(let i = 1; i < this.players; i++) {
+      let ind = (user + i) % this.players;
       otherLengths.push(this.userCards[ind].length);
     }
     return {
@@ -218,6 +221,7 @@ class Pesten {
       finished: this.finished,
       won: this.won,
       user: user,
+      players: this.players,
       joinedUsers: this.joinedUsers
     }
   }
@@ -262,6 +266,5 @@ module.exports = {
   Pesten: Pesten,
   SUITS: SUITS,
   MOVE_TYPE: MOVE_TYPE,
-  Card: Card,
-  PLAYERS: PLAYERS
+  Card: Card
 }

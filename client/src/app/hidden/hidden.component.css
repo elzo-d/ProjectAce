@@ -26,7 +26,8 @@
   width: calc(100% - 410px - 6rem);
   float: left;
   margin-left: 1rem;
-  padding: 10px;
+  padding: 2rem;
+  padding-top: 1rem;
   background-color: #EBEBEB;
   color: black;
   border-radius: 15px;
