@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service'
+import {GeneralchatComponent} from './friendlist/chatbox/generalchat.component';
 
 @Component({
   selector: 'app-hidden',
@@ -52,10 +53,4 @@ export class HiddenComponent implements OnInit {
     document.getElementById("friendlist").style.setProperty("display", "unset");
     document.getElementById("body").style.setProperty("display", "none");
   }
-
-  // removeFriendComponent() {
-  //   this.resetAllComponents()
-  //   document.getElementById("friendlist").style.setProperty("display", "none");
-  // }
-
 }
