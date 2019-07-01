@@ -45,7 +45,7 @@ loginRoutes.route("/").post((req, res) => {
 
   User.findOne({ name: name }, "name password id email", (err, user) => {
     //Error handling
-    if (err) {
+    if (err || !user) {
       res.status(401).json({ message: `no user found with username ${name}` });
       return;
     }
