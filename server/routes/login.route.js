@@ -28,24 +28,9 @@ loginRoutes.route("/").post((req, res) => {
     return;
   }
 
-  //!Testaccount
-  if (name == "user" && password == "user") {
-    let payload = { name, id: 1111, email: "dingen@dingen.dingen" };
-    let token = jwt.sign(payload, privateKey, signOptions);
-    console.log(`>>> ${token}`);
-    res.json({
-      message: "ok",
-      token: token,
-      expiresIn: jwt.decode(token).exp,
-      user: "user"
-    });
-    return;
-  }
-  //!End Testaccount
-
   User.findOne({ name: name }, "name password id email", (err, user) => {
     //Error handling
-    if (err) {
+    if (err || !user) {
       res.status(401).json({ message: `no user found with username ${name}` });
       return;
     }

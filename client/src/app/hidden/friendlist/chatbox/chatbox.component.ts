@@ -8,7 +8,7 @@ import { ChatService } from './chat.service';
   styleUrls: ['./chatbox.component.css']
 })
 
-  
+
 export class ChatboxComponent implements OnInit {
   @Output() messageEvent = new EventEmitter();
   @Input('friend') vriend: Friend;
@@ -27,7 +27,24 @@ export class ChatboxComponent implements OnInit {
           fromUser: true,
           text: message,
         });
+        // if("Notification" in window) {
+        //   let permission = window.Notification.permission;
+        //   if(permission === "granted") {
+        //     let noti = new window.Notification("Notifications enabled");
+        //   }
+        // }
       });
+
+    // if("Notification" in window) {
+    //   let permission = window.Notification.permission;
+    //   if(permission !== "granted" && permission !== "denied") {
+    //     window.Notification.requestPermission(per => {
+    //       if(per === "granted") {
+    //         let noti = new window.Notification("Notifications enabled");
+    //       }
+    //     });
+    //   }
+    // }
   }
 
   closingChat() {

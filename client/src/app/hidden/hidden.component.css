@@ -7,6 +7,10 @@
   border-radius: 0px 0px 15px 15px;
 }
 
+#highscores{
+  height: calc(100vh - 410px - 6rem);
+}
+
 #friendlist {
   margin-right: 1rem;
   width: calc(300px + 1rem);
@@ -27,6 +31,7 @@
   color: black;
   border-radius: 15px;
   min-height: calc(100vh - 10rem);
+  max-height: calc(100vh - 10rem);
 }
 
 #main {

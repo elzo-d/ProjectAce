@@ -68,7 +68,7 @@ export class ProfileComponent implements OnInit {
   updateStatValues(){
     this.userWins = this.stats.wins
     this.userLosses = this.stats.losses
-    this.userWinLossRatio = Math.round(this.userWins / this.userLosses * 100) / 100
+    this.userWinLossRatio = this.checkWinLoss(this.userWins, this.userLosses);
     this.userSkillGroup = this.getSkillGroup(this.userWinLossRatio)
     this.userLevel = Math.floor((this.userWins + this.userLosses) / 5)
     this.levelProgress = (this.userWins + this.userLosses)%5
@@ -76,6 +76,16 @@ export class ProfileComponent implements OnInit {
   updateUserValues(){
     this.userId = this.user._id
     this.userName = this.user.name
+  }
+
+  checkWinLoss(wins, losses){
+    if(wins == 0){
+      return 0
+    } else if(losses == 0){
+      return wins
+    }else{
+      return Math.round(wins / losses * 100) / 100
+    }
   }
 
   getSkillGroup(winLossRatio: number){

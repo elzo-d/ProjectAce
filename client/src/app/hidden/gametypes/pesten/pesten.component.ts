@@ -282,7 +282,7 @@ export class PestenComponent implements OnInit {
       let user3cards = this.getCardArray(this.opponentLengths[2]);
       xPos = (c.height / 2) - ((user3cards.length * cardOverlap + cardOverlap) / 2);
       for(let card of user3cards) {
-        card.draw(ctx, c.width - 164 - 2, xPos, this.img, false, true, this.scale);
+        card.draw(ctx, c.width - cardHeight - 2, xPos, this.img, false, true, this.scale);
         xPos += cardOverlap;
       }
     }
