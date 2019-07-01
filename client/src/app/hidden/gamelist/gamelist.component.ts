@@ -66,7 +66,7 @@ export class GamelistComponent implements OnInit {
     this.selectedGameDescription = GAME_DESC[this.selectedGame];
     this.selectedGameRules = GAME_RULES[this.selectedGame];
 
-    this.http.post(URL + "/api/pesten/list", {userId: this.auth.getId()}).subscribe(
+    this.http.post(URL + "/api/game/list", {userId: this.auth.getId()}).subscribe(
       res => this.handleRequest(res),
       err => console.log(err)
     );
@@ -76,7 +76,7 @@ export class GamelistComponent implements OnInit {
       this.selectedGameDescription = GAME_DESC[n];
       this.selectedGameRules = GAME_RULES[n];
       this.getList();
-      this.http.post(URL + "/api/pesten/list", {userId: this.auth.getId()}).subscribe(
+      this.http.post(URL + "/api/game/list", {userId: this.auth.getId()}).subscribe(
         res => this.handleRequest(res),
         err => console.log(err)
       );
@@ -105,7 +105,8 @@ export class GamelistComponent implements OnInit {
       });
     }
     this.getList();
-    this.inGameAlready = res.data.inGame;
+    let inGames = res.data.inGames;
+    this.inGameAlready = inGames.includes(this.selectedGame);
   }
 
   getList() {
@@ -133,20 +134,38 @@ export class GamelistComponent implements OnInit {
   joinGame(game) {
     // join the game
     console.log("Joining " + game.name + " (type: " + game.gameType + ")");
-    this.http.post(URL + "/api/pesten", {
-      type: 2,
-      gameHash: game.hash,
-      userId: this.auth.getId()
-    }).subscribe(
-      res => {this.handleGameStart(res)},
-      err => console.log(err)
-    );
+    switch(game.gameType) {
+      case "Pesten": {
+        this.http.post(URL + "/api/game/pesten", {
+          type: 2,
+          gameHash: game.hash,
+          userId: this.auth.getId()
+        }).subscribe(
+          res => {this.handleGameStart(res)},
+          err => console.log(err)
+        );
+        break;
+      }
+      default: {
+        console.log("Game " + game.gameType + " not implemented");
+        break;
+      }
+    }
   }
 
-  backToGame(game) {
+  backToGame() {
     // go back to an existing game
-    console.log("Going back to game (type: " + this.selectedGame + ")");
-    this.router.navigateByUrl("/hidden/pesten");
+    switch(this.selectedGame) {
+      case "Pesten": {
+        console.log("Going back to game (type: " + this.selectedGame + ")");
+        this.router.navigateByUrl("/hidden/pesten");
+        break;
+      }
+      default: {
+        console.log("Game " + this.selectedGame + " not implemented");
+        break;
+      }
+    }
   }
 
   joinRandom() {
@@ -162,17 +181,27 @@ export class GamelistComponent implements OnInit {
   newGame() {
     // start new game
     console.log("Starting new game (type: " + this.selectedGame + ")");
-    let name = (<HTMLInputElement>document.getElementById("gamename")).value;
-    let players = (<HTMLInputElement>document.getElementById("playercount")).value;
-    this.http.post(URL + "/api/pesten", {
-      type: 0,
-      userId: this.auth.getId(),
-      name: name,
-      players: players
-    }).subscribe(
-      res => {this.handleGameStart(res)},
-      err => console.log(err)
-    );
+
+    switch(this.selectedGame) {
+      case "Pesten": {
+        let name = (<HTMLInputElement>document.getElementById("gamename")).value;
+        let players = (<HTMLInputElement>document.getElementById("playercount")).value;
+        this.http.post(URL + "/api/game/pesten", {
+          type: 0,
+          userId: this.auth.getId(),
+          name: name,
+          players: players
+        }).subscribe(
+          res => {this.handleGameStart(res)},
+          err => console.log(err)
+        );
+        break;
+      }
+      default: {
+        console.log("Game " + this.selectedGame + " not implemented");
+        break;
+      }
+    }
   }
 
   getTitle() {
