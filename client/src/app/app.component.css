@@ -3,6 +3,10 @@ img {
   margin-bottom: 10px;
 }
 
+.loadingIcon {
+  width: 20px;
+}
+
 #background {
   min-height: 100%;
   height: 100%;

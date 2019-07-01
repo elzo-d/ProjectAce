@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, RequiredValidator } from "@angular/forms";
 import { first } from "rxjs/operators";
+import { PasswordValidation } from './../hidden/edit/password-validation';
 
 import { UserService } from "../user.service";
 import { AuthService } from "../auth/auth.service";
@@ -38,7 +39,10 @@ export class RegisterComponent implements OnInit {
         "",
         [Validators.required, Validators.minLength(6), Validators.maxLength(16)]
       ],
-      password: ["", [Validators.required, Validators.minLength(6)]]
+      newPassword: ["", [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ["", Validators.required]
+    },{
+      validator: PasswordValidation.MatchPassword // your validation method
     });
   }
 
@@ -54,12 +58,11 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
     this.loading = true;
     this.userService
       .register(
         this.registerForm.value.username,
-        this.registerForm.value.password,
+        this.registerForm.value.newPassword,
         this.registerForm.value.email
       )
       .pipe(first())
