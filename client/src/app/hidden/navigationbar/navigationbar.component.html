@@ -1,9 +1,9 @@
 <div id="navigation">
-  <button routerLink="lobby" class="visibleNotMobile" id="logo">
+  <button (click)="toHome()" class="visibleNotMobile" id="logo">
       <img src="/assets/logo.png">
   </button>
 
-  <button routerLink="lobby" class="visibleMobile" id="logo" (click)="resetAllComponents()">
+  <button (click)="toHome();resetAllComponents()" class="visibleMobile" id="logo">
       <img src="/assets/logo.png" alt="Paris">
   </button>
 
