@@ -122,11 +122,11 @@ export class GamelistComponent implements OnInit {
     this.finalList = finalList;
   }
 
-  handleGameStart(res) {
+  handleGameStart(res, game) {
     if(res.error !== "success") {
       console.log("Can't join game: " + res.error);
     } else {
-      this.router.navigateByUrl("/hidden/pesten");
+      this.router.navigateByUrl("/hidden/" + game);
     }
   }
 
@@ -140,7 +140,7 @@ export class GamelistComponent implements OnInit {
           gameHash: game.hash,
           userId: this.auth.getId()
         }).subscribe(
-          res => {this.handleGameStart(res)},
+          res => {this.handleGameStart(res, "pesten")},
           err => console.log(err)
         );
         break;
@@ -191,7 +191,7 @@ export class GamelistComponent implements OnInit {
           name: name,
           players: players
         }).subscribe(
-          res => {this.handleGameStart(res)},
+          res => {this.handleGameStart(res, "pesten")},
           err => console.log(err)
         );
         break;
