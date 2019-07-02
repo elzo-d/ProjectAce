@@ -9,7 +9,7 @@ statsRoutes.route("/:id").get((req, res) => {
     if (err) {
       res.status(400).send("Could not find stats for player");
     } else {
-      console.log(req);
+      //console.log(req);
       res.status(200).json(stats);
     }
   });
@@ -24,7 +24,7 @@ statsRoutes.route("/game/:game").get((req, res) => {
     if (err) {
       res.status(400).send("Could not find stats for player");
     } else {
-      console.log(req);
+      //console.log(req);
       res.status(200).json(stats);
     }
   });
