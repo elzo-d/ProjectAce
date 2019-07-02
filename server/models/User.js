@@ -25,7 +25,10 @@ let UserSchema = new Schema(
     email: {
       type: String
     },
-    stats: [{ type: StatsSchema }]
+    stats: [{ type: StatsSchema }],
+    friends: [String],
+    sentRequests: [String],
+    receivedRequests: [String]
   },
   {
     collection: "user"

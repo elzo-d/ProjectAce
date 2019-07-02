@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { shareReplay, tap } from "rxjs/operators";
 
 import * as moment from "moment";
-import { JsonPipe } from '@angular/common';
+import { JsonPipe } from "@angular/common";
 
-import { URL } from '../config';
+import { URL } from "../config";
 
 const API_URL = URL + "/api/";
 
@@ -21,12 +21,10 @@ export class AuthService {
   }
 
   public isLoggedIn() {
-    console.log(JSON.parse(localStorage.getItem("name")));
     return moment().isBefore(this.getExpiration());
   }
 
   private setSession(authResult) {
-    console.log(authResult)
     localStorage.setItem(
       "expirationTime",
       JSON.stringify(authResult.expiresIn + moment.now())
@@ -35,35 +33,28 @@ export class AuthService {
     localStorage.setItem("name", JSON.stringify(authResult.user));
     localStorage.setItem("email", JSON.stringify(authResult.email));
     localStorage.setItem("id", JSON.stringify(authResult.id));
-
   }
 
   public logout() {
     localStorage.clear();
-    console.log("Logging out");
   }
 
   public getExpiration() {
-    console.log("Get experiation as json...");
     return JSON.parse(localStorage.getItem("expirationTime"));
   }
 
   public getUser() {
-    console.log("Get user...");
     return JSON.parse(localStorage.getItem("name"));
   }
 
-  public getId(){
-    console.log("Get id...");
+  public getId() {
     return JSON.parse(localStorage.getItem("id"));
   }
   public getEmail() {
-    console.log("Get email...");
     return JSON.parse(localStorage.getItem("email"));
   }
 
   private handleError(error) {
-    console.error("ERROR...");
     console.log(error);
   }
 }

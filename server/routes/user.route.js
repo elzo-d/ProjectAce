@@ -65,7 +65,6 @@ userRoutes.route("/:id").get(function(req, res) {
 userRoutes.route("/edit/:id").get(function(req, res) {
   let id = req.params.id;
   User.findById(id, function(err, user) {
-    console.log(res.json(user));
     res.json(user);
   });
 });
@@ -80,12 +79,11 @@ userRoutes.route("/update/:id").post(function(req, res) {
       req.body,
       { new: true },
       (err, user) => {
-        console.log(req.body);
         if (!user) {
           return console.log("!user");
         }
         if (err) {
-          res.status(400).send("Dikke probleem");
+          res.status(400).json("Unable to update user");
           return;
         }
         return res.send(user);
@@ -99,26 +97,22 @@ userRoutes.route("/update/:id").post(function(req, res) {
         passCorrect
       ) {
         if (passCorrect) {
-          console.log(`Password is correct`);
           bcrypt.hash(password, saltRounds, (err, hash) => {
-            console.log(`hash: ${hash}`);
             if (err) {
-              res.status(400).send("unable to save password");
+              res.status(400).send("Unable to save password");
               return;
             } else {
               req.body.password = hash;
-              console.log(">> password hashed to", hash);
               User.findByIdAndUpdate(
                 req.params.id,
                 req.body,
                 { new: true },
                 (err, user) => {
-                  console.log(req.body);
                   if (!user) {
                     return console.log("!user");
                   }
                   if (err) {
-                    res.status(400).send("Dikke probleem");
+                    res.status(400).send("Unable to update user");
                     return;
                   }
                   return res.send(user);
@@ -127,7 +121,7 @@ userRoutes.route("/update/:id").post(function(req, res) {
             }
           });
         } else {
-          res.status(401).json({ message: "password did not match" });
+          res.status(401).json({ message: "Password did not match" });
         }
       });
     });

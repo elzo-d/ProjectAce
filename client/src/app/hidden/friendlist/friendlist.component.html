@@ -31,7 +31,9 @@
       <thead>
         <tr>
           <th (click)="setOrder('name')" style="width: 115px">Friend</th>
-          <th (click)="setOrder('status')">Status</th>
+          <th (click)="setOrder('status')">
+            <!-- Status -->
+          </th>
           <th></th>
         </tr>
       </thead>
@@ -42,9 +44,20 @@
               | orderBy: order:reverse:'case-insensitive':customComparator
           "
         >
-          <td>{{ friend.name }}</td>
+          <td>
+            <a class="visibleNotMobile" routerLink="profile/{{ friend.id }}">{{
+              friend.name
+            }}</a>
+
+            <a
+              class="visibleMobile"
+              routerLink="profile/{{ friend.id }}"
+              (click)="viewMobileProfile()"
+              >{{ friend.name }}</a
+            >
+          </td>
           <td class="{{ friend.status }}" style="width: 30%">
-            {{ friend.status }}
+            <!-- {{ friend.status }} -->
           </td>
           <td><button class="btn btn-default">Message</button></td>
           <!--(click)="messageFriend(friend)"-->
@@ -64,20 +77,49 @@
       <thead>
         <tr>
           <th style="width: 93px">Players</th>
-          <th>Status</th>
+          <th>
+            <!-- Status -->
+          </th>
           <th></th>
         </tr>
       </thead>
       <tbody id="playerList">
         <tr *ngFor="let player of displayPlayers">
-          <td >
-              <a class="visibleNotMobile" routerLink="profile/{{player.id}}">{{ player.name }}</a>
-
-              <a class="visibleMobile" routerLink="profile/{{player.id}}" (click)="viewMobileProfile()">{{ player.name }}</a>
-            </td>
-          <td class="{{ player.status }}">{{ player.status }}</td>
           <td>
-            <button class="btn btn-default" (click)="sendFriendRequest(player.id)">
+            <a class="visibleNotMobile" routerLink="profile/{{ player.id }}">{{
+              player.name
+            }}</a>
+
+            <a
+              class="visibleMobile"
+              routerLink="profile/{{ player.id }}"
+              (click)="viewMobileProfile()"
+              >{{ player.name }}</a
+            >
+          </td>
+          <td class="{{ player.status }}">
+            <button
+              *ngIf="receivedRequests?.includes(player.id)"
+              class="btn btn-primary"
+              (click)="acceptRequest(player.id)"
+            >
+              Accept
+            </button>
+            <!-- {{ player.status }} -->
+          </td>
+          <td>
+            <button
+              *ngIf="receivedRequests?.includes(player.id)"
+              class="btn btn-primary"
+              (click)="declineRequest(player.id)"
+            >
+              Decline
+            </button>
+            <button
+              *ngIf="receivedRequests?.includes(player.id) == false"
+              class="btn btn-default"
+              (click)="sendFriendRequest(player.id)"
+            >
               Add friend
             </button>
           </td>

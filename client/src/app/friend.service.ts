@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth/auth.service";
 import { HttpClient } from "@angular/common/http";
-import { URL } from './config';
+import { URL } from "./config";
 
 @Injectable({
   providedIn: "root"
@@ -18,19 +18,25 @@ export class FriendService {
     return this.http.post(`${this.uri}/${userId}/request`, body);
   }
 
-  getRequests(user_id) {
-    //! Return friend requests for user(requester_name, requester_id, request_id)
+  getRequests(userId) {
+    return this.http.get(`${this.uri}/${userId}/request`);
   }
 
-  acceptRequest(request_id) {
-    //! Send accept to server
+  acceptRequest(userId, friendId) {
+    const body = {
+      userId: friendId
+    };
+    return this.http.post(`${this.uri}/${userId}/request/accept`, body);
   }
 
-  declineRequest(request_id) {
-    //! Send decline to server
+  declineRequest(userId, friendId) {
+    const body = {
+      userId: friendId
+    };
+    return this.http.post(`${this.uri}/${userId}/request/decline`, body);
   }
 
-  getFriends(user_id) {
-    //! Return list of friends(name, id, status)
+  getFriends(userId) {
+    return this.http.get(`${this.uri}/${userId}`);
   }
 }
